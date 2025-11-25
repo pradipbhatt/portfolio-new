@@ -1,26 +1,75 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-display: var(--font-orbitron);
+  --font-body: var(--font-rajdhani);
+
+  --color-background: #111111;
+  --color-foreground: #ffffff;
+
+  --color-primary: #C15928;
+  /* Copper/Orange */
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #1a1a1a;
+  --color-secondary-foreground: #e5e5e5;
+
+  --color-muted: #888888;
+  --color-muted-foreground: #a3a3a3;
+
+  --color-accent: #C15928;
+  --color-accent-foreground: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Custom Utilities */
+@layer utilities {
+  .glass {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+    color: transparent;
+  }
+
+  .font-researcher {
+    font-family: var(--font-body);
+  }
+
+  .font-yapari {
+    font-family: var(--font-display);
+  }
+
+  .animate-scroll {
+    animation: scroll 30s linear infinite;
+  }
+
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
 }

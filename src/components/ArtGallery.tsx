@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const artworks = [
-    "/assets/image7.png",
-    "/assets/image8.png",
-    "/assets/portfolio2.png",
-    "/assets/person1.png",
+    "/assets/image2.png",
+    "/assets/image3.png",
     "/assets/image4.png",
     "/assets/image5.png",
+    "/assets/image6.png",
+    "/assets/image7.png",
+    "/assets/image8.png",
 ];
 
 export default function ArtGallery() {
@@ -23,7 +24,7 @@ export default function ArtGallery() {
                     transition={{ duration: 0.6 }}
                     className="text-center"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-display tracking-wider">
+                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider">
                         A<span className="text-primary">r</span>t G<span className="text-primary">a</span>llery
                     </h2>
                 </motion.div>

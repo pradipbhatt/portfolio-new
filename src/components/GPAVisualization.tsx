@@ -30,7 +30,7 @@ export default function GPAVisualization() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-display tracking-wider mb-4">
+                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider mb-4">
                         A<span className="text-primary">c</span>ademic P<span className="text-primary">r</span>ogress
                     </h2>
                     <p className="text-muted-foreground">GPA Progression Throughout Engineering</p>

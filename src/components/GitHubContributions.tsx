@@ -65,7 +65,7 @@ export default function GitHubContributions() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-display tracking-wider mb-4">
+                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider mb-4">
                         Git<span className="text-primary">H</span>ub Contributi<span className="text-primary">o</span>ns
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto">

@@ -16,7 +16,7 @@ export default function Footer() {
             <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="text-center md:text-left">
                     <p className="text-muted-foreground text-sm">
-                        © {year} Portfolio. All rights reserved. Engage gara and connect with me!
+                        © {year} Pradip Bhatt. Crafted with passion. Let's build something amazing together!
                     </p>
                 </div>
 

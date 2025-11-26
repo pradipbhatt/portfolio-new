@@ -46,8 +46,13 @@ export default function Hero() {
         <section id="home" className="min-h-screen flex flex-col justify-center items-center pt-16 px-4 bg-background overflow-hidden relative">
             <div className="relative w-full flex justify-center items-center">
                 <div className="relative w-[450px] md:w-[600px] aspect-square flex justify-center items-center">
-                    {/* Glow Effect */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#E06031]/20 rounded-full blur-[100px] -z-10" />
+                    {/* Halo Glow Effect - Matching Reference */}
+
+                    {/* Inner Solid Circle - The "Sun" */}
+                    <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#E06031] rounded-full opacity-90 -z-10" />
+
+                    {/* Outer Soft Glow - The "Halo" */}
+                    <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#E06031]/50 rounded-full blur-[60px] -z-20" />
 
                     <Image
                         src="/assets/me-hero.png"

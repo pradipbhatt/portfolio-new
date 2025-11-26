@@ -42,7 +42,7 @@ export default function Awards() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-display tracking-wider">
+                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider">
                         A<span className="text-primary">w</span>ards & A<span className="text-primary">c</span>hievements
                     </h2>
                 </motion.div>

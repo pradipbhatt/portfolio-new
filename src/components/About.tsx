@@ -21,7 +21,7 @@ export default function About() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-display tracking-wider">
+                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider">
                         A<span className="text-primary">b</span>out <span className="text-primary">M</span>e
                     </h2>
                 </motion.div>
@@ -37,8 +37,8 @@ export default function About() {
                     >
                         <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 group">
                             <Image
-                                src="/assets/me-hero.png"
-                                alt="Anjila Subedi"
+                                src="/assets/me formal.png"
+                                alt="Pradip Bhatt"
                                 fill
                                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                             />

@@ -118,7 +118,7 @@ export default function Community() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-display tracking-wider">
+                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider">
                         C<span className="text-primary">o</span>mmunity I<span className="text-primary">n</span>volvement
                     </h2>
                 </motion.div>

@@ -1,7 +1,32 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Researcher';
+  src: url('/Researcher/Researcher Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Researcher';
+  src: url('/Researcher/Researcher Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Researcher';
+  src: url('/Researcher/Researcher Regular.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-display: var(--font-orbitron);
+  --font-researcher: 'Researcher', var(--font-orbitron);
+  --font-display: 'Researcher', sans-serif;
   --font-body: var(--font-rajdhani);
 
   --color-background: #111111;
@@ -33,11 +58,16 @@
   }
 
   .font-researcher {
-    font-family: var(--font-body);
+    font-family: var(--font-researcher);
   }
 
   .font-yapari {
     font-family: var(--font-display);
+  }
+
+  .font-squid {
+    font-family: 'Researcher', sans-serif;
+    font-weight: 700;
   }
 
   .animate-scroll {

@@ -10,7 +10,7 @@ const navItems = [
     { name: "Home", href: "#home" },
     { name: "About Me", href: "#about" },
     { name: "Projects", href: "#projects" },
-    { name: "CV", href: "#cv" },
+    { name: "Resume", href: "/resume" },
     { name: "Awards", href: "#awards" },
     { name: "Arts", href: "#arts" },
     { name: "Community", href: "#community" },
@@ -42,7 +42,7 @@ export default function Navbar() {
                         <Link
                             key={item.name}
                             href={item.href}
-                            className="text-lg font-medium font-display text-muted-foreground hover:text-primary transition-colors tracking-wide"
+                            className="text-lg font-medium font-squid text-muted-foreground hover:text-primary transition-colors tracking-wide"
                         >
                             {item.name}
                         </Link>

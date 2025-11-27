@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Michroma, Orbitron, Rajdhani } from "next/font/google";
 import "./globals.css";
@@ -39,9 +40,11 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
+          <main className="min-h-screen">
+            {children}
+          </main>
+        </div>
         <Footer />
         <Analytics />
       </body>

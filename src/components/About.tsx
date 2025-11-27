@@ -33,9 +33,9 @@ export default function About() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="lg:col-span-5 relative"
+                        className="lg:col-span-5 relative h-full"
                     >
-                        <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 group">
+                        <div className="relative h-full rounded-2xl overflow-hidden border border-white/10 group">
                             <Image
                                 src="/assets/me formal.png"
                                 alt="Pradip Bhatt"

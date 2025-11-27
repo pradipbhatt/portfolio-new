@@ -63,7 +63,7 @@ export default function GPAVisualization() {
                         </div>
 
                         {/* Graph */}
-                        <div className="relative h-80 mb-8">
+                        <div className="relative h-80 mb-8 pb-10">
                             {/* Y-axis labels */}
                             <div className="absolute left-0 top-0 bottom-0 w-12 flex flex-col justify-between text-xs text-muted-foreground">
                                 <span>4.0</span>
@@ -128,7 +128,7 @@ export default function GPAVisualization() {
                                                 </div>
 
                                                 {/* Semester label */}
-                                                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-muted-foreground whitespace-nowrap">
+                                                <div className="absolute -bottom-10 md:-bottom-8 left-1/2 -translate-x-1/2 text-[10px] md:text-xs text-muted-foreground whitespace-nowrap -rotate-45 md:rotate-0 origin-top-left md:origin-center">
                                                     Sem {data.semester}
                                                 </div>
                                             </motion.div>

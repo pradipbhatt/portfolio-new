@@ -89,6 +89,7 @@ export default function Contact() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                         className="bg-[#1a1a1a] p-8 rounded-xl border border-white/5"
+                        suppressHydrationWarning
                     >
                         <h3 className="text-2xl font-bold mb-6 font-display">Send a Message</h3>
 

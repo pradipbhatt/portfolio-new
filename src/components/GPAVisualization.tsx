@@ -33,7 +33,8 @@ export default function GPAVisualization() {
                     <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider mb-4">
                         A<span className="text-primary">c</span>ademic P<span className="text-primary">r</span>ogress
                     </h2>
-                    <p className="text-muted-foreground">GPA Progression Throughout Engineering</p>
+                    <p className="text-xl text-primary/80 font-medium mb-2">Bachelor of Engineering (B.E.) in Computer Engineering</p>
+                    <p className="text-muted-foreground">Comprehensive academic performance analysis over 4 years</p>
                 </motion.div>
 
                 <div className="max-w-5xl mx-auto">
@@ -56,7 +57,7 @@ export default function GPAVisualization() {
                                 <TrendingUp className="text-green-500" size={20} />
                                 <div>
                                     <p className="text-xs text-muted-foreground">Trend</p>
-                                    <p className="text-sm font-bold text-green-500">Improving</p>
+                                    <p className="text-sm font-bold text-green-500">Consistent Growth</p>
                                 </div>
                             </div>
                         </div>
@@ -80,9 +81,12 @@ export default function GPAVisualization() {
                                     ))}
                                 </div>
 
-                                {/* Bars and Line */}
-                                <div className="absolute inset-0 flex items-end justify-around gap-2">
+                                {/* Container for bars and dots */}
+                                <div className="absolute inset-0">
                                     {gpaData.map((data, index) => {
+                                        const totalBars = gpaData.length;
+                                        const barWidth = 100 / totalBars; // percentage width for each bar
+                                        const leftPosition = (index / totalBars) * 100 + barWidth / 2; // center of each bar
                                         const height = ((data.gpa - minGPA) / (maxGPA - minGPA)) * 100;
                                         const delay = index * 0.1;
 
@@ -93,14 +97,34 @@ export default function GPAVisualization() {
                                                 whileInView={{ height: `${height}%`, opacity: 1 }}
                                                 viewport={{ once: true }}
                                                 transition={{ duration: 0.5, delay }}
-                                                className="flex-1 relative group"
+                                                className="absolute bottom-0 group"
+                                                style={{
+                                                    left: `${(index / totalBars) * 100}%`,
+                                                    width: `${barWidth * 0.8}%`, // 80% of available space for gap
+                                                }}
                                             >
                                                 {/* Bar */}
-                                                <div className="absolute bottom-0 w-full bg-gradient-to-t from-primary/80 to-primary/40 rounded-t-lg border-t-2 border-primary hover:from-primary hover:to-primary/60 transition-all duration-300">
+                                                <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-primary/80 to-primary/40 rounded-t-lg border-t-2 border-primary hover:from-primary hover:to-primary/60 transition-all duration-300">
                                                     {/* GPA Label on hover */}
-                                                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                                                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20">
                                                         {data.gpa}
                                                     </div>
+                                                </div>
+
+                                                {/* Dot positioned at top of bar */}
+                                                <div className="absolute -top-[4px] left-1/2 -translate-x-1/2 z-10">
+                                                    <motion.div
+                                                        initial={{ scale: 0 }}
+                                                        whileInView={{ scale: 1 }}
+                                                        viewport={{ once: true }}
+                                                        transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+                                                        className="relative"
+                                                    >
+                                                        {/* Glow effect */}
+                                                        <div className="absolute inset-0 w-6 h-6 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 bg-primary rounded-full blur-md opacity-60" />
+                                                        {/* Main dot */}
+                                                        <div className="relative w-4 h-4 bg-primary rounded-full border-[3px] border-white shadow-lg" />
+                                                    </motion.div>
                                                 </div>
 
                                                 {/* Semester label */}
@@ -110,57 +134,46 @@ export default function GPAVisualization() {
                                             </motion.div>
                                         );
                                     })}
-                                </div>
 
-                                {/* Line overlay */}
-                                <svg className="absolute inset-0 pointer-events-none" viewBox="0 0 800 320" preserveAspectRatio="none">
-                                    <motion.polyline
-                                        initial={{ pathLength: 0 }}
-                                        whileInView={{ pathLength: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 1.5, delay: 0.5 }}
-                                        points={gpaData
-                                            .map((data, index) => {
-                                                const x = (index / (gpaData.length - 1)) * 800;
-                                                const y = 320 - ((data.gpa - minGPA) / (maxGPA - minGPA)) * 320;
-                                                return `${x},${y}`;
-                                            })
-                                            .join(" ")}
-                                        fill="none"
-                                        stroke="#E06031"
-                                        strokeWidth="3"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                    {/* Points on line */}
-                                    {gpaData.map((data, index) => {
-                                        const x = (index / (gpaData.length - 1)) * 800;
-                                        const y = 320 - ((data.gpa - minGPA) / (maxGPA - minGPA)) * 320;
-                                        return (
-                                            <motion.circle
-                                                key={index}
-                                                initial={{ scale: 0 }}
-                                                whileInView={{ scale: 1 }}
-                                                viewport={{ once: true }}
-                                                transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-                                                cx={x}
-                                                cy={y}
-                                                r="6"
-                                                fill="#E06031"
-                                                stroke="#fff"
-                                                strokeWidth="2"
-                                            />
-                                        );
-                                    })}
-                                </svg>
+                                    {/* Connecting line using SVG */}
+                                    <svg className="absolute inset-0 pointer-events-none overflow-visible" style={{ width: '100%', height: '100%' }}>
+                                        <motion.path
+                                            initial={{ pathLength: 0 }}
+                                            whileInView={{ pathLength: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 1.5, delay: 0.5 }}
+                                            d={(() => {
+                                                const totalBars = gpaData.length;
+                                                const barWidth = 100 / totalBars;
+
+                                                return gpaData
+                                                    .map((data, index) => {
+                                                        const x = ((index / totalBars) * 100 + barWidth / 2);
+                                                        const y = 100 - ((data.gpa - minGPA) / (maxGPA - minGPA)) * 100;
+                                                        return index === 0 ? `M ${x} ${y}` : `L ${x} ${y}`;
+                                                    })
+                                                    .join(' ');
+                                            })()}
+                                            fill="none"
+                                            stroke="#E06031"
+                                            strokeWidth="3"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            vectorEffect="non-scaling-stroke"
+                                            style={{
+                                                transform: 'scale(1)',
+                                                transformOrigin: 'top left',
+                                            }}
+                                        />
+                                    </svg>
+                                </div>
                             </div>
                         </div>
 
                         {/* Achievement Note */}
                         <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 text-center">
                             <p className="text-sm text-muted-foreground">
-                                <span className="text-primary font-bold">Consistent Growth:</span> Improved from 3.05 to 3.88 GPA,
-                                demonstrating dedication and continuous learning throughout the engineering program.
+                                <span className="text-primary font-bold">Academic Excellence:</span> Maintained a strong upward trajectory in the B.E. Computer Engineering program, improving from 3.05 to a stellar 3.88 GPA.
                             </p>
                         </div>
                     </div>

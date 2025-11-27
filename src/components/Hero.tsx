@@ -44,56 +44,58 @@ export default function Hero() {
 
     return (
         <section id="home" className="min-h-screen flex flex-col justify-center items-center pt-16 px-4 bg-background overflow-hidden relative">
-            <div className="relative w-full flex justify-center items-center">
-                <div className="relative w-[450px] md:w-[600px] aspect-square flex justify-center items-center">
-                    {/* Halo Glow Effect - Matching Reference */}
+            <div className="relative w-full max-w-7xl mx-auto h-screen flex justify-center items-end pb-12">
 
-                    {/* Inner Solid Circle - The "Sun" */}
-                    <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#E06031] rounded-full opacity-90 -z-10" />
+                {/* Background Text Layer - The "Pra.dev" */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-0 select-none pointer-events-none">
+                    <h1 className="font-yapari text-[15vw] md:text-[14rem] text-white tracking-[0.1em] whitespace-nowrap font-black opacity-100 leading-none">
+                        PRA.DEV
+                    </h1>
+                </div>
 
-                    {/* Outer Soft Glow - The "Halo" */}
-                    <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#E06031]/50 rounded-full blur-[60px] -z-20" />
+                {/* Central Image and Halo Layer */}
+                <div className="relative z-10 mt-10 md:mt-0 pointer-events-none">
+                    {/* Halo Glow Effect */}
+                    <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#E06031] rounded-full opacity-20 blur-[100px] -z-10" />
+                    <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#E06031] rounded-full opacity-30 blur-[80px] -z-10" />
+                    <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-[#E06031] rounded-full opacity-50 blur-[40px] -z-10" />
 
-                    <Image
-                        src="/assets/me-hero.png"
-                        alt="Pra.dev"
-                        fill
-                        className="object-contain z-10 drop-shadow-2xl"
-                        priority
-                    />
-
-                    {/* Text container */}
-                    <div className="absolute top-[55%] md:left-[25%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 w-full z-20 px-8 text-center md:text-left">
-
-                        {/* Pra.dev text */}
-                        <h1 className="font-yapari text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-white tracking-widest whitespace-nowrap font-bold">
-                            Pra.dev
-                        </h1>
-
-                        {/* Role text with typewriter effect */}
-                        <div className="h-[30px] md:h-[40px] mt-4" suppressHydrationWarning>
-                            <p className="text-white text-lg md:text-4xl tracking-wider font-light opacity-80 inline font-researcher">
-                                {mounted ? (
-                                    <>
-                                        {displayText}
-                                        <span className="animate-pulse">|</span>
-                                    </>
-                                ) : (
-                                    "Full Stack Developer"
-                                )}
-                            </p>
-                        </div>
-
-                        {/* Download CV Button */}
-                        <a
-                            href="/Pradip-Bhatt-cv.pdf"
-                            download="Pradip-Bhatt-cv.pdf"
-                            className="group relative mt-8 overflow-hidden border-[1px] border-[#E06031] text-[#E06031] hover:bg-[#E06031] transition-all duration-300 font-researcher tracking-wide whitespace-nowrap inline-flex items-center justify-center w-[200px] h-[50px] text-lg"
-                        >
-                            <span className="transform transition-all duration-300 group-hover:opacity-0">Download CV</span>
-                            <Download className="absolute transform translate-y-[-20px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 group-hover:text-white transition-all duration-300" size={20} />
-                        </a>
+                    <div className="relative h-[65vh] md:h-[90vh] aspect-[3/4] md:aspect-[2/3] flex justify-center items-end">
+                        <Image
+                            src="/assets/me-hero.png"
+                            alt="Pra.dev"
+                            fill
+                            className="object-contain object-bottom drop-shadow-2xl"
+                            priority
+                        />
                     </div>
+                </div>
+
+                {/* Foreground Content Layer - Role and Button */}
+                <div className="absolute bottom-20 left-4 md:left-12 z-20 flex flex-col items-start gap-6">
+                    {/* Role text with typewriter effect */}
+                    <div className="h-[30px] md:h-[40px]" suppressHydrationWarning>
+                        <p className="text-white text-xl md:text-3xl tracking-wider font-light opacity-90 font-researcher">
+                            {mounted ? (
+                                <>
+                                    {displayText}
+                                    <span className="animate-pulse">|</span>
+                                </>
+                            ) : (
+                                "Full Stack Developer"
+                            )}
+                        </p>
+                    </div>
+
+                    {/* Download CV Button */}
+                    <a
+                        href="/Pradip-Bhatt-cv.pdf"
+                        download="Pradip-Bhatt-cv.pdf"
+                        className="group relative overflow-hidden border-[1px] border-[#E06031] text-[#E06031] hover:bg-[#E06031] transition-all duration-300 font-researcher tracking-wide whitespace-nowrap inline-flex items-center justify-center px-8 py-3 text-lg"
+                    >
+                        <span className="transform transition-all duration-300 group-hover:opacity-0">Download CV</span>
+                        <Download className="absolute transform translate-y-[-20px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 group-hover:text-white transition-all duration-300" size={20} />
+                    </a>
                 </div>
             </div>
 
@@ -114,7 +116,7 @@ export default function Hero() {
             </div>
 
             {/* Social Icons - Mobile Bottom */}
-            <div className="flex md:hidden justify-center space-x-6 mt-12 z-30 pb-10">
+            <div className="flex md:hidden justify-center space-x-6 absolute bottom-8 z-30">
                 <Link href="https://www.linkedin.com/in/pradipbhatt2126/" target="_blank" className="text-white hover:text-[#E06031] transition-colors">
                     <Linkedin size={24} />
                 </Link>

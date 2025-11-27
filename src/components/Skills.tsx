@@ -2,33 +2,34 @@
 
 import { motion } from "framer-motion";
 import {
-    Atom,
     Bot,
     Brain,
-    Cloud,
-    Code2,
-    Container,
-    Cpu,
-    Database,
-    GitBranch,
-    Palette,
-    Play,
-    Send,
-    Server,
-    Sparkles,
-    Terminal,
-    Wifi,
-    Wind
+    Sparkles
 } from "lucide-react";
-
-
+import {
+    SiArduino,
+    SiCloudinary,
+    SiCplusplus,
+    SiDocker,
+    SiExpress,
+    SiFigma,
+    SiGit,
+    SiMongodb,
+    SiNextdotjs,
+    SiNodedotjs,
+    SiPostman,
+    SiPython,
+    SiReact,
+    SiRemix,
+    SiTailwindcss
+} from "react-icons/si";
 
 const skillCategories = {
     "Frontend Development": [
         {
             title: "React JS",
             subtitle: "Hooks, Context, State Management",
-            icon: <Atom size={32} />,
+            icon: <SiReact size={24} />,
             color: "text-cyan-400",
             level: 90,
             gradient: "from-cyan-500/20 to-blue-500/20"
@@ -36,7 +37,7 @@ const skillCategories = {
         {
             title: "Next.js",
             subtitle: "SSR, SSG, App Router",
-            icon: <Code2 size={32} />,
+            icon: <SiNextdotjs size={24} />,
             color: "text-white",
             level: 85,
             gradient: "from-gray-500/20 to-slate-500/20"
@@ -44,7 +45,7 @@ const skillCategories = {
         {
             title: "Remix.js",
             subtitle: "Full-stack React Framework",
-            icon: <Code2 size={32} />,
+            icon: <SiRemix size={24} />,
             color: "text-blue-500",
             level: 80,
             gradient: "from-blue-500/20 to-indigo-500/20"
@@ -52,7 +53,7 @@ const skillCategories = {
         {
             title: "Tailwind CSS",
             subtitle: "Responsive Design, Custom Themes",
-            icon: <Wind size={32} />,
+            icon: <SiTailwindcss size={24} />,
             color: "text-cyan-500",
             level: 95,
             gradient: "from-cyan-500/20 to-teal-500/20"
@@ -62,7 +63,7 @@ const skillCategories = {
         {
             title: "Node.js",
             subtitle: "Express, REST APIs, Authentication",
-            icon: <Server size={32} />,
+            icon: <SiNodedotjs size={24} />,
             color: "text-green-600",
             level: 85,
             gradient: "from-green-500/20 to-emerald-500/20"
@@ -70,7 +71,7 @@ const skillCategories = {
         {
             title: "Express.js",
             subtitle: "Middleware, Routing, Error Handling",
-            icon: <Terminal size={32} />,
+            icon: <SiExpress size={24} />,
             color: "text-gray-400",
             level: 85,
             gradient: "from-gray-500/20 to-zinc-500/20"
@@ -78,7 +79,7 @@ const skillCategories = {
         {
             title: "MongoDB",
             subtitle: "Aggregation, Indexing, Schemas",
-            icon: <Database size={32} />,
+            icon: <SiMongodb size={24} />,
             color: "text-green-500",
             level: 80,
             gradient: "from-green-500/20 to-lime-500/20"
@@ -86,7 +87,7 @@ const skillCategories = {
         {
             title: "Cloudinary",
             subtitle: "Media Management, Optimization",
-            icon: <Cloud size={32} />,
+            icon: <SiCloudinary size={24} />,
             color: "text-blue-300",
             level: 75,
             gradient: "from-blue-500/20 to-sky-500/20"
@@ -96,7 +97,7 @@ const skillCategories = {
         {
             title: "Machine Learning",
             subtitle: "Classification, Regression, Neural Networks",
-            icon: <Bot size={32} />,
+            icon: <Bot size={24} />,
             color: "text-indigo-500",
             level: 75,
             gradient: "from-indigo-500/20 to-purple-500/20"
@@ -104,7 +105,7 @@ const skillCategories = {
         {
             title: "Artificial Intelligence",
             subtitle: "NLP, Computer Vision, Deep Learning",
-            icon: <Brain size={32} />,
+            icon: <Brain size={24} />,
             color: "text-rose-500",
             level: 70,
             gradient: "from-rose-500/20 to-pink-500/20"
@@ -112,7 +113,7 @@ const skillCategories = {
         {
             title: "Python",
             subtitle: "Pandas, NumPy, Keras, TensorFlow",
-            icon: <Cpu size={32} />,
+            icon: <SiPython size={24} />,
             color: "text-purple-500",
             level: 80,
             gradient: "from-purple-500/20 to-violet-500/20"
@@ -120,7 +121,7 @@ const skillCategories = {
         {
             title: "C/C++",
             subtitle: "OOP, Data Structures, Algorithms",
-            icon: <Code2 size={32} />,
+            icon: <SiCplusplus size={24} />,
             color: "text-blue-400",
             level: 75,
             gradient: "from-blue-500/20 to-indigo-500/20"
@@ -130,7 +131,7 @@ const skillCategories = {
         {
             title: "Git & GitHub",
             subtitle: "Version Control, Collaboration, CI/CD",
-            icon: <GitBranch size={32} />,
+            icon: <SiGit size={24} />,
             color: "text-orange-500",
             level: 90,
             gradient: "from-orange-500/20 to-amber-500/20"
@@ -138,7 +139,7 @@ const skillCategories = {
         {
             title: "Docker",
             subtitle: "Containerization, Deployment",
-            icon: <Container size={32} />,
+            icon: <SiDocker size={24} />,
             color: "text-blue-400",
             level: 80,
             gradient: "from-blue-500/20 to-cyan-500/20"
@@ -146,23 +147,15 @@ const skillCategories = {
         {
             title: "Postman",
             subtitle: "API Testing, Documentation",
-            icon: <Send size={32} />,
+            icon: <SiPostman size={24} />,
             color: "text-orange-400",
             level: 85,
             gradient: "from-orange-500/20 to-red-500/20"
         },
         {
-            title: "Playground",
-            subtitle: "Code Experimentation, Prototyping",
-            icon: <Play size={32} />,
-            color: "text-purple-400",
-            level: 80,
-            gradient: "from-purple-500/20 to-fuchsia-500/20"
-        },
-        {
             title: "UI/UX Design",
             subtitle: "Figma, Canva, Prototyping",
-            icon: <Palette size={32} />,
+            icon: <SiFigma size={24} />,
             color: "text-pink-500",
             level: 85,
             gradient: "from-pink-500/20 to-rose-500/20"
@@ -170,7 +163,7 @@ const skillCategories = {
         {
             title: "IoT",
             subtitle: "Arduino, ESP8266, Sensors",
-            icon: <Wifi size={32} />,
+            icon: <SiArduino size={24} />,
             color: "text-emerald-500",
             level: 70,
             gradient: "from-emerald-500/20 to-teal-500/20"

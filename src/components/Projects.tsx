@@ -7,11 +7,11 @@ import Link from "next/link";
 
 const projects = [
     {
-        title: "SOEIntel - Edu-Tech Platform",
+        title: "Sikaiverse - Edu-Tech Platform",
         description: "Fully customizable edu-tech platform with complete backend system. Selected as Top 10 from 50 teams at 100XNepal Hackathon. Designed to be flexible and scalable for academic use with every feature managed through backend.",
         image: "/assets/sikaiverse project hakathon.png",
         tags: ["Full Stack", "Backend", "Edu-Tech"],
-        demoLink: "https://soeintel.vercel.app",
+        demoLink: "https://sikaiverse.vercel.app/",
         repoLink: "#",
     },
     {
@@ -43,7 +43,7 @@ const projects = [
         description: "A comprehensive web application for Far Western University School of Engineering students. Provides entrance exam preparation materials, notes, tutorials, syllabus, and practicals all in one platform.",
         image: "/assets/project1.png",
         tags: ["React.js", "Cloudinary", "MongoDB"],
-        demoLink: "#",
+        demoLink: "https://soenotes.vercel.app/",
         repoLink: "#",
     },
 ];

@@ -53,8 +53,8 @@ export default function GPAVisualization() {
                     </h2>
                 </motion.div>
 
-                <div className="max-w-5xl mx-auto">
-                    <div className="bg-[#1a1a1a] p-8 rounded-xl border border-white/5">
+                        <div className="max-w-5xl mx-auto">
+                    <div className="bg-card p-8 rounded-xl border border-border">
                         {/* Stats Cards */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                             <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
@@ -151,7 +151,7 @@ export default function GPAVisualization() {
                                     })}
 
                                     {/* Connecting line using SVG */}
-                                    <svg className="absolute inset-0 pointer-events-none overflow-visible" style={{ width: '100%', height: '100%' }}>
+                                    <svg className="absolute inset-0 pointer-events-none overflow-visible text-primary" style={{ width: '100%', height: '100%' }}>
                                         <motion.path
                                             initial={{ pathLength: 0 }}
                                             whileInView={{ pathLength: 1 }}
@@ -170,7 +170,7 @@ export default function GPAVisualization() {
                                                     .join(' ');
                                             })()}
                                             fill="none"
-                                            stroke="#E06031"
+                                            stroke="currentColor"
                                             strokeWidth="3"
                                             strokeLinecap="round"
                                             strokeLinejoin="round"

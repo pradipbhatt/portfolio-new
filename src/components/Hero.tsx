@@ -73,7 +73,7 @@ export default function Hero() {
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }
+            transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }
         }
     };
 
@@ -81,7 +81,7 @@ export default function Hero() {
         initial: { y: 0 },
         animate: {
             y: [-8, 8, -8],
-            transition: { duration: 5, repeat: Infinity, ease: "easeInOut" as const }
+            transition: { duration: 5, repeat: Infinity, ease: "easeInOut" }
         }
     };
 
@@ -90,14 +90,14 @@ export default function Hero() {
         animate: {
             scale: [0.8, 1.1, 0.8],
             opacity: [0.2, 0.4, 0.2],
-            transition: { duration: 4, repeat: Infinity, ease: "easeInOut" as const }
+            transition: { duration: 4, repeat: Infinity, ease: "easeInOut" }
         }
     };
 
     return (
         <section ref={sectionRef} id="home" className="min-h-[55vh] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 bg-background overflow-hidden relative pt-20">
             {/* Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-br from-background via-[#0a0a0a] to-background" />
+            <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background" />
             
             <div className="absolute inset-0 opacity-[0.03]" 
                 style={{ 
@@ -117,10 +117,10 @@ export default function Hero() {
             >
                 <motion.span
                     style={{ opacity: bgOpacity }}
-                    className="font-squid text-[3rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[8rem] xl:text-[10rem] tracking-[0.12em] font-black whitespace-nowrap leading-none"
+                    className="font-squid text-[3rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[8rem] xl:text-[10rem] tracking-[0.12em] font-black whitespace-nowrap leading-none text-foreground/10"
                 >
-                    <span style={{ color: 'rgba(255, 255, 255, 0.08)', textShadow: '0 0 60px rgba(255, 255, 255, 0.02)' }}>PRA</span>
-                    <span style={{ color: 'rgba(224, 96, 49, 0.12)', textShadow: '0 0 12px rgba(224, 96, 49, 0.15), 0 0 30px rgba(224, 96, 49, 0.08), 0 0 60px rgba(224, 96, 49, 0.04)' }}>.DEV</span>
+                    <span className="text-foreground/20">PRA</span>
+                    <span className="text-foreground/15">.DEV</span>
                 </motion.span>
             </motion.div>
 
@@ -129,14 +129,14 @@ export default function Hero() {
                 variants={glowVariants}
                 initial="initial"
                 animate="animate"
-                className="absolute top-24 left-0 w-64 h-64 bg-[#E06031]/8 rounded-full blur-[100px]"
+                className="absolute top-24 left-0 w-64 h-64 bg-primary/10 rounded-full blur-[100px]"
             />
             <motion.div 
                 variants={glowVariants}
                 initial="initial"
                 animate="animate"
                 style={{ animationDelay: '1.5s' }}
-                className="absolute bottom-32 right-0 w-72 h-72 bg-purple-500/8 rounded-full blur-[100px]"
+                className="absolute bottom-32 right-0 w-72 h-72 bg-primary/5 rounded-full blur-[100px]"
             />
 
             {/* Main Content */}
@@ -150,34 +150,34 @@ export default function Hero() {
                     className="flex flex-col items-center lg:items-start text-center lg:text-left z-10 flex-1 max-w-xl"
                 >
                     <motion.div variants={itemVariants} className="mb-5">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] text-sm text-gray-500">
-                            <Sparkles size={12} className="text-[#E06031]" />
-                            <span className="text-gray-400">Welcome to my portfolio</span>
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/30 border border-border text-sm text-muted-foreground">
+                            <Sparkles size={12} className="text-primary" />
+                            <span className="text-foreground/70">Welcome to my portfolio</span>
                         </span>
                     </motion.div>
 
                     <motion.h1 variants={itemVariants} className="font-researcher text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-[1.15]">
-                        <span className="text-white">Hi, I'm </span>
-                        <span className="text-[#E06031] relative">
+                        <span className="text-foreground">Hi, I'm </span>
+                        <span className="text-primary relative">
                             Pradip Bhatt
                             <motion.span 
                                 initial={{ scaleX: 0 }}
                                 animate={{ scaleX: 1 }}
                                 transition={{ delay: 0.8, duration: 0.6 }}
-                                className="absolute -bottom-1.5 left-0 w-full h-0.5 bg-[#E06031]/60 rounded-full"
+                                className="absolute -bottom-1.5 left-0 w-full h-0.5 bg-primary/60 rounded-full"
                             />
                         </span>
                     </motion.h1>
 
                     <motion.div variants={itemVariants} className="h-10 md:h-12 mb-6">
-                        <p className="text-lg md:text-2xl text-gray-400 font-researcher tracking-wide">
+                        <p className="text-lg md:text-2xl text-muted-foreground font-researcher tracking-wide">
                             {mounted ? (
                                 <span className="text-white">
                                     {displayText}
                                     <motion.span
                                         animate={{ opacity: [1, 0] }}
                                         transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-                                        className="text-[#E06031] ml-0.5"
+                                        className="text-primary ml-0.5"
                                     >
                                         |
                                     </motion.span>
@@ -188,7 +188,7 @@ export default function Hero() {
                         </p>
                     </motion.div>
 
-                    <motion.p variants={itemVariants} className="text-gray-500 text-sm md:text-base max-w-md mb-8 leading-relaxed">
+                    <motion.p variants={itemVariants} className="text-muted-foreground text-sm md:text-base max-w-md mb-8 leading-relaxed">
                         I craft exceptional digital experiences with modern technologies. 
                         Passionate about building scalable applications and creating intuitive user interfaces.
                     </motion.p>
@@ -197,7 +197,7 @@ export default function Hero() {
                         <a
                             href="/Pradip-Bhatt-cv.pdf"
                             download="Pradip-Bhatt-cv.pdf"
-                            className="group relative overflow-hidden bg-[#E06031] text-white px-6 py-2.5 rounded-full font-researcher text-sm tracking-wide transition-all duration-300 hover:shadow-[0_0_20px_rgba(224,96,49,0.3)] hover:scale-[1.02]"
+                            className="group relative overflow-hidden bg-primary text-primary-foreground px-6 py-2.5 rounded-full font-researcher text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02]"
                         >
                             <span className="relative z-10 flex items-center gap-2">
                                 Download CV
@@ -207,7 +207,7 @@ export default function Hero() {
                         
                         <a
                             href="#projects"
-                            className="px-6 py-2.5 rounded-full border border-white/15 text-white font-researcher text-sm tracking-wide transition-all duration-300 hover:border-[#E06031]/50 hover:text-[#E06031] flex items-center gap-2"
+                            className="px-6 py-2.5 rounded-full border border-border text-foreground font-researcher text-sm tracking-wide transition-all duration-300 hover:border-primary/50 hover:text-primary flex items-center gap-2"
                         >
                             View Projects
                             <ArrowDown size={14} />
@@ -242,7 +242,7 @@ export default function Hero() {
                         variants={glowVariants}
                         initial="initial"
                         animate="animate"
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] lg:w-[380px] lg:h-[380px] bg-[#E06031]/15 rounded-full blur-[70px]"
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] lg:w-[380px] lg:h-[380px] bg-primary/20 rounded-full blur-[70px]"
                     />
 
                     <motion.div 
@@ -272,8 +272,8 @@ export default function Hero() {
                             transition={{ delay: 1.2 }}
                             className="absolute -right-2 top-6 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] px-3 py-2 rounded-lg"
                         >
-                            <p className="text-[10px] text-gray-500">Available for</p>
-                            <p className="text-xs text-[#E06031] font-medium">Freelance</p>
+                            <p className="text-[10px] text-muted-foreground">Available for</p>
+                            <p className="text-xs text-primary font-medium">Freelance</p>
                         </motion.div>
                     </motion.div>
                 </motion.div>
@@ -296,7 +296,7 @@ export default function Hero() {
                             className="p-2.5 text-gray-500 hover:text-white transition-colors duration-200 group relative"
                         >
                             <social.icon size={18} />
-                            <span className="absolute right-full mr-2.5 top-1/2 -translate-y-1/2 px-2 py-1 bg-[#E06031] rounded-md text-[10px] text-white opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-1 transition-all duration-200 whitespace-nowrap">
+                            <span className="absolute right-full mr-2.5 top-1/2 -translate-y-1/2 px-2 py-1 bg-primary rounded-md text-[10px] text-primary-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-1 transition-all duration-200 whitespace-nowrap">
                                 {social.label}
                             </span>
                         </Link>

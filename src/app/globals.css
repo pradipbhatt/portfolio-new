@@ -85,6 +85,43 @@
   --ring: #C15928;
 }
 
+/* Color theme variants (override primary-like colors based on data attribute) */
+
+:root[data-color-theme="blue"],
+.light[data-color-theme="blue"] {
+  --primary: #2563eb;
+  --accent: #2563eb;
+  --ring: #2563eb;
+}
+
+:root[data-color-theme="green"],
+.light[data-color-theme="green"] {
+  --primary: #16a34a;
+  --accent: #16a34a;
+  --ring: #16a34a;
+}
+
+:root[data-color-theme="red"],
+.light[data-color-theme="red"] {
+  --primary: #dc2626;
+  --accent: #dc2626;
+  --ring: #dc2626;
+}
+
+:root[data-color-theme="orange"],
+.light[data-color-theme="orange"] {
+  --primary: #ea580c;
+  --accent: #ea580c;
+  --ring: #ea580c;
+}
+
+:root[data-color-theme="deep"],
+.light[data-color-theme="deep"] {
+  --primary: #4c1d95;
+  --accent: #4c1d95;
+  --ring: #4c1d95;
+}
+
 * {
   border-color: var(--border);
 }

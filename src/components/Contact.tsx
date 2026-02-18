@@ -88,7 +88,7 @@ export default function Contact() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="bg-[#1a1a1a] p-8 rounded-xl border border-white/5"
+                        className="bg-card p-8 rounded-xl border border-border"
                         suppressHydrationWarning
                     >
                         <h3 className="text-2xl font-bold mb-6 font-display">Send a Message</h3>
@@ -116,7 +116,7 @@ export default function Contact() {
                                         id="user_name"
                                         name="user_name"
                                         required
-                                        className="w-full px-4 py-3 rounded-lg bg-[#0a0a0a] border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                                        className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
                                         placeholder="Your name"
                                     />
                                 </div>
@@ -129,7 +129,7 @@ export default function Contact() {
                                         id="user_email"
                                         name="user_email"
                                         required
-                                        className="w-full px-4 py-3 rounded-lg bg-[#0a0a0a] border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                                        className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
                                         placeholder="your.email@example.com"
                                     />
                                 </div>
@@ -144,7 +144,7 @@ export default function Contact() {
                                     id="subject"
                                     name="subject"
                                     required
-                                    className="w-full px-4 py-3 rounded-lg bg-[#0a0a0a] border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                                    className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
                                     placeholder="What's this about?"
                                 />
                             </div>
@@ -158,7 +158,7 @@ export default function Contact() {
                                     name="message"
                                     rows={5}
                                     required
-                                    className="w-full px-4 py-3 rounded-lg bg-[#0a0a0a] border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none"
+                                    className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none"
                                     placeholder="Your message here..."
                                 />
                             </div>
@@ -257,7 +257,7 @@ export default function Contact() {
                             </div>
                         </div>
 
-                        <div className="bg-[#1a1a1a] p-6 rounded-xl border border-white/5">
+                        <div className="bg-card p-6 rounded-xl border border-border">
                             <h4 className="font-bold mb-2 text-primary">Availability</h4>
                             <p className="text-sm text-muted-foreground">
                                 I respond to messages within 24 hours. Open to freelance opportunities and

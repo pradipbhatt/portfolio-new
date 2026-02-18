@@ -4,15 +4,15 @@ import { Download, Facebook, Github, Instagram, Linkedin, ArrowDown, Sparkles } 
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, Easing } from "framer-motion";
 
 const roles = ["Full Stack Developer", "UI/UX Designer", "Creative Photographer", "Problem Solver"];
 
 const socialLinks = [
     { icon: Linkedin, href: "https://www.linkedin.com/in/pradipbhatt2126/", label: "LinkedIn" },
     { icon: Github, href: "https://github.com/pradipbhatt", label: "GitHub" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Facebook, href: "#", label: "Facebook" },
+    { icon: Instagram, href: "https://www.instagram.com/pradipbhatt/", label: "Instagram" },
+    { icon: Facebook, href: "https://www.facebook.com/pradipbhatt/", label: "Facebook" },
 ];
 
 export default function Hero() {
@@ -73,7 +73,7 @@ export default function Hero() {
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }
+            transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }
         }
     };
 
@@ -81,7 +81,7 @@ export default function Hero() {
         initial: { y: 0 },
         animate: {
             y: [-8, 8, -8],
-            transition: { duration: 5, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }
+            transition: { duration: 5, repeat: Infinity, ease: "easeInOut" as Easing }
         }
     };
 
@@ -90,12 +90,12 @@ export default function Hero() {
         animate: {
             scale: [0.8, 1.1, 0.8],
             opacity: [0.2, 0.4, 0.2],
-            transition: { duration: 4, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }
+            transition: { duration: 4, repeat: Infinity, ease: "easeInOut" as Easing }
         }
     };
 
     return (
-        <section ref={sectionRef} id="home" className="min-h-[55vh] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 bg-background overflow-hidden relative pt-20">
+        <section ref={sectionRef} id="home" className="min-h-[70vh] lg:min-h-[80vh] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 bg-background overflow-hidden relative pt-20">
             {/* Background Effects */}
             <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background" />
             
@@ -140,7 +140,7 @@ export default function Hero() {
             />
 
             {/* Main Content */}
-            <div className="relative w-full max-w-6xl mx-auto min-h-[55vh] flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-8">
+            <div className="relative w-full max-w-6xl mx-auto min-h-[70vh] lg:min-h-[80vh] flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-8">
                 
                 {/* Left Content */}
                 <motion.div 
@@ -172,7 +172,7 @@ export default function Hero() {
                     <motion.div variants={itemVariants} className="h-10 md:h-12 mb-6">
                         <p className="text-lg md:text-2xl text-muted-foreground font-researcher tracking-wide">
                             {mounted ? (
-                                <span className="text-white">
+                                <span className="text-foreground">
                                     {displayText}
                                     <motion.span
                                         animate={{ opacity: [1, 0] }}
@@ -216,16 +216,16 @@ export default function Hero() {
 
                     <motion.div variants={itemVariants} className="flex flex-wrap justify-center lg:justify-start gap-6 md:gap-10">
                         <div className="text-center">
-                            <h3 className="text-2xl md:text-3xl font-bold text-white font-researcher">3+</h3>
-                            <p className="text-gray-600 text-xs">Years</p>
+                            <h3 className="text-2xl md:text-3xl font-bold text-foreground font-researcher">3+</h3>
+                            <p className="text-muted-foreground text-xs">Years</p>
                         </div>
                         <div className="text-center">
-                            <h3 className="text-2xl md:text-3xl font-bold text-white font-researcher">20+</h3>
-                            <p className="text-gray-600 text-xs">Projects</p>
+                            <h3 className="text-2xl md:text-3xl font-bold text-foreground font-researcher">20+</h3>
+                            <p className="text-muted-foreground text-xs">Projects</p>
                         </div>
                         <div className="text-center">
-                            <h3 className="text-2xl md:text-3xl font-bold text-white font-researcher">10+</h3>
-                            <p className="text-gray-600 text-xs">Clients</p>
+                            <h3 className="text-2xl md:text-3xl font-bold text-foreground font-researcher">10+</h3>
+                            <p className="text-muted-foreground text-xs">Clients</p>
                         </div>
                     </motion.div>
                 </motion.div>
@@ -257,7 +257,7 @@ export default function Hero() {
                         <div className="relative w-full h-full rounded-2xl overflow-hidden">
                             <Image
                                 src="/assets/me-hero.png"
-                                alt="Pradip Bhatt"
+                                alt="Pradip Bhatt - Full Stack Developer and UI/UX Designer"
                                 fill
                                 className="object-cover object-top"
                                 priority
@@ -293,7 +293,7 @@ export default function Hero() {
                             key={social.label}
                             href={social.href} 
                             target="_blank"
-                            className="p-2.5 text-gray-500 hover:text-white transition-colors duration-200 group relative"
+                            className="p-2.5 text-muted-foreground hover:text-foreground transition-colors duration-200 group relative"
                         >
                             <social.icon size={18} />
                             <span className="absolute right-full mr-2.5 top-1/2 -translate-y-1/2 px-2 py-1 bg-primary rounded-md text-[10px] text-primary-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-1 transition-all duration-200 whitespace-nowrap">
@@ -320,7 +320,7 @@ export default function Hero() {
                             key={social.label}
                             href={social.href} 
                             target="_blank"
-                            className="p-2.5 text-gray-500 hover:text-white transition-colors duration-200"
+                            className="p-2.5 text-muted-foreground hover:text-foreground transition-colors duration-200"
                         >
                             <social.icon size={18} />
                         </Link>
@@ -338,7 +338,7 @@ export default function Hero() {
                 <motion.div
                     animate={{ y: [0, 6, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
-                    className="flex flex-col items-center gap-1.5 text-gray-600"
+                    className="flex flex-col items-center gap-1.5 text-muted-foreground"
                 >
                     <span className="text-[10px] uppercase tracking-widest">Scroll</span>
                     <ArrowDown size={14} />

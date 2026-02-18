@@ -81,7 +81,7 @@ export default function Hero() {
         initial: { y: 0 },
         animate: {
             y: [-8, 8, -8],
-            transition: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+            transition: { duration: 5, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }
         }
     };
 
@@ -90,7 +90,7 @@ export default function Hero() {
         animate: {
             scale: [0.8, 1.1, 0.8],
             opacity: [0.2, 0.4, 0.2],
-            transition: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+            transition: { duration: 4, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }
         }
     };
 
@@ -111,7 +111,7 @@ export default function Hero() {
             <motion.div
                 initial={{ opacity: 0, scale: 1.08 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.8, delay: 0.3, ease: "easeOut" }}
+                transition={{ duration: 1.8, delay: 0.3, ease: [0, 0, 0.58, 1] }}
                 style={{ y: bgY, scale: bgScale }}
                 className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-[1] overflow-hidden px-6"
             >

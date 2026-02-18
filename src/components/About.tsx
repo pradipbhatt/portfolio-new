@@ -1,122 +1,165 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code, Database, GraduationCap, Palette, Server } from "lucide-react";
+import { Code, GraduationCap, Award, Camera, Lightbulb, Mail, ExternalLink, BadgeCheck } from "lucide-react";
 import Image from "next/image";
+
+const aboutContent = {
+    name: "Pradip Bhatt",
+    title: "Full Stack Developer & UI/UX Designer",
+    bio: "I craft exceptional digital experiences with modern technologies. Passionate about building scalable applications and creating intuitive user interfaces. With 3+ years of experience, I've worked on 20+ projects for 10+ clients worldwide.",
+    education: {
+        degree: "Computer Engineering",
+        school: "Far Western University"
+    },
+    certification: "NEC Certified Engineer",
+    interests: [
+        { icon: Code, label: "Coding" },
+        { icon: Camera, label: "Photography" },
+        { icon: Lightbulb, label: "Problem Solving" },
+        { icon: Award, label: "Hackathons" }
+    ]
+};
+
+function HoverLetters({ text, activeColor = "hover:text-primary" }: { text: string; activeColor?: string }) {
+    return (
+        <>
+            {text.split("").map((letter, i) => (
+                <span
+                    key={i}
+                    className={`inline-block transition-[transform,color,filter] duration-200 cursor-default ${letter === " " ? "w-[0.25em]" : `${activeColor} hover:-translate-y-[2px] hover:scale-110`}`}
+                >
+                    {letter === " " ? "\u00A0" : letter}
+                </span>
+            ))}
+        </>
+    );
+}
 
 export default function About() {
     return (
-        <section id="about" className="py-8 mb-20 bg-background relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[10%] left-[5%] w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px]" />
-                <div className="absolute bottom-[10%] right-[5%] w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px]" />
-            </div>
-
-            <div className="container mx-auto px-6 relative z-10">
+        <section id="about" className="py-6 relative">
+            <div className="container mx-auto px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-6"
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-4"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider">
-                        A<span className="text-primary">b</span>out <span className="text-primary">M</span>e
+                    <h2 className="text-3xl md:text-4xl font-bold">
+                        <HoverLetters text="About" activeColor="hover:text-primary/80" />{" "}
+                        <span className="text-primary">
+                            <HoverLetters text="Me" activeColor="hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(193,89,40,0.6)]" />
+                        </span>
                     </h2>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-12 gap-6 items-stretch">
-                    {/* Left Column - Image */}
+                <div className="grid md:grid-cols-12 gap-6 items-start">
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="lg:col-span-5 relative h-full"
+                        className="md:col-span-4 lg:col-span-4"
                     >
-                        <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-full min-h-[300px] rounded-2xl overflow-hidden border border-white/10 group">
+                        <div className="relative aspect-[3/4] max-w-[280px] mx-auto rounded-2xl overflow-hidden border-2 border-primary/20 shadow-lg shadow-primary/10">
                             <Image
                                 src="/assets/me formal.png"
-                                alt="Pradip Bhatt"
+                                alt={aboutContent.name}
                                 fill
-                                className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                                className="object-cover"
+                                priority
                             />
-                            {/* Overlay Gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        </div>
+                        
+                        <div className="max-w-[280px] mx-auto mt-3 space-y-2">
+                            <div className="flex items-center justify-center gap-2 bg-card/80 backdrop-blur-sm rounded-lg p-2 border border-primary/10 hover:border-primary/40 hover:bg-card/90 transition-all duration-300">
+                                <GraduationCap className="w-4 h-4 text-primary" />
+                                <span className="text-sm">{aboutContent.education.degree}, {aboutContent.education.school}</span>
+                            </div>
+                            <div className="flex items-center justify-center gap-2 bg-card/80 backdrop-blur-sm rounded-lg p-2 border border-primary/10 hover:border-primary/40 hover:bg-card/90 transition-all duration-300">
+                                <BadgeCheck className="w-4 h-4 text-primary" />
+                                <span className="text-sm">{aboutContent.certification}</span>
+                            </div>
                         </div>
                     </motion.div>
 
-                    {/* Right Column - Content */}
                     <motion.div
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="lg:col-span-7 space-y-6"
+                        className="md:col-span-8 lg:col-span-8 space-y-4"
                     >
                         <div>
-                            <h3 className="text-2xl font-bold text-primary mb-2 font-display tracking-wide">PRADIP BHATT</h3>
-                            <p className="text-muted-foreground leading-relaxed text-base">
-                                Recent Computer Engineering graduate with hands-on experience in modern web technologies (JavaScript, React, Node, Express, GSAP, Framer Motion, Tailwind, Vite). Started as an Associate Software Engineer at CloudTech Nepal (Jun-Aug 2025) and currently working as a Software Engineer at Hyperce (Sep 2025-Present), building headless ecommerce solutions using Vendure, GraphQL, Next.js, and Nest.js. Passionate about building solutions that empower students and streamline learning.
+                            <h3 className="text-2xl md:text-3xl font-bold mb-1">
+                                <HoverLetters text="Hi, I'm" activeColor="hover:text-muted-foreground" />{" "}
+                                <span className="text-primary">
+                                    <HoverLetters text={aboutContent.name} activeColor="hover:text-foreground hover:drop-shadow-[0_0_8px_rgba(193,89,40,0.5)]" />
+                                </span>
+                            </h3>
+                            <p className="text-lg font-medium text-primary/90">
+                                <HoverLetters text={aboutContent.title} activeColor="hover:text-primary" />
                             </p>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-4">
-                            {/* Education Card */}
-                            <div className="bg-secondary/30 p-4 rounded-xl border border-white/5 hover:border-primary/30 transition-colors">
-                                <h4 className="text-primary font-bold mb-3 flex items-center gap-2 font-display text-sm">
-                                    <GraduationCap size={18} />
-                                    EDUCATION
-                                </h4>
-                                <div className="space-y-2 text-xs">
-                                    <div>
-                                        <p className="font-semibold text-white">Far Western University</p>
-                                        <p className="text-muted-foreground">B.E. Computer Engineering</p>
-                                        <p className="text-[10px] text-muted-foreground">2021 - 2025 | Grade: A</p>
-                                    </div>
-                                    <div>
-                                        <p className="font-semibold text-white">Radiant Secondary School</p>
-                                        <p className="text-muted-foreground">Intermediate</p>
-                                        <p className="text-[10px] text-muted-foreground">2020 - 2022</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+                            {aboutContent.bio}
+                        </p>
 
-                            {/* Skills Card */}
-                            <div className="bg-secondary/30 p-4 rounded-xl border border-white/5 hover:border-primary/30 transition-colors">
-                                <h4 className="text-primary font-bold mb-3 font-display text-sm">SKILLS</h4>
-                                <div className="flex flex-wrap gap-1.5">
-                                    {["Full Stack Dev", "UI/UX Design", "Leadership", "Problem Solving", "Project Management"].map((skill) => (
-                                        <span
-                                            key={skill}
-                                            className="text-[10px] px-2 py-1 bg-primary/10 text-primary rounded-full border border-primary/20"
-                                        >
-                                            {skill}
-                                        </span>
-                                    ))}
-                                </div>
+                        <div className="grid grid-cols-3 gap-3 py-2">
+                            <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
+                                <div className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">3+</div>
+                                <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Years Exp.</div>
                             </div>
+                            <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
+                                <div className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">20+</div>
+                                <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Projects</div>
+                            </div>
+                            <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
+                                <div className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">10+</div>
+                                <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Clients</div>
+                            </div>
+                        </div>
 
-                            {/* Tech Stack Card */}
-                            <div className="bg-secondary/30 p-4 rounded-xl border border-white/5 hover:border-primary/30 transition-colors">
-                                <h4 className="text-primary font-bold mb-3 font-display text-sm">TECH STACK</h4>
-                                <div className="grid grid-cols-3 gap-2">
-                                    {[
-                                        { name: "React", icon: <Code size={14} /> },
-                                        { name: "Next.js", icon: <Code size={14} /> },
-                                        { name: "Node.js", icon: <Server size={14} /> },
-                                        { name: "GraphQL", icon: <Database size={14} /> },
-                                        { name: "TypeScript", icon: <Code size={14} /> },
-                                        { name: "Figma", icon: <Palette size={14} /> },
-                                    ].map((tech) => (
-                                        <div key={tech.name} className="flex flex-col items-center gap-1">
-                                            <div className="text-primary">{tech.icon}</div>
-                                            <span className="text-[10px] text-muted-foreground">{tech.name}</span>
-                                        </div>
-                                    ))}
-                                </div>
+                        <div>
+                            <h4 className="font-semibold mb-2">
+                                <HoverLetters text="What I" activeColor="hover:text-muted-foreground" />{" "}
+                                <span className="text-primary">
+                                    <HoverLetters text="Love" activeColor="hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(193,89,40,0.4)]" />
+                                </span>
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                                {aboutContent.interests.map((item, index) => (
+                                    <span 
+                                        key={index}
+                                        className="group flex items-center gap-1.5 px-3 py-1.5 bg-card/50 rounded-full text-sm border border-primary/10 hover:border-primary/40 hover:bg-primary/10 hover:shadow-sm transition-all duration-300 cursor-default"
+                                    >
+                                        <item.icon className="w-4 h-4 text-primary group-hover:scale-110 transition-transform duration-300" />
+                                        <span className="group-hover:text-primary transition-colors duration-300">{item.label}</span>
+                                    </span>
+                                ))}
                             </div>
+                        </div>
+
+                        <div className="flex gap-3 pt-2">
+                            <a 
+                                href="#contact"
+                                className="group flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-300 text-sm font-medium"
+                            >
+                                <Mail className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                                Get In Touch
+                            </a>
+                            <a 
+                                href="/assets/CV Pradip.pdf"
+                                download
+                                className="group flex items-center gap-2 px-4 py-2 bg-card border border-primary/20 rounded-lg hover:bg-card/80 hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-sm font-medium"
+                            >
+                                <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                                Download CV
+                            </a>
                         </div>
                     </motion.div>
                 </div>

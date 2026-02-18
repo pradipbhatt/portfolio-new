@@ -2,9 +2,10 @@
 
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTheme } from "@/lib/ThemeProvider";
 
 const navItems = [
     { name: "Home", href: "#home" },
@@ -19,6 +20,7 @@ const navItems = [
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const { theme, toggleTheme } = useTheme();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,7 +34,7 @@ export default function Navbar() {
         <nav
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-                scrolled ? "glass py-4 border-none" : "bg-transparent py-6"
+                scrolled ? "glass py-2 border-none" : "bg-transparent py-3"
             )}
         >
             <div className="container mx-auto px-6 flex items-center justify-center md:justify-between">
@@ -49,20 +51,36 @@ export default function Navbar() {
                     ))}
                 </div>
 
-                {/* Contact Button - Right */}
-                <div className="hidden md:block absolute right-6">
+                {/* Contact Button & Theme Toggle - Right */}
+                <div className="hidden md:flex items-center gap-3 absolute right-6">
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full hover:bg-white/10 transition-colors text-muted-foreground hover:text-primary"
+                        aria-label="Toggle theme"
+                    >
+                        {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
                     <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground uppercase tracking-widest" asChild>
                         <Link href="#contact">Contact Me</Link>
                     </Button>
                 </div>
 
-                {/* Mobile Menu Toggle */}
-                <button
-                    className="md:hidden absolute right-6 text-foreground"
-                    onClick={() => setIsOpen(!isOpen)}
-                >
-                    {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
+                {/* Mobile: Theme Toggle & Menu Toggle */}
+                <div className="md:hidden flex items-center gap-2 absolute right-6">
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full hover:bg-white/10 transition-colors text-foreground"
+                        aria-label="Toggle theme"
+                    >
+                        {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
+                    <button
+                        className="text-foreground"
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        {isOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Menu */}

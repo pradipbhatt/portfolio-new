@@ -17,47 +17,62 @@ const gpaData = [
 const maxGPA = 4.0;
 const minGPA = 2.5;
 
+function HoverLetters({ text, activeColor = "hover:text-primary" }: { text: string; activeColor?: string }) {
+    return (
+        <>
+            {text.split("").map((letter, i) => (
+                <span
+                    key={i}
+                    className={`inline-block transition-[transform,color,filter] duration-200 cursor-default ${letter === " " ? "w-[0.25em]" : `${activeColor} hover:-translate-y-[2px] hover:scale-110`}`}
+                >
+                    {letter === " " ? "\u00A0" : letter}
+                </span>
+            ))}
+        </>
+    );
+}
+
 export default function GPAVisualization() {
     const avgGPA = (gpaData.reduce((sum, item) => sum + item.gpa, 0) / gpaData.length).toFixed(2);
 
     return (
-        <section id="gpa" className="py-20 bg-background">
-            <div className="container mx-auto px-6">
+        <section id="gpa" className="py-6 relative">
+            <div className="container mx-auto px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-4"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider mb-4">
-                        A<span className="text-primary">c</span>ademic P<span className="text-primary">r</span>ogress
+                    <h2 className="text-3xl md:text-4xl font-bold">
+                        <HoverLetters text="Academic" activeColor="hover:text-primary/80" />{" "}
+                        <span className="text-primary">
+                            <HoverLetters text="Progress" activeColor="hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(193,89,40,0.6)]" />
+                        </span>
                     </h2>
-                    <p className="text-xl text-primary/80 font-medium mb-2">Bachelor of Engineering (B.E.) in Computer Engineering</p>
-                    <p className="text-muted-foreground">Comprehensive academic performance analysis over 4 years</p>
                 </motion.div>
 
                 <div className="max-w-5xl mx-auto">
                     <div className="bg-[#1a1a1a] p-8 rounded-xl border border-white/5">
                         {/* Stats Cards */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <div className="bg-secondary/30 p-4 rounded-lg border border-white/5">
-                                <p className="text-xs text-muted-foreground mb-1">Average GPA</p>
-                                <p className="text-2xl font-bold text-primary">{avgGPA}</p>
+                            <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
+                                <p className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Average GPA</p>
+                                <p className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">{avgGPA}</p>
                             </div>
-                            <div className="bg-secondary/30 p-4 rounded-lg border border-white/5">
-                                <p className="text-xs text-muted-foreground mb-1">Highest GPA</p>
-                                <p className="text-2xl font-bold text-green-500">3.88</p>
+                            <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
+                                <p className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Highest GPA</p>
+                                <p className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">3.88</p>
                             </div>
-                            <div className="bg-secondary/30 p-4 rounded-lg border border-white/5">
-                                <p className="text-xs text-muted-foreground mb-1">Latest GPA</p>
-                                <p className="text-2xl font-bold text-blue-500">3.88</p>
+                            <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
+                                <p className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Latest GPA</p>
+                                <p className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">3.88</p>
                             </div>
-                            <div className="bg-secondary/30 p-4 rounded-lg border border-white/5 flex items-center gap-2">
-                                <TrendingUp className="text-green-500" size={20} />
-                                <div>
-                                    <p className="text-xs text-muted-foreground">Trend</p>
-                                    <p className="text-sm font-bold text-green-500">Consistent Growth</p>
+                            <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
+                                <div className="flex flex-col items-center justify-center">
+                                    <TrendingUp className="w-5 h-5 text-primary group-hover:scale-110 transition-transform duration-300 mb-1" />
+                                    <p className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Consistent Growth</p>
                                 </div>
                             </div>
                         </div>
@@ -171,10 +186,14 @@ export default function GPAVisualization() {
                         </div>
 
                         {/* Achievement Note */}
-                        <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 text-center">
-                            <p className="text-sm text-muted-foreground">
-                                <span className="text-primary font-bold">Academic Excellence:</span> Maintained a strong upward trajectory in the B.E. Computer Engineering program, improving from 3.05 to a stellar 3.88 GPA.
-                            </p>
+                        <div className="mt-6 flex flex-wrap justify-center gap-2">
+                            <span className="group flex items-center gap-1.5 px-3 py-1.5 bg-card/50 rounded-full text-xs border border-primary/10 hover:border-primary/40 hover:bg-primary/10 hover:shadow-sm transition-all duration-300 cursor-default">
+                                <TrendingUp className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform duration-300" />
+                                <span className="text-muted-foreground group-hover:text-primary transition-colors duration-300">
+                                    <span className="text-primary font-bold mr-1">Academic Excellence:</span> 
+                                    Maintained upward trajectory in B.E. Computer Engineering, from 3.05 to 3.88 GPA.
+                                </span>
+                            </span>
                         </div>
                     </div>
                 </div>

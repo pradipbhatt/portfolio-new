@@ -25,8 +25,17 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Creative Artist",
-  description: "A showcase of my work and skills.",
+  title: "Portfolio | Pradip Bhatt",
+  description: "A showcase of my work and skills as a Full Stack Developer and Creative Artist.",
+  icons: {
+    icon: [
+      { url: '/icon', type: 'image/png' },
+    ],
+    shortcut: '/icon',
+    apple: [
+      { url: '/apple-icon', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({

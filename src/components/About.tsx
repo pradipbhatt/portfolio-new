@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const aboutContent = {
     name: "Pradip Bhatt",
-    title: "Full Stack Developer & UI/UX Designer",
+    title: "Full Stack Developer & AI Enthusiast",
     bio: "I craft exceptional digital experiences with modern technologies. Passionate about building scalable applications and creating intuitive user interfaces. With 3+ years of experience, I've worked on 20+ projects for 10+ clients worldwide.",
     education: {
         degree: "Computer Engineering",

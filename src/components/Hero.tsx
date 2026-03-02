@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, Easing } from "framer-motion";
 
-const roles = ["Full Stack Developer", "UI/UX Designer", "Creative Photographer", "Problem Solver"];
+const roles = ["Full Stack Developer", "AI Enthusiast", "Creative Photographer", "Problem Solver"];
 
 const socialLinks = [
     { icon: Linkedin, href: "https://www.linkedin.com/in/pradipbhatt2126/", label: "LinkedIn" },

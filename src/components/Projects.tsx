@@ -9,19 +9,41 @@ import { useMemo, useState } from "react";
 
 export default function Projects() {
     const [activeCategory, setActiveCategory] = useState<string>("All");
+    const [visibleCount, setVisibleCount] = useState<number>(6);
 
     const categories = useMemo(
         () => ["All", ...Array.from(new Set(projects.map((project) => project.category)))],
         []
     );
 
-    const visibleProjects = useMemo(
+    const filteredProjects = useMemo(
         () =>
             activeCategory === "All"
                 ? projects
                 : projects.filter((project) => project.category === activeCategory),
         [activeCategory]
     );
+
+    const visibleProjects = useMemo(
+        () => filteredProjects.slice(0, visibleCount),
+        [filteredProjects, visibleCount]
+    );
+
+    const hasMoreProjects = visibleProjects.length < filteredProjects.length;
+
+    const loadMore = () => {
+        setVisibleCount(prev => Math.min(prev + 6, filteredProjects.length));
+    };
+
+    const showLess = () => {
+        setVisibleCount(6);
+    };
+
+    // Reset visible count when category changes
+    const handleCategoryChange = (category: string) => {
+        setActiveCategory(category);
+        setVisibleCount(6);
+    };
 
     return (
         <section id="projects" className="py-20 bg-background">
@@ -42,7 +64,7 @@ export default function Projects() {
                             <button
                                 key={category}
                                 type="button"
-                                onClick={() => setActiveCategory(category)}
+                                onClick={() => handleCategoryChange(category)}
                                 className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                                     activeCategory === category
                                         ? "bg-primary text-primary-foreground border-primary"
@@ -63,7 +85,12 @@ export default function Projects() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.08 }}
-                            className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-md"
+                            className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-md cursor-pointer"
+                            onClick={() => {
+                                if (project.demoLink && project.demoLink !== "#") {
+                                    window.open(project.demoLink, "_blank");
+                                }
+                            }}
                         >
                             <div className="relative h-56 overflow-hidden">
                                 <Image
@@ -100,6 +127,7 @@ export default function Projects() {
                                             href={project.repoLink ?? "#"}
                                             target="_blank"
                                             className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
                                         >
                                             <Github size={14} />
                                             <span>Code</span>
@@ -108,6 +136,7 @@ export default function Projects() {
                                             href={project.demoLink ?? "#"}
                                             target="_blank"
                                             className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
                                         >
                                             <ExternalLink size={14} />
                                             <span>Live</span>
@@ -123,6 +152,35 @@ export default function Projects() {
                         </motion.div>
                     ))}
                 </div>
+
+                {/* Show More/Less Buttons */}
+                {filteredProjects.length > 6 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="flex justify-center mt-12"
+                    >
+                        <div className="flex gap-3">
+                            {hasMoreProjects && (
+                                <button
+                                    onClick={loadMore}
+                                    className="px-6 py-2.5 rounded-full bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors"
+                                >
+                                    Show More ({filteredProjects.length - visibleProjects.length} remaining)
+                                </button>
+                            )}
+                            {visibleCount > 6 && (
+                                <button
+                                    onClick={showLess}
+                                    className="px-6 py-2.5 rounded-full border border-border text-foreground font-medium text-sm hover:border-primary/50 hover:text-primary transition-colors"
+                                >
+                                    Show Less
+                                </button>
+                            )}
+                        </div>
+                    </motion.div>
+                )}
             </div>
         </section>
     );

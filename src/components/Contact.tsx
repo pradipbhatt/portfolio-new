@@ -58,9 +58,14 @@ export default function Contact() {
             setSuccess(true);
             formRef.current.reset();
             setTimeout(() => setSuccess(false), 5000);
-        } catch (err: any) {
-            const errorMessage = err?.text || err?.message || "Failed to send message. Please try again.";
-            setError(errorMessage);
+        } catch (err: unknown) {
+            const msg =
+                err && typeof err === "object" && "text" in err && typeof (err as { text?: unknown }).text === "string"
+                    ? (err as { text: string }).text
+                    : err instanceof Error
+                      ? err.message
+                      : "Failed to send message. Please try again.";
+            setError(msg);
         } finally {
             setLoading(false);
         }
@@ -95,7 +100,7 @@ export default function Contact() {
 
                         {success && (
                             <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-500 text-sm">
-                                ✓ Message sent successfully! I'll get back to you soon.
+                                ✓ Message sent successfully! I&apos;ll get back to you soon.
                             </div>
                         )}
 

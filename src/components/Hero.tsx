@@ -1,349 +1,400 @@
 "use client";
 
-import { Download, Facebook, Github, Instagram, Linkedin, ArrowDown, Sparkles } from "lucide-react";
-import Image from "next/image";
+import HeroTerminal from "@/components/hero/HeroTerminal";
+import { HeroPortraitDeck } from "@/components/hero/HeroPortraitDeck";
+import {
+  readHeroTerminalShellLayout,
+  subscribeHeroTerminalShellLayout,
+} from "@/lib/heroTerminalShellLayout";
+import { cn } from "@/lib/utils";
+import {
+  Download,
+  ArrowDown,
+  Linkedin,
+  Github,
+  Instagram,
+  Facebook,
+} from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, Easing } from "framer-motion";
+import { useCallback, useRef, useState, useSyncExternalStore } from "react";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { SecurityJobCardPanel } from "@/components/SecurityJobCardPanel";
 
-const roles = ["Full Stack Developer", "AI Enthusiast", "Creative Photographer", "Problem Solver"];
+function subscribeReducedMotion(onStoreChange: () => void) {
+  if (typeof window === "undefined") return () => {};
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", onStoreChange);
+  return () => mq.removeEventListener("change", onStoreChange);
+}
+
+function reducedMotionSnapshot() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 const socialLinks = [
-    { icon: Linkedin, href: "https://www.linkedin.com/in/pradipbhatt2126/", label: "LinkedIn" },
-    { icon: Github, href: "https://github.com/pradipbhatt", label: "GitHub" },
-    { icon: Instagram, href: "https://www.instagram.com/pradipbhatt/", label: "Instagram" },
-    { icon: Facebook, href: "https://www.facebook.com/pradipbhatt/", label: "Facebook" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/pradipbhatt2126/", label: "LinkedIn" },
+  { icon: Github, href: "https://github.com/pradipbhatt", label: "GitHub" },
+  { icon: Instagram, href: "https://www.instagram.com/pradipbhatt/", label: "Instagram" },
+  { icon: Facebook, href: "https://www.facebook.com/pradipbhatt/", label: "Facebook" },
 ];
 
+function HoverLetters({
+  text,
+  activeColor = "hover:text-primary",
+}: {
+  text: string;
+  activeColor?: string;
+}) {
+  return (
+    <>
+      {text.split("").map((letter, i) => (
+        <span
+          key={i}
+          className={`inline-block cursor-default transition-[transform,color,filter] duration-200 ${
+            letter === " "
+              ? "w-[0.25em]"
+              : `${activeColor} hover:-translate-y-[2px] hover:scale-110`
+          }`}
+        >
+          {letter === " " ? "\u00A0" : letter}
+        </span>
+      ))}
+    </>
+  );
+}
+
+/** Gradient headline letters — same hover motion as section titles, tuned for bg-clip text */
+function HoverGradientLetters({ text }: { text: string }) {
+  const letterClass =
+    "inline-block cursor-default bg-gradient-to-r from-primary via-primary to-orange-400/90 bg-clip-text text-transparent transition-[transform,filter] duration-200 hover:-translate-y-[2px] hover:scale-110 hover:brightness-110 hover:drop-shadow-[0_0_10px_rgba(147,51,234,0.4)]";
+  return (
+    <>
+      {text.split("").map((letter, i) => (
+        <span key={i} className={letter === " " ? "inline-block w-[0.25em]" : letterClass}>
+          {letter === " " ? "\u00A0" : letter}
+        </span>
+      ))}
+    </>
+  );
+}
+
 export default function Hero() {
-    const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-    const [displayText, setDisplayText] = useState("");
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [mounted, setMounted] = useState(false);
-    const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [radar, setRadar] = useState({ x: "50%", y: "50%" });
+  const reduceMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    reducedMotionSnapshot,
+    () => false
+  );
+  const terminalShell = useSyncExternalStore(
+    subscribeHeroTerminalShellLayout,
+    readHeroTerminalShellLayout,
+    () => "normal" as const
+  );
+  const terminalUsesRightRail =
+    terminalShell === "normal" || terminalShell === "maximized";
 
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start start", "end start"]
-    });
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const heroMotion = useSpring(heroScrollProgress, {
+    stiffness: 150,
+    damping: 34,
+    mass: 0.42,
+  });
+  const jobCardX = useTransform(heroMotion, [0, 0.32, 0.68, 1], [0, 18, 34, 46]);
+  const jobCardY = useTransform(heroMotion, [0, 0.38, 0.72, 1], [0, -6, -16, -26]);
+  const jobCardRotate = useTransform(heroMotion, [0, 0.48, 1], [0, 7, 12]);
+  const jobCardOpacity = useTransform(
+    heroMotion,
+    [0, 0.48, 0.78, 1],
+    [1, 1, 0.45, 0]
+  );
 
-    const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
-    const bgOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-    const bgScale = useTransform(scrollYProgress, [0, 1], [1, 0.88]);
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if (reduceMotion) return;
+    const el = sectionRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    setRadar({ x: `${x}%`, y: `${y}%` });
+  }, [reduceMotion]);
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+  return (
+    <section
+      ref={sectionRef}
+      id="home"
+      aria-label="Introduction, biography, and interactive terminal"
+      onMouseMove={onMouseMove}
+      className="relative min-h-[100dvh] w-full overflow-x-clip overflow-y-visible bg-background px-5 pb-5 pt-12 sm:px-6 md:px-10 md:pb-7 md:pt-16 lg:px-16 lg:pt-[4.5rem] xl:px-20 2xl:px-24"
+      style={
+        {
+          ["--rx" as string]: radar.x,
+          ["--ry" as string]: radar.y,
+        } as React.CSSProperties
+      }
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.08]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.35) 1px, transparent 0)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-0 transition-opacity duration-500"
+        style={{
+          background: reduceMotion
+            ? undefined
+            : `radial-gradient(520px at var(--rx) var(--ry), rgba(0,217,126,0.12), transparent 65%)`,
+          opacity: reduceMotion ? 0 : 1,
+        }}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
 
-    useEffect(() => {
-        if (!mounted) return;
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col">
+        <div
+          className={cn(
+            "w-full min-w-0 max-w-full",
+            terminalUsesRightRail &&
+              "grid grid-cols-1 gap-y-3 lg:grid-cols-[minmax(0,28rem)_minmax(240px,18.25rem)] lg:items-start lg:justify-center lg:gap-x-8 lg:gap-y-0 xl:gap-x-12",
+            !terminalUsesRightRail &&
+              "lg:flex lg:flex-row lg:items-start lg:justify-center lg:gap-12 xl:gap-16",
+          )}
+        >
+          <div
+            className={cn(
+              "flex min-w-0 flex-1 flex-col pl-6 sm:pl-8 md:pl-12 lg:pl-14 xl:pl-16",
+              terminalUsesRightRail && "lg:max-w-[28rem]"
+            )}
+          >
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.05, duration: 0.45 }}
+            className="mb-1.5 text-sm text-muted-foreground"
+          >
+            Hi, I&apos;m
+          </motion.p>
 
-        const currentRole = roles[currentRoleIndex];
-        const updateText = () => {
-            if (!isDeleting) {
-                setDisplayText(currentRole.substring(0, displayText.length + 1));
-                if (displayText === currentRole) {
-                    setTimeout(() => setIsDeleting(true), 2500);
-                }
-            } else {
-                setDisplayText(currentRole.substring(0, displayText.length - 1));
-                if (displayText === "") {
-                    setIsDeleting(false);
-                    setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
-                }
-            }
-        };
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08, duration: 0.5 }}
+            className="font-hacker font-bold leading-[0.92] tracking-[0.04em] text-foreground"
+          >
+            <h1 className="text-[clamp(2rem,6.5vw,3.25rem)] lg:text-[clamp(2.75rem,4.8vw,3.85rem)]">
+              {reduceMotion ? (
+                "Pradip"
+              ) : (
+                <HoverLetters text="Pradip" activeColor="hover:text-primary" />
+              )}
+            </h1>
+            <h1 className="text-[clamp(2rem,6.5vw,3.25rem)] lg:text-[clamp(2.75rem,4.8vw,3.85rem)]">
+              {reduceMotion ? (
+                <span className="bg-gradient-to-r from-primary via-primary to-orange-400/90 bg-clip-text text-transparent">
+                  Bhatt
+                </span>
+              ) : (
+                <HoverGradientLetters text="Bhatt" />
+              )}
+            </h1>
+          </motion.div>
 
-        const typingSpeed = isDeleting ? 40 : 120;
-        const timer = setTimeout(updateText, typingSpeed);
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.12, duration: 0.45 }}
+            className={cn(
+              "mt-2 max-w-2xl text-[13px] leading-snug text-muted-foreground md:mt-3 md:text-sm md:leading-relaxed",
+              !terminalUsesRightRail && "lg:pr-1"
+            )}
+          >
+            I blend offensive-minded research with pragmatic engineering: vulnerability discovery,
+            threat context, and shipping resilient interfaces and SDLC automation.
+          </motion.p>
 
-        return () => clearTimeout(timer);
-    }, [displayText, isDeleting, currentRoleIndex, mounted]);
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.12, delayChildren: 0.3 }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 25 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const }
-        }
-    };
-
-    const floatVariants = {
-        initial: { y: 0 },
-        animate: {
-            y: [-8, 8, -8],
-            transition: { duration: 5, repeat: Infinity, ease: "easeInOut" as Easing }
-        }
-    };
-
-    const glowVariants = {
-        initial: { scale: 0.8, opacity: 0.2 },
-        animate: {
-            scale: [0.8, 1.1, 0.8],
-            opacity: [0.2, 0.4, 0.2],
-            transition: { duration: 4, repeat: Infinity, ease: "easeInOut" as Easing }
-        }
-    };
-
-    return (
-        <section ref={sectionRef} id="home" className="min-h-[70vh] lg:min-h-[80vh] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 bg-background overflow-hidden relative pt-20">
-            {/* Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary to-background" />
-            
-            <div className="absolute inset-0 opacity-[0.03]" 
-                style={{ 
-                    backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                     linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                    backgroundSize: '50px 50px'
-                }} 
-            />
-
-            {/* PRA.DEV Background Watermark */}
-            <motion.div
-                initial={{ opacity: 0, scale: 1.08 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.8, delay: 0.3, ease: [0, 0, 0.58, 1] }}
-                style={{ y: bgY, scale: bgScale }}
-                className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-[1] overflow-hidden px-6"
-            >
-                <motion.span
-                    style={{ opacity: bgOpacity }}
-                    className="font-squid text-[3rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[8rem] xl:text-[10rem] tracking-[0.12em] font-black whitespace-nowrap leading-none text-foreground/10"
-                >
-                    <span className="text-foreground/20">PRA</span>
-                    <span className="text-foreground/15">.DEV</span>
-                </motion.span>
-            </motion.div>
-
-            {/* Floating Orbs */}
-            <motion.div 
-                variants={glowVariants}
-                initial="initial"
-                animate="animate"
-                className="absolute top-24 left-0 w-64 h-64 bg-primary/10 rounded-full blur-[100px]"
-            />
-            <motion.div 
-                variants={glowVariants}
-                initial="initial"
-                animate="animate"
-                style={{ animationDelay: '1.5s' }}
-                className="absolute bottom-32 right-0 w-72 h-72 bg-primary/5 rounded-full blur-[100px]"
-            />
-
-            {/* Main Content */}
-            <div className="relative w-full max-w-6xl mx-auto min-h-[70vh] lg:min-h-[80vh] flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-8">
-                
-                {/* Left Content */}
-                <motion.div 
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="flex flex-col items-center lg:items-start text-center lg:text-left z-10 flex-1 max-w-xl"
-                >
-                    <motion.div variants={itemVariants} className="mb-5">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/30 border border-border text-sm text-muted-foreground">
-                            <Sparkles size={12} className="text-primary" />
-                            <span className="text-foreground/70">Welcome to my portfolio</span>
-                        </span>
-                    </motion.div>
-
-                    <motion.h1 variants={itemVariants} className="font-researcher text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-[1.15]">
-                        <span className="text-foreground">Hi, I'm </span>
-                        <span className="text-primary relative">
-                            Pradip Bhatt
-                            <motion.span 
-                                initial={{ scaleX: 0 }}
-                                animate={{ scaleX: 1 }}
-                                transition={{ delay: 0.8, duration: 0.6 }}
-                                className="absolute -bottom-1.5 left-0 w-full h-0.5 bg-primary/60 rounded-full"
-                            />
-                        </span>
-                    </motion.h1>
-
-                    <motion.div variants={itemVariants} className="h-10 md:h-12 mb-6">
-                        <p className="text-lg md:text-2xl text-muted-foreground font-researcher tracking-wide">
-                            {mounted ? (
-                                <span className="text-foreground">
-                                    {displayText}
-                                    <motion.span
-                                        animate={{ opacity: [1, 0] }}
-                                        transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-                                        className="text-primary ml-0.5"
-                                    >
-                                        |
-                                    </motion.span>
-                                </span>
-                            ) : (
-                                "Full Stack Developer"
-                            )}
-                        </p>
-                    </motion.div>
-
-                    <motion.p variants={itemVariants} className="text-muted-foreground text-sm md:text-base max-w-md mb-8 leading-relaxed">
-                        I craft exceptional digital experiences with modern technologies. 
-                        Passionate about building scalable applications and creating intuitive user interfaces.
-                    </motion.p>
-
-                    <motion.div variants={itemVariants} className="flex flex-wrap justify-center lg:justify-start gap-3 mb-4">
-                        <a
-                            href="/Pradip-Bhatt-cv.pdf"
-                            download="Pradip-Bhatt-cv.pdf"
-                            className="group relative overflow-hidden bg-primary text-primary-foreground px-6 py-2.5 rounded-full font-researcher text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02]"
-                        >
-                            <span className="relative z-10 flex items-center gap-2">
-                                Download CV
-                                <Download size={16} className="transition-transform group-hover:-translate-y-0.5" />
-                            </span>
-                        </a>
-                        
-                        <a
-                            href="#projects"
-                            className="px-6 py-2.5 rounded-full border border-border text-foreground font-researcher text-sm tracking-wide transition-all duration-300 hover:border-primary/50 hover:text-primary flex items-center gap-2"
-                        >
-                            View Projects
-                            <ArrowDown size={14} />
-                        </a>
-                    </motion.div>
-
-                    <motion.div variants={itemVariants} className="flex flex-wrap justify-center lg:justify-start gap-6 md:gap-10">
-                        <div className="text-center">
-                            <h3 className="text-2xl md:text-3xl font-bold text-foreground font-researcher">3+</h3>
-                            <p className="text-muted-foreground text-xs">Years</p>
-                        </div>
-                        <div className="text-center">
-                            <h3 className="text-2xl md:text-3xl font-bold text-foreground font-researcher">20+</h3>
-                            <p className="text-muted-foreground text-xs">Projects</p>
-                        </div>
-                        <div className="text-center">
-                            <h3 className="text-2xl md:text-3xl font-bold text-foreground font-researcher">10+</h3>
-                            <p className="text-muted-foreground text-xs">Clients</p>
-                        </div>
-                    </motion.div>
-                </motion.div>
-
-                {/* Right Content - Image */}
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, delay: 0.4 }}
-                    className="relative flex justify-center items-center w-full max-w-sm lg:max-w-md mt-6 lg:mt-0"
-                >
-                    {/* Glow */}
-                    <motion.div 
-                        variants={glowVariants}
-                        initial="initial"
-                        animate="animate"
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] lg:w-[380px] lg:h-[380px] bg-primary/20 rounded-full blur-[70px]"
-                    />
-
-                    <motion.div 
-                        variants={floatVariants}
-                        initial="initial"
-                        animate="animate"
-                        className="relative w-full aspect-[3/4] max-h-[380px] lg:max-h-[500px]"
-                    >
-                        {/* Frame */}
-                        <div className="absolute -inset-3 border border-white/[0.06] rounded-3xl" />
-                        
-                        <div className="relative w-full h-full rounded-2xl overflow-hidden">
-                            <Image
-                                src="/assets/me-hero.png"
-                                alt="Pradip Bhatt - Full Stack Developer and UI/UX Designer"
-                                fill
-                                className="object-cover object-top"
-                                priority
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-                        </div>
-
-                        {/* Floating Badge */}
-                        <motion.div 
-                            initial={{ opacity: 0, x: 15 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 1.2 }}
-                            className="absolute -right-2 top-6 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] px-3 py-2 rounded-lg"
-                        >
-                            <p className="text-[10px] text-muted-foreground">Available for</p>
-                            <p className="text-xs text-primary font-medium">Freelance</p>
-                        </motion.div>
-                    </motion.div>
-                </motion.div>
-            </div>
-
-            {/* Desktop Social Sidebar - Elegant Thin Design */}
-            <motion.div 
-                initial={{ opacity: 0, x: 15 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.5 }}
-                className="fixed right-5 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center z-40"
-            >
-                {/* Thin vertical container */}
-                <div className="flex flex-col items-center py-3 px-2 bg-white/[0.02] border border-white/[0.06] rounded-full backdrop-blur-sm">
-                    {socialLinks.map((social, index) => (
-                        <Link 
-                            key={social.label}
-                            href={social.href} 
-                            target="_blank"
-                            className="p-2.5 text-muted-foreground hover:text-foreground transition-colors duration-200 group relative"
-                        >
-                            <social.icon size={18} />
-                            <span className="absolute right-full mr-2.5 top-1/2 -translate-y-1/2 px-2 py-1 bg-primary rounded-md text-[10px] text-primary-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-1 transition-all duration-200 whitespace-nowrap">
-                                {social.label}
-                            </span>
-                        </Link>
-                    ))}
-                </div>
-                
-                {/* Vertical line */}
-                <div className="w-px h-4 bg-white/[0.1] mt-2" />
-            </motion.div>
-
-            {/* Mobile Social Bar - Clean & Compact */}
-            <motion.div 
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.5 }}
-                className="flex lg:hidden justify-center items-center gap-1 absolute bottom-5 left-0 right-0 z-30"
-            >
-                <div className="flex items-center gap-1 py-2 px-3 bg-white/[0.03] border border-white/[0.06] rounded-full backdrop-blur-sm">
-                    {socialLinks.map((social) => (
-                        <Link 
-                            key={social.label}
-                            href={social.href} 
-                            target="_blank"
-                            className="p-2.5 text-muted-foreground hover:text-foreground transition-colors duration-200"
-                        >
-                            <social.icon size={18} />
-                        </Link>
-                    ))}
-                </div>
-            </motion.div>
-
-            {/* Scroll Indicator */}
-            <motion.div 
+          <div className="relative z-20 mt-3.5 w-full max-w-[16.5rem] min-h-[132px] min-[520px]:max-w-none">
+            {reduceMotion ? (
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 lg:hidden"
+                transition={{ delay: 0.16, duration: 0.45 }}
+                className="w-full max-w-[16.5rem] min-[520px]:max-w-none"
+              >
+                <SecurityJobCardPanel />
+              </motion.div>
+            ) : (
+              <motion.div
+                aria-hidden
+                className="pointer-events-none absolute left-0 top-0 w-full max-w-[16.5rem] min-[520px]:max-w-none min-[520px]:w-[min(13.5rem,34vw)] will-change-transform"
+                style={{
+                  x: jobCardX,
+                  y: jobCardY,
+                  rotate: jobCardRotate,
+                  opacity: jobCardOpacity,
+                  transformOrigin: "left top",
+                }}
+              >
+                <SecurityJobCardPanel interactive={false} />
+              </motion.div>
+            )}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.32, duration: 0.5 }}
+            className="mt-4 flex flex-wrap items-center gap-2.5 md:mt-5 md:gap-3"
+          >
+            <a
+              href="/Pradip-Bhatt-cv.pdf"
+              download="Pradip-Bhatt-cv.pdf"
+              data-cursor-pointer
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-primary px-5 py-2.5 font-researcher text-sm tracking-wide text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30"
             >
-                <motion.div
-                    animate={{ y: [0, 6, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="flex flex-col items-center gap-1.5 text-muted-foreground"
-                >
-                    <span className="text-[10px] uppercase tracking-widest">Scroll</span>
-                    <ArrowDown size={14} />
-                </motion.div>
-            </motion.div>
-        </section>
-    );
+              Download CV
+              <Download
+                size={16}
+                className="transition-transform group-hover:-translate-y-0.5"
+              />
+            </a>
+            <a
+              href="#projects"
+              data-cursor-pointer
+              className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 font-researcher text-sm tracking-wide text-foreground transition-all duration-300 hover:border-primary/50 hover:text-primary"
+            >
+              View Projects
+              <ArrowDown size={14} />
+            </a>
+          </motion.div>
+
+          {terminalUsesRightRail ? (
+            <div className="mt-2 lg:hidden">
+              <HeroPortraitDeck
+                variant="under-cta"
+                reduceMotion={reduceMotion}
+                socialLinks={socialLinks}
+              />
+            </div>
+          ) : null}
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="mt-3 flex flex-wrap gap-1.5 border-t border-white/[0.08] pt-3 md:mt-3.5 md:gap-2 md:pt-3.5"
+            style={{
+              fontFamily: "var(--font-mono-terminal), ui-monospace, monospace",
+            }}
+          >
+            {[
+              { k: "3+", v: "yrs" },
+              { k: "20+", v: "projects" },
+              { k: "CompTIA", v: "Security+" },
+            ].map((item) => (
+              <span
+                key={item.k}
+                className="inline-flex items-baseline gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] text-muted-foreground md:text-xs"
+              >
+                <span className="font-medium text-foreground">{item.k}</span>
+                <span>{item.v}</span>
+              </span>
+            ))}
+          </motion.div>
+          </div>
+
+          {terminalUsesRightRail ? (
+            <div className="hidden lg:sticky lg:top-[max(4.5rem,12vh)] lg:col-start-2 lg:row-start-1 lg:block lg:self-start lg:pt-0">
+              <div className="relative">
+                <div
+                  className="pointer-events-none absolute -inset-4 rounded-[1.75rem] bg-gradient-to-b from-[#00d97e]/[0.08] via-transparent to-transparent blur-2xl"
+                  aria-hidden
+                />
+                <HeroPortraitDeck
+                  variant="right-rail"
+                  reduceMotion={reduceMotion}
+                  socialLinks={socialLinks}
+                />
+              </div>
+            </div>
+          ) : null}
+
+          {!terminalUsesRightRail ? (
+            <div className="mx-auto flex w-full max-w-[280px] shrink-0 flex-col overflow-visible pt-3 sm:mx-auto lg:sticky lg:top-[5.5rem] lg:mx-0 lg:max-w-[min(100%,280px)] lg:self-start lg:pt-1">
+              <HeroPortraitDeck
+                variant="right-rail"
+                reduceMotion={reduceMotion}
+                socialLinks={socialLinks}
+              />
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <HeroTerminal />
+
+      <motion.div
+        initial={{ opacity: 0, x: 12 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.8, duration: 0.5 }}
+        className="fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center lg:flex"
+      >
+        <div className="flex flex-col items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-3 backdrop-blur-sm">
+          {socialLinks.map((social) => (
+            <Link
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor-pointer
+              className="group relative p-2.5 text-muted-foreground transition-colors duration-200 hover:text-foreground"
+            >
+              <social.icon size={18} />
+              <span className="pointer-events-none absolute right-full top-1/2 mr-2.5 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded-md bg-primary px-2 py-1 text-[10px] text-primary-foreground opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+                {social.label}
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-2 h-4 w-px bg-white/[0.1]" />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9 }}
+        className="absolute bottom-6 left-0 right-0 z-30 flex justify-center lg:hidden"
+      >
+        <div className="flex items-center gap-1 rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-2 backdrop-blur-sm">
+          {socialLinks.map((social) => (
+            <Link
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor-pointer
+              className="p-2.5 text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <social.icon size={18} />
+            </Link>
+          ))}
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 text-muted-foreground lg:hidden"
+      >
+        <span className="text-[10px] uppercase tracking-widest">Scroll</span>
+        <ArrowDown size={14} />
+      </motion.div>
+    </section>
+  );
 }

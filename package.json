@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/lib/terminalCommands.test.ts",
+    "test:watch": "tsx --test --watch src/lib/terminalCommands.test.ts",
+    "install:verbose": "NODE_OPTIONS=--dns-result-order=ipv4first npm install --no-audit --no-fund --loglevel=verbose",
+    "install:safe": "mkdir -p $HOME/.npm-tmp-portfolio $HOME/.npm-cache-portfolio 2>/dev/null; echo 'install:safe (ipv4-first DNS + TMPDIR/cache under HOME)…'; NODE_OPTIONS=--dns-result-order=ipv4first TMPDIR=$HOME/.npm-tmp-portfolio npm_config_cache=$HOME/.npm-cache-portfolio npm install --no-audit --no-fund --loglevel=http --progress=true"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -29,10 +34,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/stats.js": "^0.17.4",
     "eslint": "^9",
-    "eslint-config-next": "16.0.4",
+    "eslint-config-next": "16.0.10",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "vercel": "^50.18.2"
+    "tsx": "^4.19.3",
+    "typescript": "^5"
   }
 }

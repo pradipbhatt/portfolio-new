@@ -28,7 +28,7 @@ export default async function AppleIcon() {
         'Cache-Control': 'public, max-age=3600, s-maxage=3600', // Cache for 1 hour
       },
     });
-  } catch (error) {
+  } catch {
     // Fallback to a simple colored square if GitHub fetch fails
     return new ImageResponse(
       (

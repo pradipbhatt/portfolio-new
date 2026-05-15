@@ -101,7 +101,6 @@ export default function GPAVisualization() {
                                     {gpaData.map((data, index) => {
                                         const totalBars = gpaData.length;
                                         const barWidth = 100 / totalBars; // percentage width for each bar
-                                        const leftPosition = (index / totalBars) * 100 + barWidth / 2; // center of each bar
                                         const height = ((data.gpa - minGPA) / (maxGPA - minGPA)) * 100;
                                         const delay = index * 0.1;
 

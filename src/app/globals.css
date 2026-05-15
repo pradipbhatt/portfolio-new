@@ -15,6 +15,7 @@
   --font-researcher: 'Researcher', var(--font-orbitron);
   --font-display: 'Researcher', sans-serif;
   --font-body: var(--font-rajdhani);
+  --font-hacker: var(--font-share-tech-mono), ui-monospace, monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -186,6 +187,33 @@ h1, h2, h3, h4, h5, h6 {
   border-color: rgba(0, 0, 0, 0.1);
 }
 
+/* Hero SecurityPal card — slow liquid sheen (respects reduced motion below) */
+@keyframes security-card-liquid-sheen {
+  0% {
+    transform: translateX(-125%) skewX(-14deg);
+    opacity: 0.12;
+  }
+  45% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateX(185%) skewX(-14deg);
+    opacity: 0.1;
+  }
+}
+
+.security-job-card-liquid-sheen {
+  animation: security-card-liquid-sheen 12s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .security-job-card-liquid-sheen {
+    animation: none;
+    transform: translateX(-15%) skewX(-14deg);
+    opacity: 0.22;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -203,13 +231,38 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--accent);
 }
 
-.light body {
-  background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-}
-
 ::selection {
   background: var(--primary);
   color: var(--primary-foreground);
+}
+
+body.use-custom-cursor * {
+  cursor: none !important;
+}
+
+body.use-custom-cursor *:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* Terminal prompt line: no focus ring (global rule above has higher specificity otherwise). */
+[data-terminal-prompt-input]:focus,
+[data-terminal-prompt-input]:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+}
+
+.hero-terminal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.hero-terminal-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.hero-terminal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
 }

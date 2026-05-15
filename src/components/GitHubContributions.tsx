@@ -59,7 +59,6 @@ export default function GitHubContributions() {
 
   useEffect(() => {
     const controller = new AbortController();
-    setIsLoading(true);
 
     fetch(`https://api.github.com/users/${username}`, { signal: controller.signal })
       .then((res) => res.json())
@@ -245,6 +244,8 @@ export default function GitHubContributions() {
                 className="block"
                 aria-label="Open GitHub profile"
               >
+                {/* External chart SVG; next/image adds little value here */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`https://ghchart.rshah.org/C15928/${username}`}
                   alt="GitHub Contribution Graph"

@@ -21,15 +21,17 @@ export default function ThemeColorSwitcher() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const root = document.documentElement;
-    const stored =
-      (localStorage.getItem(STORAGE_KEY) as ColorThemeId | null) ?? "default";
-    setActiveTheme(stored);
-    if (stored === "default") {
-      root.removeAttribute("data-color-theme");
-    } else {
-      root.setAttribute("data-color-theme", stored);
-    }
+    queueMicrotask(() => {
+      const root = document.documentElement;
+      const stored =
+        (localStorage.getItem(STORAGE_KEY) as ColorThemeId | null) ?? "default";
+      setActiveTheme(stored);
+      if (stored === "default") {
+        root.removeAttribute("data-color-theme");
+      } else {
+        root.setAttribute("data-color-theme", stored);
+      }
+    });
   }, []);
 
   const handleChangeTheme = (id: ColorThemeId) => {
@@ -46,34 +48,29 @@ export default function ThemeColorSwitcher() {
   };
 
   return (
-    <div className="fixed bottom-6 right-4 z-40 flex flex-col items-end gap-2 text-xs">
-      <div className="px-3 py-1 rounded-full bg-background/80 border border-border/60 backdrop-blur-sm text-muted-foreground hidden sm:inline-flex">
-        Theme color
-      </div>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="flex items-center gap-2 px-2.5 py-2 rounded-full bg-background/90 border border-border/70 backdrop-blur-sm shadow-lg"
-      >
-        {themes.map((theme) => (
-          <button
-            key={theme.id}
-            type="button"
-            onClick={() => handleChangeTheme(theme.id)}
-            className="relative h-7 w-7 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-transform hover:scale-105"
-            aria-label={theme.label}
-          >
-            <span
-              className={`h-4 w-4 rounded-full ${theme.previewClass} border border-white/40`}
-            />
-            {activeTheme === theme.id && (
-              <span className="absolute inset-0 rounded-full border border-primary/70" />
-            )}
-          </button>
-        ))}
-      </motion.div>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed bottom-6 right-4 z-40 flex items-center gap-2 px-2.5 py-2 text-xs rounded-full bg-background/90 border border-border/70 backdrop-blur-sm shadow-lg"
+    >
+      {themes.map((theme) => (
+        <button
+          key={theme.id}
+          type="button"
+          onClick={() => handleChangeTheme(theme.id)}
+          className="relative h-7 w-7 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-transform hover:scale-105"
+          aria-label={theme.label}
+        >
+          <span
+            className={`h-4 w-4 rounded-full ${theme.previewClass} border border-white/40`}
+          />
+          {activeTheme === theme.id && (
+            <span className="absolute inset-0 rounded-full border border-primary/70" />
+          )}
+        </button>
+      ))}
+    </motion.div>
   );
 }
 

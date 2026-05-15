@@ -13,7 +13,7 @@ const navItems = [
     { name: "Projects", href: "#projects" },
     { name: "Resume", href: "/resume" },
     { name: "Awards", href: "#awards" },
-    { name: "Arts", href: "#arts" },
+    // { name: "Arts", href: "#arts" },
     { name: "Community", href: "#community" },
 ];
 
@@ -32,6 +32,7 @@ export default function Navbar() {
 
     return (
         <nav
+            id="site-navbar"
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
                 scrolled ? "glass py-2 border-none" : "bg-transparent py-3"
@@ -85,7 +86,7 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden absolute top-full left-0 right-0 glass border-t border-white/10 p-6 flex flex-col gap-4 animate-in slide-in-from-top-5">
+                <div className="md:hidden absolute top-full left-0 right-0 z-[60] glass border-t border-white/10 p-6 flex flex-col gap-4 animate-in slide-in-from-top-5">
                     {navItems.map((item) => (
                         <Link
                             key={item.name}

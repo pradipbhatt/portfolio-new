@@ -1,5 +1,5 @@
 import About from "@/components/About";
-import ArtGallery from "@/components/ArtGallery";
+// import ArtGallery from "@/components/ArtGallery";
 import Awards from "@/components/Awards";
 import Community from "@/components/Community";
 import Contact from "@/components/Contact";
@@ -14,16 +14,18 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <About />
-      <GPAVisualization />
-      <Skills />
-      <Projects />
-      <Awards />
-      <ArtGallery />
-      <Community />
-      <GitHubContributions />
-      <Contact />
-      <ThemeColorSwitcher />
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
+        <About />
+        <GPAVisualization />
+        <Skills />
+        <Projects />
+        <Awards />
+        {/* <ArtGallery /> */}
+        <Community />
+        <GitHubContributions />
+        <Contact />
+        <ThemeColorSwitcher />
+      </div>
     </>
   );
 }

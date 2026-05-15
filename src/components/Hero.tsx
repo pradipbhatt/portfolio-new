@@ -2,11 +2,7 @@
 
 import HeroTerminal from "@/components/hero/HeroTerminal";
 import { HeroPortraitDeck } from "@/components/hero/HeroPortraitDeck";
-import {
-  readHeroTerminalShellLayout,
-  subscribeHeroTerminalShellLayout,
-} from "@/lib/heroTerminalShellLayout";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
 import {
   Download,
   ArrowDown,
@@ -15,7 +11,6 @@ import {
   Instagram,
   Facebook,
 } from "lucide-react";
-import Link from "next/link";
 import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { SecurityJobCardPanel } from "@/components/SecurityJobCardPanel";
@@ -87,14 +82,6 @@ export default function Hero() {
     reducedMotionSnapshot,
     () => false
   );
-  const terminalShell = useSyncExternalStore(
-    subscribeHeroTerminalShellLayout,
-    readHeroTerminalShellLayout,
-    () => "normal" as const
-  );
-  const terminalUsesRightRail =
-    terminalShell === "normal" || terminalShell === "maximized";
-
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -157,21 +144,8 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col">
-        <div
-          className={cn(
-            "w-full min-w-0 max-w-full",
-            terminalUsesRightRail &&
-              "grid grid-cols-1 gap-y-3 lg:grid-cols-[minmax(0,28rem)_minmax(240px,18.25rem)] lg:items-start lg:justify-center lg:gap-x-8 lg:gap-y-0 xl:gap-x-12",
-            !terminalUsesRightRail &&
-              "lg:flex lg:flex-row lg:items-start lg:justify-center lg:gap-12 xl:gap-16",
-          )}
-        >
-          <div
-            className={cn(
-              "flex min-w-0 flex-1 flex-col pl-6 sm:pl-8 md:pl-12 lg:pl-14 xl:pl-16",
-              terminalUsesRightRail && "lg:max-w-[28rem]"
-            )}
-          >
+        <div className="flex w-full min-w-0 max-w-full flex-col lg:flex-row lg:items-start lg:justify-center lg:gap-12 xl:gap-16">
+          <div className="flex min-w-0 flex-1 flex-col pl-6 sm:pl-8 md:pl-12 lg:pl-14 xl:pl-16">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -209,10 +183,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.12, duration: 0.45 }}
-            className={cn(
-              "mt-2 max-w-2xl text-[13px] leading-snug text-muted-foreground md:mt-3 md:text-sm md:leading-relaxed",
-              !terminalUsesRightRail && "lg:pr-1"
-            )}
+            className="mt-2 max-w-2xl text-[13px] leading-snug text-muted-foreground md:mt-3 md:text-sm md:leading-relaxed lg:pr-1"
           >
             I blend offensive-minded research with pragmatic engineering: vulnerability discovery,
             threat context, and shipping resilient interfaces and SDLC automation.
@@ -273,16 +244,6 @@ export default function Hero() {
             </a>
           </motion.div>
 
-          {terminalUsesRightRail ? (
-            <div className="mt-2 lg:hidden">
-              <HeroPortraitDeck
-                variant="under-cta"
-                reduceMotion={reduceMotion}
-                socialLinks={socialLinks}
-              />
-            </div>
-          ) : null}
-
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -308,31 +269,13 @@ export default function Hero() {
           </motion.div>
           </div>
 
-          {terminalUsesRightRail ? (
-            <div className="hidden lg:sticky lg:top-[max(4.5rem,12vh)] lg:col-start-2 lg:row-start-1 lg:block lg:self-start lg:pt-0">
-              <div className="relative">
-                <div
-                  className="pointer-events-none absolute -inset-4 rounded-[1.75rem] bg-gradient-to-b from-[#00d97e]/[0.08] via-transparent to-transparent blur-2xl"
-                  aria-hidden
-                />
-                <HeroPortraitDeck
-                  variant="right-rail"
-                  reduceMotion={reduceMotion}
-                  socialLinks={socialLinks}
-                />
-              </div>
-            </div>
-          ) : null}
-
-          {!terminalUsesRightRail ? (
-            <div className="mx-auto flex w-full max-w-[280px] shrink-0 flex-col overflow-visible pt-3 sm:mx-auto lg:sticky lg:top-[5.5rem] lg:mx-0 lg:max-w-[min(100%,280px)] lg:self-start lg:pt-1">
-              <HeroPortraitDeck
-                variant="right-rail"
-                reduceMotion={reduceMotion}
-                socialLinks={socialLinks}
-              />
-            </div>
-          ) : null}
+          <div className="mx-auto flex w-full max-w-[280px] shrink-0 flex-col overflow-visible pt-3 sm:mx-auto lg:sticky lg:top-[5.5rem] lg:mx-0 lg:max-w-[min(100%,280px)] lg:self-start lg:pt-1">
+            <HeroPortraitDeck
+              variant="right-rail"
+              reduceMotion={reduceMotion}
+              socialLinks={socialLinks}
+            />
+          </div>
         </div>
       </div>
 

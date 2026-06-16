@@ -189,15 +189,15 @@ function HoverLetters({ text, activeColor = "hover:text-primary" }: { text: stri
     );
 }
 
+const categoryIcons = {
+    "Frontend": Code2,
+    "Backend": Database,
+    "AI/ML": Brain,
+    "Tools": Sparkles,
+} as const;
+
 export default function Skills() {
     const [activeTab, setActiveTab] = useState<keyof typeof skillCategories>("Frontend");
-
-    const categoryIcons = {
-        "Frontend": Code2,
-        "Backend": Database,
-        "AI/ML": Brain,
-        "Tools": Sparkles,
-    };
 
     return (
         <section id="skills" className="py-6 relative overflow-hidden">

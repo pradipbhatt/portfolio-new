@@ -14,7 +14,7 @@ export default function Contact() {
 
     // Initialize EmailJS
     useEffect(() => {
-        emailjs.init('FWwwe2jCb33Md84nB');
+        emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!);
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -26,10 +26,13 @@ export default function Contact() {
 
         try {
             if (!formRef.current) {
+                setLoading(false);
                 return;
             }
 
-            const TEMPLATE_ID = 'template_iv8khtq';
+            const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+            const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+            const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
 
             // Get form data
             const formData = new FormData(formRef.current);
@@ -49,10 +52,10 @@ export default function Contact() {
             };
 
             await emailjs.send(
-                'service_q6mey2b',
+                SERVICE_ID,
                 TEMPLATE_ID,
                 templateParams,
-                'FWwwe2jCb33Md84nB'
+                PUBLIC_KEY
             );
 
             setSuccess(true);

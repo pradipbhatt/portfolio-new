@@ -1,6 +1,5 @@
 import { ThemeProvider } from "@/lib/ThemeProvider";
 import ClientAppShell from "@/components/ClientAppShell";
-import CustomCursor from "@/components/CustomCursor";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Analytics } from "@vercel/analytics/react";
@@ -91,7 +90,6 @@ if(typeof MutationObserver!=="undefined"){
         </Script>
         <ThemeProvider>
           <ClientAppShell>
-            <CustomCursor />
             <Navbar />
             <main className="min-h-screen w-full">{children}</main>
             <Footer />

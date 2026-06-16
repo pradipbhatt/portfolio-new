@@ -68,6 +68,7 @@ export default function About() {
                                 src="/assets/me formal.png"
                                 alt={aboutContent.name}
                                 fill
+                                sizes="(max-width: 768px) 240px, 280px"
                                 className="object-cover"
                                 priority
                             />

@@ -76,8 +76,10 @@ export default function Navbar() {
                         {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
                     </button>
                     <button
-                        className="text-foreground"
+                        className="p-2 text-foreground rounded-md hover:bg-white/10 transition-colors"
                         onClick={() => setIsOpen(!isOpen)}
+                        aria-label={isOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={isOpen}
                     >
                         {isOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>

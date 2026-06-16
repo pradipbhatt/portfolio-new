@@ -2,6 +2,7 @@
 
 import HeroTerminal from "@/components/hero/HeroTerminal";
 import { HeroPortraitDeck } from "@/components/hero/HeroPortraitDeck";
+import HeroThreeScene, { type NodeHoverData } from "@/components/hero/HeroThreeScene";
 import Link from "next/link";
 import {
   Download,
@@ -11,9 +12,15 @@ import {
   Instagram,
   Facebook,
 } from "lucide-react";
-import { useCallback, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { SecurityJobCardPanel } from "@/components/SecurityJobCardPanel";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 function subscribeReducedMotion(onStoreChange: () => void) {
   if (typeof window === "undefined") return () => {};
@@ -36,7 +43,7 @@ const socialLinks = [
 
 function HoverLetters({
   text,
-  activeColor = "hover:text-primary",
+  activeColor = "hover:text-[#00ff9d]",
 }: {
   text: string;
   activeColor?: string;
@@ -74,9 +81,84 @@ function HoverGradientLetters({ text }: { text: string }) {
   );
 }
 
+/* ─── Node tooltip ────────────────────────────────────────────────────── */
+function NodeTooltip({ data }: { data: NodeHoverData | null }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const visibleRef = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (data) {
+      el.style.left = `${data.screenX}px`;
+      el.style.top  = `${data.screenY}px`;
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        gsap.fromTo(el,
+          { opacity: 0, scale: 0.88, y: 10 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.2, ease: "power2.out" }
+        );
+      }
+    } else if (visibleRef.current) {
+      visibleRef.current = false;
+      gsap.to(el, { opacity: 0, scale: 0.92, y: 6, duration: 0.15, ease: "power2.in" });
+    }
+  }, [data]);
+
+  /* keep rendered so GSAP can always target the DOM node */
+  return (
+    <div
+      ref={ref}
+      className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-[calc(100%+14px)]"
+      style={{ opacity: 0 }}
+    >
+      {data && (
+        <div
+          className="min-w-[160px] max-w-[220px] rounded border px-3.5 py-2.5 backdrop-blur-md"
+          style={{
+            borderColor: `${data.cssColor}40`,
+            background: `rgba(5,8,15,0.88)`,
+            boxShadow: `0 0 18px ${data.cssColor}22, inset 0 0 0 1px ${data.cssColor}18`,
+          }}
+        >
+          {/* Header */}
+          <div className="mb-2 flex items-center gap-2">
+            <span className="text-base leading-none">{data.icon}</span>
+            <span
+              className="text-[11px] font-semibold tracking-[0.18em] uppercase"
+              style={{ color: data.cssColor, fontFamily: "var(--font-mono-terminal)" }}
+            >
+              {data.label}
+            </span>
+          </div>
+          {/* Detail lines */}
+          <ul className="space-y-0.5">
+            {data.detail.map((line, i) => (
+              <li
+                key={i}
+                className="flex items-start gap-1.5 text-[10px] text-[#a0b8b0]"
+                style={{ fontFamily: "var(--font-mono-terminal)" }}
+              >
+                <span style={{ color: `${data.cssColor}90` }} className="mt-px shrink-0">›</span>
+                {line}
+              </li>
+            ))}
+          </ul>
+          {/* Arrow */}
+          <div
+            className="absolute left-1/2 top-full -translate-x-1/2 border-x-4 border-t-4 border-x-transparent"
+            style={{ borderTopColor: `${data.cssColor}40` }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const [radar, setRadar] = useState({ x: "50%", y: "50%" });
+  const [hoveredNode, setHoveredNode] = useState<NodeHoverData | null>(null);
   const reduceMotion = useSyncExternalStore(
     subscribeReducedMotion,
     reducedMotionSnapshot,
@@ -110,233 +192,313 @@ export default function Hero() {
     setRadar({ x: `${x}%`, y: `${y}%` });
   }, [reduceMotion]);
 
+  const portraitWrapRef = useRef<HTMLDivElement>(null);
+  const textColRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  /* GSAP entrance — clean staggered reveal */
+  useEffect(() => {
+    if (reduceMotion) return;
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      if (nameRef.current) {
+        tl.from(nameRef.current, { y: 40, opacity: 0, duration: 0.8 }, 0.3);
+      }
+      if (badgeRef.current) {
+        tl.from(badgeRef.current, { y: 16, opacity: 0, duration: 0.5 }, 0.7);
+      }
+      if (ctaRef.current) {
+        tl.from(ctaRef.current.children, { y: 16, opacity: 0, stagger: 0.1, duration: 0.5 }, 0.9);
+      }
+    });
+    return () => ctx.revert();
+  }, [reduceMotion]);
+
+  /* GSAP portrait 3D tilt on mouse move */
+  useEffect(() => {
+    if (reduceMotion) return;
+    const el = portraitWrapRef.current;
+    if (!el) return;
+    const onMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const rx = ((e.clientY - cy) / (r.height / 2)) * -12;
+      const ry = ((e.clientX - cx) / (r.width / 2)) * 12;
+      gsap.to(el, { rotateX: rx, rotateY: ry, duration: 0.45, ease: "power2.out", transformPerspective: 900 });
+    };
+    const onLeave = () => {
+      gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.7, ease: "elastic.out(1,0.6)" });
+    };
+    window.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, [reduceMotion]);
+
+  /* GSAP scroll parallax on text column */
+  useEffect(() => {
+    if (reduceMotion) return;
+    const el = textColRef.current;
+    if (!el) return;
+    const ctx = gsap.context(() => {
+      gsap.to(el, {
+        y: -60,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.2,
+        },
+      });
+    });
+    return () => ctx.revert();
+  }, [reduceMotion]);
+
   return (
     <section
       ref={sectionRef}
       id="home"
       aria-label="Introduction, biography, and interactive terminal"
       onMouseMove={onMouseMove}
-      className="relative min-h-[100dvh] w-full overflow-x-clip overflow-y-visible bg-background px-5 pb-5 pt-12 sm:px-6 md:px-10 md:pb-7 md:pt-16 lg:px-16 lg:pt-[4.5rem] xl:px-20 2xl:px-24"
-      style={
-        {
-          ["--rx" as string]: radar.x,
-          ["--ry" as string]: radar.y,
-        } as React.CSSProperties
-      }
+      className="relative w-full overflow-x-clip overflow-y-visible bg-[#05080f] px-5 pb-14 pt-12 sm:px-6 md:px-10 md:pb-16 md:pt-16 lg:px-16 lg:pt-[4.5rem] xl:px-20 2xl:px-24"
+      style={{ ["--rx" as string]: radar.x, ["--ry" as string]: radar.y } as React.CSSProperties}
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.08]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.35) 1px, transparent 0)",
-          backgroundSize: "28px 28px",
-        }}
-      />
-      <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-500"
-        style={{
-          background: reduceMotion
-            ? undefined
-            : `radial-gradient(520px at var(--rx) var(--ry), rgba(0,217,126,0.12), transparent 65%)`,
-          opacity: reduceMotion ? 0 : 1,
-        }}
-      />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
+      {/* ── Three.js scene ── */}
+      <HeroThreeScene reduceMotion={reduceMotion} onHover={setHoveredNode} />
 
+      {/* ── Node tooltip ── */}
+      <NodeTooltip data={hoveredNode} />
+
+      {/* ── Depth fades ── */}
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#0a0f0d]/80 via-transparent to-[#0a0f0d]/95" />
+      {/* left vignette — keeps text readable */}
+      <div className="pointer-events-none absolute inset-0 z-[1]" style={{ background: "radial-gradient(ellipse 70% 100% at 30% 50%, transparent 30%, rgba(10,15,13,0.55) 100%)" }} />
+
+      {/* ── Main content ── */}
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col">
         <div className="flex w-full min-w-0 max-w-full flex-col lg:flex-row lg:items-start lg:justify-center lg:gap-12 xl:gap-16">
-          <div className="flex min-w-0 flex-1 flex-col pl-6 sm:pl-8 md:pl-12 lg:pl-14 xl:pl-16">
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.05, duration: 0.45 }}
-            className="mb-1.5 text-sm text-muted-foreground"
-          >
-            Hi, I&apos;m
-          </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08, duration: 0.5 }}
-            className="font-hacker font-bold leading-[0.92] tracking-[0.04em] text-foreground"
-          >
-            <h1 className="text-[clamp(2rem,6.5vw,3.25rem)] lg:text-[clamp(2.75rem,4.8vw,3.85rem)]">
-              {reduceMotion ? (
-                "Pradip"
-              ) : (
-                <HoverLetters text="Pradip" activeColor="hover:text-primary" />
-              )}
-            </h1>
-            <h1 className="text-[clamp(2rem,6.5vw,3.25rem)] lg:text-[clamp(2.75rem,4.8vw,3.85rem)]">
-              {reduceMotion ? (
-                <span className="bg-gradient-to-r from-primary via-primary to-orange-400/90 bg-clip-text text-transparent">
-                  Bhatt
-                </span>
-              ) : (
-                <HoverGradientLetters text="Bhatt" />
-              )}
-            </h1>
-          </motion.div>
+          {/* ── Left: text content ── */}
+          <div ref={textColRef} className="flex min-w-0 flex-1 flex-col pl-2 sm:pl-4 md:pl-6 lg:pl-8 xl:pl-10">
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.12, duration: 0.45 }}
-            className="mt-2 max-w-2xl text-[13px] leading-snug text-muted-foreground md:mt-3 md:text-sm md:leading-relaxed lg:pr-1"
-          >
-            I blend offensive-minded research with pragmatic engineering: vulnerability discovery,
-            threat context, and shipping resilient interfaces and SDLC automation.
-          </motion.p>
-
-          <div className="relative z-20 mt-3.5 w-full max-w-[16.5rem] min-h-[132px] min-[520px]:max-w-none">
-            {reduceMotion ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.16, duration: 0.45 }}
-                className="w-full max-w-[16.5rem] min-[520px]:max-w-none"
-              >
-                <SecurityJobCardPanel />
-              </motion.div>
-            ) : (
-              <motion.div
-                aria-hidden
-                className="pointer-events-none absolute left-0 top-0 w-full max-w-[16.5rem] min-[520px]:max-w-none min-[520px]:w-[min(13.5rem,34vw)] will-change-transform"
-                style={{
-                  x: jobCardX,
-                  y: jobCardY,
-                  rotate: jobCardRotate,
-                  opacity: jobCardOpacity,
-                  transformOrigin: "left top",
-                }}
-              >
-                <SecurityJobCardPanel interactive={false} />
-              </motion.div>
-            )}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.32, duration: 0.5 }}
-            className="mt-4 flex flex-wrap items-center gap-2.5 md:mt-5 md:gap-3"
-          >
-            <a
-              href="/Pradip-Bhatt-cv.pdf"
-              download="Pradip-Bhatt-cv.pdf"
-              data-cursor-pointer
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-primary px-5 py-2.5 font-researcher text-sm tracking-wide text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30"
+            {/* Anime intro tag */}
+            <motion.div
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.05, duration: 0.4 }}
+              className="mb-3 flex items-center gap-2"
             >
-              Download CV
-              <Download
-                size={16}
-                className="transition-transform group-hover:-translate-y-0.5"
-              />
-            </a>
-            <a
-              href="#projects"
-              data-cursor-pointer
-              className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 font-researcher text-sm tracking-wide text-foreground transition-all duration-300 hover:border-primary/50 hover:text-primary"
-            >
-              View Projects
-              <ArrowDown size={14} />
-            </a>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="mt-3 flex flex-wrap gap-1.5 border-t border-white/[0.08] pt-3 md:mt-3.5 md:gap-2 md:pt-3.5"
-            style={{
-              fontFamily: "var(--font-mono-terminal), ui-monospace, monospace",
-            }}
-          >
-            {[
-              { k: "3+", v: "yrs" },
-              { k: "20+", v: "projects" },
-              { k: "CompTIA", v: "Security+" },
-            ].map((item) => (
+              <div className="h-px w-8 bg-gradient-to-r from-transparent to-[#00ff9d]/60" />
               <span
-                key={item.k}
-                className="inline-flex items-baseline gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] text-muted-foreground md:text-xs"
+                className="text-[11px] uppercase tracking-[0.25em] text-[#00ff9d]/70"
+                style={{ fontFamily: "var(--font-mono-terminal), monospace" }}
               >
-                <span className="font-medium text-foreground">{item.k}</span>
-                <span>{item.v}</span>
+                Hi, I&apos;m
               </span>
-            ))}
-          </motion.div>
+            </motion.div>
+
+            {/* Name */}
+            <div ref={nameRef} className="font-hacker font-bold leading-[0.9] tracking-tight text-foreground">
+              <h1 className="text-[clamp(2.8rem,7.5vw,5rem)] lg:text-[clamp(3.2rem,5.5vw,5rem)]">
+                Pradip
+              </h1>
+              <h1 className="text-[clamp(2.8rem,7.5vw,5rem)] lg:text-[clamp(3.2rem,5.5vw,5rem)] bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">
+                Bhatt
+              </h1>
+            </div>
+
+            {/* Subtle role label */}
+            <div ref={badgeRef} className="mt-3 flex items-center gap-2.5">
+              <div className="h-px w-6 bg-[#00ff9d]/50" />
+              <span className="text-[11px] tracking-[0.22em] text-[#00ff9d]/70 uppercase" style={{ fontFamily: "var(--font-mono-terminal)" }}>
+                Security Researcher
+              </span>
+              <span className="text-[11px] text-[#00ccff]/50 animate-pulse" style={{ fontFamily: "var(--font-mono-terminal)" }}>▮</span>
+            </div>
+
+            {/* Bio */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.18, duration: 0.45 }}
+              className="mt-3 max-w-xl text-[13px] leading-relaxed text-muted-foreground md:text-sm lg:pr-1"
+            >
+              I blend offensive-minded research with pragmatic engineering: vulnerability discovery,
+              threat context, and shipping resilient interfaces and SDLC automation.
+            </motion.p>
+
+            {/* Job card */}
+            <div className="relative z-20 mt-4 w-full max-w-[16.5rem] min-h-[132px] min-[520px]:max-w-none">
+              {reduceMotion ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.22, duration: 0.45 }}
+                  className="w-full max-w-[16.5rem] min-[520px]:max-w-none"
+                >
+                  <SecurityJobCardPanel />
+                </motion.div>
+              ) : (
+                <motion.div
+                  aria-hidden
+                  className="pointer-events-none absolute left-0 top-0 w-full max-w-[16.5rem] min-[520px]:max-w-none min-[520px]:w-[min(13.5rem,34vw)] will-change-transform"
+                  style={{
+                    x: jobCardX,
+                    y: jobCardY,
+                    rotate: jobCardRotate,
+                    opacity: jobCardOpacity,
+                    transformOrigin: "left top",
+                  }}
+                >
+                  <SecurityJobCardPanel interactive={false} />
+                </motion.div>
+              )}
+            </div>
+
+            {/* CTA buttons */}
+            <motion.div
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.34, duration: 0.5 }}
+              ref={ctaRef}
+              className="mt-5 flex flex-wrap items-center gap-3"
+            >
+              <a
+                href="/assets/CV Pradip.pdf"
+                download="Pradip_Bhatt_CV.pdf"
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-primary px-5 py-2.5 font-researcher text-sm tracking-wide text-primary-foreground transition-all duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-primary/40"
+              >
+                {/* Anime shine sweep */}
+                <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-white/20 transition-transform duration-500 group-hover:translate-x-[120%]" aria-hidden />
+                Download CV
+                <Download size={15} className="transition-transform group-hover:-translate-y-0.5" />
+              </a>
+              <a
+                href="#projects"
+                className="group inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/[0.05] px-5 py-2.5 font-researcher text-sm tracking-wide text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/10 hover:text-[#00ff9d]"
+              >
+                View Projects
+                <ArrowDown size={14} className="transition-transform group-hover:translate-y-0.5" />
+              </a>
+            </motion.div>
+
+            {/* Stats pills */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.52, duration: 0.5 }}
+              className="mt-4 flex flex-wrap gap-2 border-t border-[#00ff9d]/10 pt-4"
+              style={{ fontFamily: "var(--font-mono-terminal), ui-monospace, monospace" }}
+            >
+              {[
+                { k: "3+", v: "yrs" },
+                { k: "20+", v: "projects" },
+                { k: "CompTIA", v: "Security+" },
+              ].map((item) => (
+                <span
+                  key={item.k}
+                  className="inline-flex items-baseline gap-1.5 rounded-sm border border-[#00ff9d]/20 bg-[#00ff9d]/[0.04] px-3 py-1 text-[11px] text-[#a0b8a8] transition-colors hover:border-[#00ff9d]/40 hover:bg-[#00ff9d]/[0.07] md:text-xs"
+                >
+                  <span className="font-semibold text-[#00ff9d]">{item.k}</span>
+                  <span>{item.v}</span>
+                </span>
+              ))}
+            </motion.div>
           </div>
 
-          <div className="mx-auto flex w-full max-w-[280px] shrink-0 flex-col overflow-visible pt-3 sm:mx-auto lg:sticky lg:top-[5.5rem] lg:mx-0 lg:max-w-[min(100%,280px)] lg:self-start lg:pt-1">
-            <HeroPortraitDeck
-              variant="right-rail"
-              reduceMotion={reduceMotion}
-              socialLinks={socialLinks}
-            />
+          {/* ── Right: portrait with anime frame ── */}
+          <div className="mx-auto mt-8 flex w-full max-w-[300px] shrink-0 flex-col overflow-visible lg:mx-0 lg:mt-0 lg:max-w-[300px] lg:sticky lg:top-[5.5rem] lg:self-start">
+
+
+            {/* Corner brackets — manga panel style */}
+            <div ref={portraitWrapRef} className="relative" style={{ transformStyle: "preserve-3d" }}>
+              {/* Top-left bracket */}
+              <div className="absolute -left-2 -top-2 z-20 h-5 w-5 border-l-2 border-t-2 border-[#00ff9d]/50" aria-hidden />
+              {/* Top-right bracket */}
+              <div className="absolute -right-2 -top-2 z-20 h-5 w-5 border-r-2 border-t-2 border-[#00ff9d]/50" aria-hidden />
+              {/* Bottom-left bracket */}
+              <div className="absolute -bottom-2 -left-2 z-20 h-5 w-5 border-b-2 border-l-2 border-[#00ff9d]/50" aria-hidden />
+              {/* Bottom-right bracket */}
+              <div className="absolute -bottom-2 -right-2 z-20 h-5 w-5 border-b-2 border-r-2 border-[#00ff9d]/50" aria-hidden />
+
+              <HeroPortraitDeck
+                variant="right-rail"
+                reduceMotion={reduceMotion}
+                socialLinks={socialLinks}
+              />
+            </div>
+
           </div>
         </div>
       </div>
 
       <HeroTerminal />
 
+      {/* Social rail — desktop */}
       <motion.div
         initial={{ opacity: 0, x: 12 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.8, duration: 0.5 }}
         className="fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center lg:flex"
       >
-        <div className="flex flex-col items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-3 backdrop-blur-sm">
+        <div className="flex flex-col items-center rounded-sm border border-[#00ff9d]/15 bg-[#05080f]/70 px-2 py-3 backdrop-blur-sm">
           {socialLinks.map((social) => (
             <Link
               key={social.label}
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              data-cursor-pointer
-              className="group relative p-2.5 text-muted-foreground transition-colors duration-200 hover:text-foreground"
+              className="group relative p-2.5 text-muted-foreground transition-colors duration-200 hover:text-[#00ff9d]"
             >
-              <social.icon size={18} />
-              <span className="pointer-events-none absolute right-full top-1/2 mr-2.5 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded-md bg-primary px-2 py-1 text-[10px] text-primary-foreground opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+              <social.icon size={17} />
+              <span className="pointer-events-none absolute right-full top-1/2 mr-2.5 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded border border-[#00ff9d]/30 bg-[#05080f]/95 px-2 py-0.5 text-[10px] text-[#00ff9d] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" style={{ fontFamily: "var(--font-mono-terminal)" }}>
                 {social.label}
               </span>
             </Link>
           ))}
         </div>
-        <div className="mt-2 h-4 w-px bg-white/[0.1]" />
+        <div className="mt-2 h-4 w-px bg-[#00ff9d]/20" />
       </motion.div>
 
+      {/* Social bar — mobile */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9 }}
-        className="absolute bottom-6 left-0 right-0 z-30 flex justify-center lg:hidden"
+        className="absolute bottom-5 left-0 right-0 z-30 flex justify-center lg:hidden"
       >
-        <div className="flex items-center gap-1 rounded-full border border-white/[0.06] bg-white/[0.03] px-3 py-2 backdrop-blur-sm">
+        <div className="flex items-center gap-1 rounded-sm border border-[#00ff9d]/15 bg-[#05080f]/70 px-3 py-2 backdrop-blur-sm">
           {socialLinks.map((social) => (
             <Link
               key={social.label}
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              data-cursor-pointer
-              className="p-2.5 text-muted-foreground transition-colors hover:text-foreground"
+              className="p-2 text-muted-foreground transition-colors hover:text-[#00ff9d]"
             >
-              <social.icon size={18} />
+              <social.icon size={17} />
             </Link>
           ))}
         </div>
       </motion.div>
 
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 text-muted-foreground lg:hidden"
+        className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 text-[#00ff9d]/40 lg:hidden"
+        style={{ fontFamily: "var(--font-mono-terminal)" }}
       >
-        <span className="text-[10px] uppercase tracking-widest">Scroll</span>
-        <ArrowDown size={14} />
+        <span className="text-[9px] uppercase tracking-widest">scroll</span>
+        <ArrowDown size={12} />
       </motion.div>
     </section>
   );

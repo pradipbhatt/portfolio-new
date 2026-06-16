@@ -11,7 +11,7 @@ import {
   Globe,
   CalendarDays,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface GitHubStats {
   publicRepos: number;
@@ -94,11 +94,21 @@ export default function GitHubContributions() {
     return () => controller.abort();
   }, [username]);
 
-  const fetchRepos = () => {
+  const reposAbortRef = useRef<AbortController | null>(null);
+
+  const fetchRepos = useCallback(() => {
+    // Cancel any in-flight request
+    reposAbortRef.current?.abort();
+    const controller = new AbortController();
+    reposAbortRef.current = controller;
+
     setIsReposLoading(true);
     setReposError(null);
 
-    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=50`)
+    fetch(
+      `https://api.github.com/users/${username}/repos?sort=updated&per_page=50`,
+      { signal: controller.signal }
+    )
       .then((res) => res.json())
       .then((data: GitHubRepo[]) => {
         if (!Array.isArray(data)) {
@@ -115,12 +125,21 @@ export default function GitHubContributions() {
 
         setRepos(sorted);
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err?.name === "AbortError") return;
         setReposError("Unable to load repositories right now.");
         setRepos(null);
       })
       .finally(() => setIsReposLoading(false));
-  };
+  }, [username]);
+
+  const handleCloseReposModal = useCallback(() => {
+    setShowReposModal(false);
+  }, []);
+
+  const handleCloseProfileModal = useCallback(() => {
+    setShowProfileModal(false);
+  }, []);
 
   const handleOpenReposModal = () => {
     setShowReposModal(true);
@@ -129,17 +148,20 @@ export default function GitHubContributions() {
     }
   };
 
-  const handleCloseReposModal = () => {
-    setShowReposModal(false);
-  };
-
   const handleOpenProfileModal = () => {
     setShowProfileModal(true);
   };
 
-  const handleCloseProfileModal = () => {
-    setShowProfileModal(false);
-  };
+  // Escape key closes whichever modal is open
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (showReposModal) handleCloseReposModal();
+      if (showProfileModal) handleCloseProfileModal();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [showReposModal, showProfileModal, handleCloseReposModal, handleCloseProfileModal]);
 
   const statCards = [
     {
@@ -250,6 +272,8 @@ export default function GitHubContributions() {
                   src={`https://ghchart.rshah.org/C15928/${username}`}
                   alt="GitHub Contribution Graph"
                   className="w-full min-w-[600px] rounded-lg"
+                  width={900}
+                  height={130}
                   loading="lazy"
                 />
               </a>
@@ -285,13 +309,17 @@ export default function GitHubContributions() {
 
       {/* Repositories Modal */}
       {showReposModal && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-background/80 backdrop-blur-sm px-4">
+        <div
+          className="fixed inset-0 z-40 flex items-center justify-center bg-background/80 backdrop-blur-sm px-4"
+          onClick={handleCloseReposModal}
+        >
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2 }}
             className="relative w-full max-w-4xl max-h-[80vh] rounded-2xl bg-background border border-primary/40 shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-secondary/60">
               <div>
@@ -417,13 +445,17 @@ export default function GitHubContributions() {
 
       {/* Profile Modal */}
       {showProfileModal && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-background/80 backdrop-blur-sm px-4">
+        <div
+          className="fixed inset-0 z-40 flex items-center justify-center bg-background/80 backdrop-blur-sm px-4"
+          onClick={handleCloseProfileModal}
+        >
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2 }}
             className="relative w-full max-w-xl rounded-2xl bg-background border border-primary/40 shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-secondary/60">
               <div>

@@ -46,6 +46,7 @@
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
+
 }
 
 /* Default (Dark) Theme */
@@ -128,12 +129,12 @@
 }
 
 body {
-  background-image: 
+  background-color: var(--background);
+  background-image:
     linear-gradient(rgba(193, 89, 40, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(193, 89, 40, 0.03) 1px, transparent 1px);
   background-size: 50px 50px;
   min-height: 100vh;
-  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
 }
@@ -234,15 +235,6 @@ h1, h2, h3, h4, h5, h6 {
 ::selection {
   background: var(--primary);
   color: var(--primary-foreground);
-}
-
-body.use-custom-cursor * {
-  cursor: none !important;
-}
-
-body.use-custom-cursor *:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 3px;
 }
 
 /* Terminal prompt line: no focus ring (global rule above has higher specificity otherwise). */

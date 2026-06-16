@@ -46,13 +46,28 @@ export default function ResumePage() {
                             <p className="text-muted-foreground">Pradip Bhatt - Full Stack Developer</p>
                         </div>
 
-                        {/* PDF Viewer */}
-                        <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm shadow-2xl">
+                        {/* PDF Viewer — hidden on mobile where iframes don't render PDFs */}
+                        <div className="hidden sm:block relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm shadow-2xl">
                             <iframe
                                 src="/assets/CV Pradip.pdf"
                                 className="w-full h-[calc(100vh-200px)] min-h-[600px]"
                                 title="Pradip Bhatt Resume"
                             />
+                        </div>
+
+                        {/* Mobile fallback — browsers on phones don't render PDF iframes */}
+                        <div className="sm:hidden flex flex-col items-center gap-6 py-12 px-4 rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm text-center">
+                            <p className="text-muted-foreground text-sm max-w-xs">
+                                PDF preview isn&apos;t supported on mobile browsers. Download the PDF to view it in your device&apos;s PDF reader.
+                            </p>
+                            <a
+                                href="/assets/CV Pradip.pdf"
+                                download="Pradip_Bhatt_Resume.pdf"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold transition-all duration-300 shadow-lg"
+                            >
+                                <Download className="w-5 h-5" />
+                                <span>Download Resume</span>
+                            </a>
                         </div>
 
                         {/* Download Section */}

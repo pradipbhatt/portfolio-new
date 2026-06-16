@@ -21,7 +21,7 @@ export function readHeroTerminalShellLayout(): HeroTerminalShellLayout {
   } catch {
     /* ignore */
   }
-  return "normal";
+  return "hidden";
 }
 
 const HERO_TERMINAL_SHELL_EVENT = "hero-terminal-shell-layout";

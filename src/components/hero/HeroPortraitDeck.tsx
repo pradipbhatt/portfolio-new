@@ -112,7 +112,7 @@ export function HeroPortraitDeck({
         variant === "right-rail" && "w-full max-w-[280px] lg:mx-0"
       )}
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.12] bg-card/30 shadow-[0_8px_40px_rgba(0,0,0,0.35)] ring-1 ring-white/[0.06]">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.12] bg-[#0d1420]/60 shadow-[0_8px_40px_rgba(0,0,0,0.35)] ring-1 ring-white/[0.06]">
         {reduceMotion ? (
           <Image
             src={PORTRAIT_SLIDES[0].src}
@@ -160,7 +160,7 @@ export function HeroPortraitDeck({
           </div>
         )}
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/55 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#05080f]/70 via-transparent to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#00d97e]/[0.07] to-transparent" />
 
         <div className="pointer-events-none absolute inset-y-4 right-2 z-[70] flex items-center lg:hidden">
@@ -177,7 +177,7 @@ export function HeroPortraitDeck({
                 rel="noopener noreferrer"
                 data-cursor-pointer
                 aria-label={social.label}
-                className="rounded-full p-2 text-muted-foreground transition-colors hover:text-primary"
+                className="rounded-full p-2 text-white/45 transition-colors hover:text-primary"
               >
                 <social.icon size={16} />
               </Link>
@@ -215,12 +215,12 @@ export function HeroPortraitDeck({
       ) : null}
 
       {!reduceMotion ? (
-        <p className="text-center text-[10px] text-muted-foreground/90">
+        <p className="text-center text-[10px] text-white/40">
           Smooth crossfade · auto {(AUTO_MS / 1000).toFixed(1)}s
         </p>
       ) : null}
 
-      <p className="text-center text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+      <p className="text-center text-[10px] uppercase tracking-[0.12em] text-white/40">
         SecurityPal · Engineering · Research
       </p>
     </motion.div>

@@ -11,7 +11,7 @@ export function SecurityJobCardPanel({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-xl border border-white/15 bg-card/40 shadow-[0_10px_40px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-xl ring-1 ring-inset ring-white/10",
+        "relative overflow-hidden rounded-xl border border-white/15 bg-[#0d1420]/80 shadow-[0_10px_40px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-xl ring-1 ring-inset ring-white/10",
         interactive &&
           "transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:scale-[1.03] hover:border-white/25 hover:shadow-[0_16px_48px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.16)] motion-reduce:transition-none motion-reduce:hover:scale-100",
         className
@@ -44,16 +44,16 @@ export function SecurityJobCardPanel({
         <p className="text-[11px] font-semibold leading-tight tracking-tight text-primary [text-shadow:0_0_18px_color-mix(in_srgb,var(--primary)_45%,transparent)]">
           Security Research Analyst
         </p>
-        <p className="mt-0.5 text-[9px] font-medium leading-tight text-foreground/90">
+        <p className="mt-0.5 text-[9px] font-medium leading-tight text-white/90">
           SecurityPal AI <span className="text-white/30">·</span> FT
         </p>
-        <p className="mt-1 text-[9px] leading-snug text-muted-foreground">
+        <p className="mt-1 text-[9px] leading-snug text-white/50">
           Apr 2026 – Present · Kathmandu · On-site
         </p>
-        <p className="mt-1.5 border-t border-white/[0.08] pt-1.5 text-[9px] leading-snug text-muted-foreground">
+        <p className="mt-1.5 border-t border-white/[0.08] pt-1.5 text-[9px] leading-snug text-white/50">
           Customer Assurance — SACC, AI + experts; Fortune-scale security and GRC reviews.
         </p>
-        <p className="mt-1 text-[9px] leading-snug text-muted-foreground/85">
+        <p className="mt-1 text-[9px] leading-snug text-white/40">
           Also TS · Go · Python · cloud.
         </p>
       </div>

@@ -226,12 +226,12 @@ export default function Hero() {
       const r = el.getBoundingClientRect();
       const cx = r.left + r.width / 2;
       const cy = r.top + r.height / 2;
-      const rx = ((e.clientY - cy) / (r.height / 2)) * -12;
-      const ry = ((e.clientX - cx) / (r.width / 2)) * 12;
-      gsap.to(el, { rotateX: rx, rotateY: ry, duration: 0.45, ease: "power2.out", transformPerspective: 900 });
+      const rx = ((e.clientY - cy) / (r.height / 2)) * -4;
+      const ry = ((e.clientX - cx) / (r.width / 2)) * 4;
+      gsap.to(el, { rotateX: rx, rotateY: ry, duration: 0.55, ease: "power2.out", transformPerspective: 1400 });
     };
     const onLeave = () => {
-      gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.7, ease: "elastic.out(1,0.6)" });
+      gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.9, ease: "power3.out" });
     };
     window.addEventListener("mousemove", onMove);
     el.addEventListener("mouseleave", onLeave);
@@ -305,7 +305,7 @@ export default function Hero() {
             </motion.div>
 
             {/* Name */}
-            <div ref={nameRef} className="font-hacker font-bold leading-[0.9] tracking-tight text-foreground">
+            <div ref={nameRef} className="font-hacker font-bold leading-[0.9] tracking-tight text-white">
               <h1 className="text-[clamp(2.8rem,7.5vw,5rem)] lg:text-[clamp(3.2rem,5.5vw,5rem)]">
                 Pradip
               </h1>
@@ -328,7 +328,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.18, duration: 0.45 }}
-              className="mt-3 max-w-xl text-[13px] leading-relaxed text-muted-foreground md:text-sm lg:pr-1"
+              className="mt-3 max-w-xl text-[13px] leading-relaxed text-white/55 md:text-sm lg:pr-1"
             >
               I blend offensive-minded research with pragmatic engineering: vulnerability discovery,
               threat context, and shipping resilient interfaces and SDLC automation.
@@ -382,7 +382,7 @@ export default function Hero() {
               </a>
               <a
                 href="#projects"
-                className="group inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/[0.05] px-5 py-2.5 font-researcher text-sm tracking-wide text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/10 hover:text-[#00ff9d]"
+                className="group inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/[0.05] px-5 py-2.5 font-researcher text-sm tracking-wide text-white/85 transition-all duration-300 hover:border-primary hover:bg-primary/10 hover:text-[#00ff9d]"
               >
                 View Projects
                 <ArrowDown size={14} className="transition-transform group-hover:translate-y-0.5" />
@@ -455,7 +455,7 @@ export default function Hero() {
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative p-2.5 text-muted-foreground transition-colors duration-200 hover:text-[#00ff9d]"
+              className="group relative p-2.5 text-white/45 transition-colors duration-200 hover:text-[#00ff9d]"
             >
               <social.icon size={17} />
               <span className="pointer-events-none absolute right-full top-1/2 mr-2.5 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded border border-[#00ff9d]/30 bg-[#05080f]/95 px-2 py-0.5 text-[10px] text-[#00ff9d] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" style={{ fontFamily: "var(--font-mono-terminal)" }}>
@@ -481,7 +481,7 @@ export default function Hero() {
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 text-muted-foreground transition-colors hover:text-[#00ff9d]"
+              className="p-2 text-white/45 transition-colors hover:text-[#00ff9d]"
             >
               <social.icon size={17} />
             </Link>

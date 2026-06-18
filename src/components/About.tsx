@@ -1,23 +1,24 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useGsapReveal } from "@/lib/gsapReveal";
 import { Code, GraduationCap, Award, Camera, Lightbulb, Mail, ExternalLink, BadgeCheck } from "lucide-react";
 import Image from "next/image";
 
 const aboutContent = {
     name: "Pradip Bhatt",
-    title: "Full Stack Developer & AI Enthusiast",
-    bio: "I craft exceptional digital experiences with modern technologies. Passionate about building scalable applications and creating intuitive user interfaces. With 3+ years of experience, I've worked on 20+ projects for 10+ clients worldwide.",
+    title: "Security Research Analyst & Full Stack Developer",
+    bio: "Security Research Analyst at SecurityPal AI — working on Fortune-scale customer assurance, AI-driven GRC reviews, and security assessments. B.E. Computer Engineering graduate from Far Western University, Mahendranagar. Former President of ICEC FWU, NASA Space Apps 2024 regional finalist, and open source community builder across Sudurpaschim Province.",
     education: {
-        degree: "Computer Engineering",
-        school: "Far Western University"
+        degree: "B.E. Computer Engineering",
+        school: "Far Western University, Mahendranagar"
     },
     certification: "NEC Certified Engineer",
     interests: [
-        { icon: Code, label: "Coding" },
+        { icon: Award, label: "Security Research" },
+        { icon: Code, label: "Open Source" },
         { icon: Camera, label: "Photography" },
-        { icon: Lightbulb, label: "Problem Solving" },
-        { icon: Award, label: "Hackathons" }
+        { icon: Lightbulb, label: "Community" }
     ]
 };
 
@@ -37,32 +38,23 @@ function HoverLetters({ text, activeColor = "hover:text-primary" }: { text: stri
 }
 
 export default function About() {
+    const headingRef = useRef<HTMLDivElement>(null);
+    useGsapReveal(headingRef);
+
     return (
         <section id="about" className="py-6 relative">
             <div className="container mx-auto px-4">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-4"
-                >
+                <div ref={headingRef} className="text-center mb-4">
                     <h2 className="text-3xl md:text-4xl font-bold">
                         <HoverLetters text="About" activeColor="hover:text-primary/80" />{" "}
                         <span className="text-primary">
                             <HoverLetters text="Me" activeColor="hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(193,89,40,0.6)]" />
                         </span>
                     </h2>
-                </motion.div>
+                </div>
 
                 <div className="grid md:grid-cols-12 gap-6 items-start">
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="md:col-span-4 lg:col-span-4"
-                    >
+                    <div className="md:col-span-4 lg:col-span-4">
                         <div className="relative aspect-[3/4] max-w-[280px] mx-auto rounded-2xl overflow-hidden border-2 border-primary/20 shadow-lg shadow-primary/10">
                             <Image
                                 src="/assets/me formal.png"
@@ -85,15 +77,9 @@ export default function About() {
                                 <span className="text-sm">{aboutContent.certification}</span>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="md:col-span-8 lg:col-span-8 space-y-4"
-                    >
+                    <div className="md:col-span-8 lg:col-span-8 space-y-4">
                         <div>
                             <h3 className="text-2xl md:text-3xl font-bold mb-1">
                                 <HoverLetters text="Hi, I'm" activeColor="hover:text-muted-foreground" />{" "}
@@ -113,15 +99,15 @@ export default function About() {
                         <div className="grid grid-cols-3 gap-3 py-2">
                             <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
                                 <div className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">3+</div>
-                                <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Years Exp.</div>
+                                <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Yrs. Exp.</div>
                             </div>
                             <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
                                 <div className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">20+</div>
                                 <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Projects</div>
                             </div>
                             <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
-                                <div className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">10+</div>
-                                <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Clients</div>
+                                <div className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">5+</div>
+                                <div className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">Awards</div>
                             </div>
                         </div>
 
@@ -162,7 +148,7 @@ export default function About() {
                                 Download CV
                             </a>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

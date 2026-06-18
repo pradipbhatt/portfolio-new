@@ -1,13 +1,20 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useGsapReveal } from "@/lib/gsapReveal";
 import {
     Bot,
     Brain,
     Sparkles,
     Code2,
-    Database
+    Database,
+    ShieldAlert,
+    Bug,
+    Search,
+    Terminal,
+    Network,
+    Shield,
 } from "lucide-react";
 import {
     SiArduino,
@@ -28,6 +35,56 @@ import {
 } from "react-icons/si";
 
 const skillCategories = {
+    "Security": [
+        {
+            title: "Pen Testing",
+            subtitle: "Web, API, Network",
+            icon: <ShieldAlert size={20} />,
+            color: "text-red-400",
+            level: 85,
+            gradient: "from-red-500/20 to-orange-500/20"
+        },
+        {
+            title: "Burp Suite",
+            subtitle: "Web App Security",
+            icon: <Bug size={20} />,
+            color: "text-orange-400",
+            level: 85,
+            gradient: "from-orange-500/20 to-amber-500/20"
+        },
+        {
+            title: "OSINT",
+            subtitle: "Recon & Investigation",
+            icon: <Search size={20} />,
+            color: "text-cyan-300",
+            level: 82,
+            gradient: "from-cyan-500/20 to-blue-500/20"
+        },
+        {
+            title: "Metasploit",
+            subtitle: "Exploit Framework",
+            icon: <Terminal size={20} />,
+            color: "text-green-400",
+            level: 75,
+            gradient: "from-green-500/20 to-emerald-500/20"
+        },
+        {
+            title: "Wireshark",
+            subtitle: "Packet Analysis",
+            icon: <Network size={20} />,
+            color: "text-purple-400",
+            level: 80,
+            gradient: "from-purple-500/20 to-violet-500/20"
+        },
+        {
+            title: "GRC & Compliance",
+            subtitle: "SOC2, ISO 27001, VAPT",
+            icon: <Shield size={20} />,
+            color: "text-blue-300",
+            level: 78,
+            gradient: "from-blue-500/20 to-indigo-500/20"
+        },
+    ],
     "Frontend": [
         {
             title: "React JS",
@@ -190,6 +247,7 @@ function HoverLetters({ text, activeColor = "hover:text-primary" }: { text: stri
 }
 
 const categoryIcons = {
+    "Security": ShieldAlert,
     "Frontend": Code2,
     "Backend": Database,
     "AI/ML": Brain,
@@ -197,25 +255,21 @@ const categoryIcons = {
 } as const;
 
 export default function Skills() {
-    const [activeTab, setActiveTab] = useState<keyof typeof skillCategories>("Frontend");
+    const [activeTab, setActiveTab] = useState<keyof typeof skillCategories>("Security");
+    const headingRef = useRef<HTMLDivElement>(null);
+    useGsapReveal(headingRef);
 
     return (
         <section id="skills" className="py-6 relative overflow-hidden">
             <div className="container mx-auto px-4 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-6"
-                >
+                <div ref={headingRef} className="text-center mb-6">
                     <h2 className="text-3xl md:text-4xl font-bold">
                         <HoverLetters text="Skills &" activeColor="hover:text-primary/80" />{" "}
                         <span className="text-primary">
                             <HoverLetters text="Expertise" activeColor="hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(193,89,40,0.6)]" />
                         </span>
                     </h2>
-                </motion.div>
+                </div>
 
                 {/* Tabs */}
                 <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -250,12 +304,9 @@ export default function Skills() {
                             transition={{ duration: 0.3 }}
                             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                         >
-                            {skillCategories[activeTab].map((skill, index) => (
-                                <motion.div
+                            {skillCategories[activeTab].map((skill) => (
+                                <div
                                     key={skill.title}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 0.3, delay: index * 0.05 }}
                                     className={`group relative p-4 rounded-xl border border-primary/10 bg-card/50 hover:border-primary/40 hover:bg-card/70 transition-all duration-300 overflow-hidden text-center`}
                                 >
                                     <div className={`mx-auto p-2 bg-white/5 rounded-lg w-fit group-hover:bg-white/10 transition-all duration-300 mb-3 ${skill.color}`}>
@@ -277,7 +328,7 @@ export default function Skills() {
                                             className="h-full bg-primary/40"
                                         />
                                     </div>
-                                </motion.div>
+                                </div>
                             ))}
                         </motion.div>
                     </AnimatePresence>

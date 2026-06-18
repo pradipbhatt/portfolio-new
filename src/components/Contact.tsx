@@ -1,12 +1,14 @@
 "use client";
 
 import emailjs from "@emailjs/browser";
-import { motion } from "framer-motion";
-import { Facebook, Github, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { useGsapReveal } from "@/lib/gsapReveal";
+import { Facebook, Github, Globe, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export default function Contact() {
+    const headingRef = useRef<HTMLDivElement>(null);
+    useGsapReveal(headingRef);
     const formRef = useRef<HTMLFormElement>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -77,28 +79,15 @@ export default function Contact() {
     return (
         <section id="contact" className="py-20 bg-background">
             <div className="container mx-auto px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
-                >
+                <div ref={headingRef} className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider">
                         C<span className="text-primary">o</span>ntact M<span className="text-primary">e</span>
                     </h2>
-                </motion.div>
+                </div>
 
                 <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
                     {/* Left Column - Contact Form */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="bg-card p-8 rounded-xl border border-border"
-                        suppressHydrationWarning
-                    >
+                    <div className="bg-card p-8 rounded-xl border border-border" suppressHydrationWarning>
                         <h3 className="text-2xl font-bold mb-6 font-display">Send a Message</h3>
 
                         {success && (
@@ -179,16 +168,10 @@ export default function Contact() {
                                 {loading ? "Sending..." : "Send Message"}
                             </button>
                         </form>
-                    </motion.div>
+                    </div>
 
                     {/* Right Column - Contact Info */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="space-y-8"
-                    >
+                    <div className="space-y-8">
                         <div>
                             <h3 className="text-2xl font-bold mb-6 font-display">Get in Touch</h3>
                             <div className="space-y-6">
@@ -223,7 +206,7 @@ export default function Contact() {
                                 </div>
                                 <div className="flex items-start gap-4">
                                     <div className="p-3 bg-primary/10 rounded-lg">
-                                        <Mail className="text-primary" size={24} />
+                                        <Globe className="text-primary" size={24} />
                                     </div>
                                     <div>
                                         <h4 className="font-bold mb-1">Website</h4>
@@ -265,14 +248,13 @@ export default function Contact() {
                             </div>
                         </div>
 
-                        <div className="bg-card p-6 rounded-xl border border-border">
-                            <h4 className="font-bold mb-2 text-primary">Availability</h4>
+                        <div className="bg-card p-6 rounded-xl border border-border space-y-3">
+                            <h4 className="font-bold text-primary">Availability</h4>
                             <p className="text-sm text-muted-foreground">
-                                I respond to messages within 24 hours. Open to freelance opportunities and
-                                collaborations.
+                                Security Research Analyst at SecurityPal AI. Open to security consulting, pen testing engagements, open-source collaboration, and full-stack freelance.
                             </p>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

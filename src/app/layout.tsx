@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import {
+  Dancing_Script,
   JetBrains_Mono,
   Michroma,
   Orbitron,
@@ -38,7 +39,13 @@ const orbitron = Orbitron({
   subsets: ["latin"],
 });
 
-/** Hero / “hacker” display — sharp tech terminal headline. */
+const dancingScript = Dancing_Script({
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-cursive',
+  subsets: ['latin'],
+});
+
+/** Hero / “hacker” display - sharp tech terminal headline. */
 const shareTechMono = Share_Tech_Mono({
   weight: "400",
   variable: "--font-share-tech-mono",
@@ -67,7 +74,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <body
-        className={`${jetbrainsMono.variable} ${michroma.variable} ${rajdhani.variable} ${orbitron.variable} ${shareTechMono.variable} antialiased bg-background text-foreground font-body selection:bg-primary/30 selection:text-primary-foreground`}
+        className={`${jetbrainsMono.variable} ${michroma.variable} ${rajdhani.variable} ${orbitron.variable} ${shareTechMono.variable} ${dancingScript.variable} antialiased bg-background text-foreground font-body selection:bg-primary/30 selection:text-primary-foreground`}
         suppressHydrationWarning
       >
         {/* Bitdefender and similar tools inject bis_skin_checked before React hydrates; strip early to avoid Head/metadata mismatches. */}

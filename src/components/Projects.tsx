@@ -1,11 +1,26 @@
 "use client";
 
 import { projects } from "@/data/projects";
-import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { useGsapReveal } from "@/lib/gsapReveal";
+import { ExternalLink, Github, Trophy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+
+function HoverLetters({ text, activeColor = "hover:text-primary" }: { text: string; activeColor?: string }) {
+    return (
+        <>
+            {text.split("").map((letter, i) => (
+                <span
+                    key={i}
+                    className={`inline-block transition-[transform,color,filter] duration-200 cursor-default ${letter === " " ? "w-[0.25em]" : `${activeColor} hover:-translate-y-[2px] hover:scale-110`}`}
+                >
+                    {letter === " " ? " " : letter}
+                </span>
+            ))}
+        </>
+    );
+}
 
 export default function Projects() {
     const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -45,18 +60,18 @@ export default function Projects() {
         setVisibleCount(6);
     };
 
+    const headingRef = useRef<HTMLDivElement>(null);
+    useGsapReveal(headingRef);
+
     return (
         <section id="projects" className="py-20 bg-background">
             <div className="container mx-auto px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-10"
-                >
-                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider mb-6">
-                        P<span className="text-primary">r</span>ojects
+                <div ref={headingRef} className="text-center mb-10">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                        <HoverLetters text="My" activeColor="hover:text-primary/80" />{" "}
+                        <span className="text-primary">
+                            <HoverLetters text="Projects" activeColor="hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(193,89,40,0.6)]" />
+                        </span>
                     </h2>
 
                     <div className="flex flex-wrap justify-center gap-3">
@@ -75,16 +90,12 @@ export default function Projects() {
                             </button>
                         ))}
                     </div>
-                </motion.div>
+                </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {visibleProjects.map((project, index) => (
-                        <motion.div
+                        <div
                             key={project.title}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.08 }}
                             className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-md cursor-pointer"
                             onClick={() => {
                                 if (project.demoLink && project.demoLink !== "#") {
@@ -113,9 +124,17 @@ export default function Projects() {
                             </div>
 
                             <div className="p-5 flex-1 flex flex-col">
-                                <span className="inline-flex items-center text-[11px] uppercase tracking-[0.2em] text-muted-foreground/80 mb-1.5">
-                                    {project.category}
-                                </span>
+                                <div className="flex items-center justify-between mb-1.5">
+                                    <span className="inline-flex items-center text-[11px] uppercase tracking-[0.2em] text-muted-foreground/80">
+                                        {project.category}
+                                    </span>
+                                    {project.outcome && (
+                                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-yellow-400 bg-yellow-400/10 border border-yellow-400/20 px-2 py-0.5 rounded-full">
+                                            <Trophy size={10} />
+                                            {project.outcome}
+                                        </span>
+                                    )}
+                                </div>
                                 <h3 className="text-lg font-semibold mb-2.5 font-display text-foreground group-hover:text-primary transition-colors">
                                     {project.title}
                                 </h3>
@@ -150,18 +169,13 @@ export default function Projects() {
                                     )}
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
 
                 {/* Show More/Less Buttons */}
                 {filteredProjects.length > 6 && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        className="flex justify-center mt-12"
-                    >
+                    <div className="flex justify-center mt-12">
                         <div className="flex gap-3">
                             {hasMoreProjects && (
                                 <button
@@ -180,7 +194,7 @@ export default function Projects() {
                                 </button>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
                 )}
             </div>
         </section>

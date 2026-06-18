@@ -1,4 +1,4 @@
-export type ProjectCategory = "Hackathons" | "Products" | "Social Impact";
+export type ProjectCategory = "Hackathons" | "Products" | "Social Impact" | "Security";
 
 export type Project = {
   title: string;
@@ -8,73 +8,47 @@ export type Project = {
   demoLink?: string;
   repoLink?: string;
   category: ProjectCategory;
+  outcome?: string;
 };
 
 export const projects: Project[] = [
   {
-    title: "Klearn - Korean Learning Platform",
+    title: "GRC Automation — SecurityPal AI",
     description:
-      "Interactive platform for learning the Korean language (Hanguru). Features comprehensive lessons, practice exercises, and cultural insights to help users master Korean language skills effectively.",
-    image: "/assets/hanguru-learn.png",
-    tags: ["Korean", "Language Learning", "Education"],
-    demoLink: "https://klearn.pradipbhatt.com.np/dashboard",
+      "AI-driven security assurance platform for Fortune-scale enterprise customers. Automated GRC reviews, SOC2/ISO 27001 gap assessments, and questionnaire workflows — reducing analyst review time and improving accuracy across hundreds of security questionnaires.",
+    image: "/assets/hyperce_acheivement.png",
+    tags: ["GRC", "SOC2", "ISO 27001", "AI"],
+    demoLink: "#",
     repoLink: "#",
-    category: "Products",
-  },
-  {
-    title: "Dynamic Quiz App",
-    description:
-      "Interactive quiz application with dynamic question generation and real-time assessment. Features multiple question types, instant feedback, and comprehensive analytics for educational testing.",
-    image: "/assets/dynamic quiz app.png",
-    tags: ["Quiz", "Assessment", "Education"],
-    demoLink: "https://test.pradipbhatt.com.np/",
-    repoLink: "#",
-    category: "Products",
-  },
-  {
-    title: "Personalized Notion",
-    description:
-      "Custom Notion-like workspace where user data is saved directly to their Google Drive instead of external servers. Ensures data privacy and gives users complete control over their information.",
-    image: "/assets/personalized notion.png",
-    tags: ["Notion", "Google Drive", "Privacy"],
-    demoLink: "https://kitab.pradipbhatt.com.np/",
-    repoLink: "#",
-    category: "Products",
-  },
-  {
-    title: "Visionary AI - Image Analysis",
-    description:
-      "Advanced AI-powered image analysis platform. Features intelligent image recognition, pattern detection, and comprehensive visual analysis using cutting-edge machine learning algorithms.",
-    image: "/assets/visionary AI.png",
-    tags: ["AI", "Image Analysis", "Machine Learning"],
-    demoLink: "https://image.pradipbhatt.com.np/",
-    repoLink: "#",
-    category: "Products",
-  },
-  {
-    title: "LearnGit - Git Tutorial Platform",
-    description:
-      "Interactive Git learning platform with hands-on tutorials and practical exercises. Designed to help developers master Git version control through guided lessons and real-world examples.",
-    image: "/assets/learngit.png",
-    tags: ["Git", "Tutorial", "Version Control"],
-    demoLink: "https://nepaligit.vercel.app/",
-    repoLink: "#",
-    category: "Products",
+    category: "Security",
+    outcome: "Fortune-scale customer assurance",
   },
   {
     title: "Sikaiverse - Edu-Tech Platform",
     description:
-      "Fully customizable edu-tech platform with complete backend system. Selected as Top 10 from 50 teams at 100XNepal Hackathon. Designed to be flexible and scalable for academic use with every feature managed through backend.",
+      "Fully customizable edu-tech platform with complete backend system. Selected as Top 10 from 50 teams at 100XNepal Hackathon. Every feature managed via backend — content, users, assessments — designed for academic scalability.",
     image: "/assets/sikaiverse project hakathon.png",
     tags: ["Full Stack", "Backend", "Edu-Tech"],
     demoLink: "https://sikaiverse.vercel.app/",
     repoLink: "#",
     category: "Hackathons",
+    outcome: "Top 10 / 50 teams — 100XNepal",
   },
   {
-    title: "AstroYatra - NASA Space Apps 2025",
+    title: "Orrery Web App — NASA Space Apps 2024",
     description:
-      "VR-powered web application taking users on a journey from the Big Bang to Earth's oceans. Combines NASA Earth observation data with immersive storytelling to illustrate ocean pollution and its impact. Built with team members Jelina Bhatt and Manoj.",
+      "3D visualization of Near-Earth Objects, planets, satellites, and asteroids using Three.js. Approach: NASA JPL data → WebGL rendering → real-time orbit simulation. Won 3rd place in Dhangadhi region with Team CELESTIALS.",
+    image: "/assets/nasa space apps 2024.jpg",
+    tags: ["Three.js", "3D", "NASA"],
+    demoLink: "https://team-celestials.vercel.app/",
+    repoLink: "#",
+    category: "Hackathons",
+    outcome: "3rd Place — NASA Space Apps 2024 Dhangadhi",
+  },
+  {
+    title: "AstroYatra — NASA Space Apps 2025",
+    description:
+      "VR-powered web app taking users on a journey from the Big Bang to Earth's oceans. Combines NASA Earth observation data with immersive WebGL storytelling to visualize ocean pollution impact. Team: Pradip, Jelina Bhatt, Manoj.",
     image: "/assets/nasa spacce apps challenge 2025.png",
     tags: ["VR", "NASA", "WebGL"],
     demoLink: "https://yatra.earth",
@@ -82,34 +56,74 @@ export const projects: Project[] = [
     category: "Hackathons",
   },
   {
-    title: "Orrery Web App - NASA Space Apps 2024",
+    title: "कृषि Connect — Codefest 2024",
     description:
-      "3D visualization of Near-Earth Objects, planets, satellites, and asteroids using Three.js. Won 3rd place in Dhangadhi region at NASA International Space Apps Challenge 2024 with Team CELESTIALS.",
-    image: "/assets/nasa space apps 2024.jpg",
-    tags: ["Three.js", "3D", "NASA"],
-    demoLink: "https://team-celestials.vercel.app/",
-    repoLink: "#",
-    category: "Hackathons",
-  },
-  {
-    title: "कृषि Connect - Codefest 2024",
-    description:
-      "Farm-to-city platform connecting farmers from remote areas directly to city consumers. Bridges the gap between farmers and consumers with fresh produce delivery. Team Code With Her representing Sudurpaschim Province at National Level.",
+      "Farm-to-city marketplace connecting remote Sudurpaschim farmers directly to urban consumers — eliminating middlemen and improving farmer income. Represented Sudurpaschim Province at National Level with Team Code With Her.",
     image: "/assets/codefest 2023 hakathon.jpg",
     tags: ["Agriculture", "E-commerce", "Social Impact"],
     demoLink: "#",
     repoLink: "#",
     category: "Social Impact",
+    outcome: "National Level — Codefest 2024",
   },
   {
-    title: "soeNotes",
+    title: "Klearn — Korean Learning Platform",
     description:
-      "A comprehensive web application for Far Western University School of Engineering students. Provides entrance exam preparation materials, notes, tutorials, syllabus, and practicals all in one platform.",
+      "Interactive Korean language platform with structured lessons, Hangul practice, and cultural context. Built to serve Nepali learners with limited access to Korean resources — deployed at klearn.pradipbhatt.com.np.",
+    image: "/assets/hanguru-learn.png",
+    tags: ["Korean", "Language Learning", "Education"],
+    demoLink: "https://klearn.pradipbhatt.com.np/dashboard",
+    repoLink: "#",
+    category: "Products",
+  },
+  {
+    title: "Personalized Notion — Privacy-First Workspace",
+    description:
+      "Custom Notion-like workspace where user data is saved to their own Google Drive — zero external server storage. Addresses data sovereignty concerns for privacy-conscious users without sacrificing collaboration features.",
+    image: "/assets/personalized notion.png",
+    tags: ["Notion", "Google Drive", "Privacy"],
+    demoLink: "https://kitab.pradipbhatt.com.np/",
+    repoLink: "#",
+    category: "Products",
+  },
+  {
+    title: "Visionary AI — Image Analysis",
+    description:
+      "AI-powered image analysis platform using ML algorithms for intelligent recognition, pattern detection, and visual analysis. Built to explore applied ML beyond tutorials — real inference pipeline from upload to insight.",
+    image: "/assets/visionary AI.png",
+    tags: ["AI", "Image Analysis", "Machine Learning"],
+    demoLink: "https://image.pradipbhatt.com.np/",
+    repoLink: "#",
+    category: "Products",
+  },
+  {
+    title: "soeNotes — FWU Engineering Hub",
+    description:
+      "All-in-one academic platform for Far Western University School of Engineering students: entrance prep, notes, syllabus, practicals, and tutorials. Solves the scattered-resources problem for 500+ engineering students.",
     image: "/assets/project1.png",
     tags: ["React.js", "Cloudinary", "MongoDB"],
     demoLink: "https://soenotes.vercel.app/",
     repoLink: "#",
     category: "Products",
   },
+  {
+    title: "LearnGit — Git Tutorial Platform",
+    description:
+      "Interactive Git learning platform with hands-on tutorials in Nepali-English context. Designed to onboard developers who struggle with English-only Git docs — deployed and used across FWU engineering workshops.",
+    image: "/assets/learngit.png",
+    tags: ["Git", "Tutorial", "Version Control"],
+    demoLink: "https://nepaligit.vercel.app/",
+    repoLink: "#",
+    category: "Products",
+  },
+  {
+    title: "Dynamic Quiz App",
+    description:
+      "Real-time assessment platform with dynamic question generation, multiple question types, instant feedback, and analytics. Used for educational testing with configurable difficulty and topic scoping.",
+    image: "/assets/dynamic quiz app.png",
+    tags: ["Quiz", "Assessment", "Education"],
+    demoLink: "https://test.pradipbhatt.com.np/",
+    repoLink: "#",
+    category: "Products",
+  },
 ];
-

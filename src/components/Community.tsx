@@ -1,7 +1,9 @@
 "use client";
 
+import { useGsapReveal } from "@/lib/gsapReveal";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRef } from "react";
 import { communityEvents, type CommunityEvent } from "../data/community";
 
 const eventsByYear: Record<number, CommunityEvent[]> = communityEvents.reduce(
@@ -18,16 +20,13 @@ const sortedYears = Object.keys(eventsByYear)
   .sort((a, b) => b - a);
 
 export default function Community() {
+  const headingRef = useRef<HTMLDivElement>(null);
+  useGsapReveal(headingRef);
+
   return (
     <section id="community" className="py-20 bg-background">
       <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16 space-y-4"
-        >
+        <div ref={headingRef} className="text-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider">
             C<span className="text-primary">o</span>mmunity I
             <span className="text-primary">n</span>volvement
@@ -37,7 +36,7 @@ export default function Community() {
             over the years — speaking, mentoring, organizing and building
             together.
           </p>
-        </motion.div>
+        </div>
 
         <div className="relative">
           {/* Vertical timeline line */}
@@ -47,12 +46,8 @@ export default function Community() {
 
           <div className="space-y-12 md:space-y-16">
             {sortedYears.map((year, yearIndex) => (
-              <motion.div
+              <div
                 key={year}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, delay: yearIndex * 0.05 }}
                 className="relative"
               >
                 <div className="flex flex-col md:flex-row md:items-start gap-6 md:gap-10">
@@ -91,8 +86,7 @@ export default function Community() {
                       />
                     </motion.div>
 
-                    <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary/90 backdrop-blur">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                    <div className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary/90">
                       {year}
                     </div>
                   </div>
@@ -101,11 +95,8 @@ export default function Community() {
                   <div className="flex-1">
                     <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-7">
                       {eventsByYear[year].map((event, index) => (
-                        <motion.article
+                        <article
                           key={event.title}
-                          whileHover={{ y: -6, scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          transition={{ type: "spring", stiffness: 220, damping: 18 }}
                           className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/40 shadow-[0_18px_45px_rgba(0,0,0,0.65)]"
                         >
                           <div className="relative h-52 overflow-hidden">
@@ -118,9 +109,8 @@ export default function Community() {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
 
-                            <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-                              <span className="inline-flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur">
-                                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                            <div className="absolute top-3 left-3">
+                              <span className="rounded-full bg-black/60 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur">
                                 {event.dateLabel}
                               </span>
                             </div>
@@ -132,54 +122,20 @@ export default function Community() {
                             </div>
                           </div>
 
-                          <div className="relative p-4 md:p-5 space-y-3">
-                            <div className="flex items-center gap-2 text-xs text-white/70">
-                              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                              <span className="uppercase tracking-[0.18em] text-[10px] text-primary/80">
-                                COMMUNITY
-                              </span>
-                            </div>
-
-                            <p className="text-xs md:text-sm text-primary font-medium">
+                          <div className="relative p-4 md:p-5 space-y-2">
+                            <p className="text-xs font-semibold text-primary/90 uppercase tracking-[0.15em]">
                               {event.role}
                             </p>
-
-                              <motion.div
-                              initial={{ opacity: 0, x: -8 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 0.4, delay: 0.15 }}
-                              className="flex items-center justify-between pt-1 text-[11px] text-foreground/70 dark:text-white/70"
-                            >
-                              <span className="inline-flex items-center gap-1.5">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 20 20"
-                                  className="text-primary"
-                                >
-                                  <path
-                                    d="M4 10.5L8.5 15L16 5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="1.8"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                                <span>Talks, workshops & leadership</span>
-                              </span>
-                              <span className="text-[10px] uppercase tracking-[0.18em] text-white/50">
-                                #{index + 1}
-                              </span>
-                            </motion.div>
+                            <p className="text-xs text-muted-foreground/90 leading-relaxed line-clamp-3">
+                              {event.description}
+                            </p>
                           </div>
-                        </motion.article>
+                        </article>
                       ))}
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

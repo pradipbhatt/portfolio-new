@@ -1,6 +1,7 @@
 "use client";
 
 import HeroTerminal from "@/components/hero/HeroTerminal";
+import HeroGradientOrbs from "@/components/hero/HeroGradientOrbs";
 import { HeroPortraitDeck } from "@/components/hero/HeroPortraitDeck";
 import HeroThreeScene, { type NodeHoverData } from "@/components/hero/HeroThreeScene";
 import Link from "next/link";
@@ -13,7 +14,7 @@ import {
   Facebook,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion"; // motion kept for job-card scroll parallax only
 import { SecurityJobCardPanel } from "@/components/SecurityJobCardPanel";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -197,6 +198,7 @@ export default function Hero() {
   const nameRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const pradevRef = useRef<HTMLDivElement>(null);
 
   /* GSAP entrance — clean staggered reveal */
   useEffect(() => {
@@ -212,6 +214,17 @@ export default function Hero() {
       }
       if (ctaRef.current) {
         tl.from(ctaRef.current.children, { y: 16, opacity: 0, stagger: 0.1, duration: 0.5 }, 0.9);
+      }
+
+      /* PRA.DEV — slow glow breathe */
+      if (pradevRef.current) {
+        gsap.to(pradevRef.current, {
+          filter: "brightness(1.8)",
+          duration: 3.5,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
       }
     });
     return () => ctx.revert();
@@ -270,11 +283,40 @@ export default function Hero() {
       className="relative w-full overflow-x-clip overflow-y-visible bg-[#05080f] px-5 pb-14 pt-12 sm:px-6 md:px-10 md:pb-16 md:pt-16 lg:px-16 lg:pt-[4.5rem] xl:px-20 2xl:px-24"
       style={{ ["--rx" as string]: radar.x, ["--ry" as string]: radar.y } as React.CSSProperties}
     >
-      {/* ── Three.js scene ── */}
+      {/* ── Gradient orbs (GSAP-animated, replaces Three.js stars) ── */}
+      <HeroGradientOrbs reduceMotion={reduceMotion} />
+
+      {/* ── Three.js scene (interactive node network only) ── */}
       <HeroThreeScene reduceMotion={reduceMotion} onHover={setHoveredNode} />
 
       {/* ── Node tooltip ── */}
       <NodeTooltip data={hoveredNode} />
+
+      {/* ── PRA.DEV watermark — large bg overlay ── */}
+      <div className="pointer-events-none absolute inset-0 z-[2] flex items-center justify-center overflow-hidden">
+        <div
+          ref={pradevRef}
+          style={{
+            fontFamily: "var(--font-orbitron), sans-serif",
+            fontSize: "clamp(3.5rem, 11vw, 10rem)",
+            fontWeight: 900,
+            letterSpacing: "0.28em",
+            color: "transparent",
+            WebkitTextStroke: "1px color-mix(in srgb, var(--primary) 30%, transparent)",
+            textShadow: [
+              "0 0 30px color-mix(in srgb, var(--primary) 55%, transparent)",
+              "0 0 80px color-mix(in srgb, var(--primary) 25%, transparent)",
+              "0 0 160px color-mix(in srgb, var(--primary) 12%, transparent)",
+            ].join(", "),
+            filter: "brightness(1)",
+            userSelect: "none",
+            whiteSpace: "nowrap",
+          }}
+          aria-hidden
+        >
+          PRA.DEV
+        </div>
+      </div>
 
       {/* ── Depth fades ── */}
       <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#0a0f0d]/80 via-transparent to-[#0a0f0d]/95" />
@@ -288,21 +330,13 @@ export default function Hero() {
           {/* ── Left: text content ── */}
           <div ref={textColRef} className="flex min-w-0 flex-1 flex-col pl-2 sm:pl-4 md:pl-6 lg:pl-8 xl:pl-10">
 
-            {/* Anime intro tag */}
-            <motion.div
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.05, duration: 0.4 }}
-              className="mb-3 flex items-center gap-2"
-            >
-              <div className="h-px w-8 bg-gradient-to-r from-transparent to-[#00ff9d]/60" />
-              <span
-                className="text-[11px] uppercase tracking-[0.25em] text-[#00ff9d]/70"
-                style={{ fontFamily: "var(--font-mono-terminal), monospace" }}
-              >
+            {/* Hi, I'm — cursive greeting */}
+            <div className="mb-2 flex items-center gap-3">
+              <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#00ff9d]/50" />
+              <span className="font-cursive text-2xl md:text-3xl text-[#00ff9d]/80 leading-none">
                 Hi, I&apos;m
               </span>
-            </motion.div>
+            </div>
 
             {/* Name */}
             <div ref={nameRef} className="font-hacker font-bold leading-[0.9] tracking-tight text-white">
@@ -314,37 +348,31 @@ export default function Hero() {
               </h1>
             </div>
 
-            {/* Subtle role label */}
-            <div ref={badgeRef} className="mt-3 flex items-center gap-2.5">
-              <div className="h-px w-6 bg-[#00ff9d]/50" />
-              <span className="text-[11px] tracking-[0.22em] text-[#00ff9d]/70 uppercase" style={{ fontFamily: "var(--font-mono-terminal)" }}>
-                Security Researcher
-              </span>
-              <span className="text-[11px] text-[#00ccff]/50 animate-pulse" style={{ fontFamily: "var(--font-mono-terminal)" }}>▮</span>
+            {/* Role badge */}
+            <div ref={badgeRef} className="mt-4 flex items-center gap-3">
+              <div className="h-px w-6 bg-[#00ff9d]/40 shrink-0" />
+              <div>
+                <p className="text-sm md:text-base font-semibold tracking-widest uppercase text-white/80 leading-snug">
+                  Security Researcher
+                </p>
+                <p className="text-xs text-white/40 tracking-wider mt-0.5">
+                  SecurityPal AI · Full Stack Developer
+                </p>
+              </div>
             </div>
 
             {/* Bio */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.18, duration: 0.45 }}
-              className="mt-3 max-w-xl text-[13px] leading-relaxed text-white/55 md:text-sm lg:pr-1"
-            >
+            <p className="mt-3 max-w-xl text-[13px] leading-relaxed text-white/55 md:text-sm lg:pr-1">
               I blend offensive-minded research with pragmatic engineering: vulnerability discovery,
               threat context, and shipping resilient interfaces and SDLC automation.
-            </motion.p>
+            </p>
 
             {/* Job card */}
             <div className="relative z-20 mt-4 w-full max-w-[16.5rem] min-h-[132px] min-[520px]:max-w-none">
               {reduceMotion ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.22, duration: 0.45 }}
-                  className="w-full max-w-[16.5rem] min-[520px]:max-w-none"
-                >
+                <div className="w-full max-w-[16.5rem] min-[520px]:max-w-none">
                   <SecurityJobCardPanel />
-                </motion.div>
+                </div>
               ) : (
                 <motion.div
                   aria-hidden
@@ -363,13 +391,7 @@ export default function Hero() {
             </div>
 
             {/* CTA buttons */}
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.34, duration: 0.5 }}
-              ref={ctaRef}
-              className="mt-5 flex flex-wrap items-center gap-3"
-            >
+            <div ref={ctaRef} className="mt-5 flex flex-wrap items-center gap-3">
               <a
                 href="/assets/CV Pradip.pdf"
                 download="Pradip_Bhatt_CV.pdf"
@@ -387,30 +409,25 @@ export default function Hero() {
                 View Projects
                 <ArrowDown size={14} className="transition-transform group-hover:translate-y-0.5" />
               </a>
-            </motion.div>
+            </div>
 
-            {/* Stats pills */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.52, duration: 0.5 }}
-              className="mt-4 flex flex-wrap gap-2 border-t border-[#00ff9d]/10 pt-4"
-              style={{ fontFamily: "var(--font-mono-terminal), ui-monospace, monospace" }}
-            >
+            {/* Stats */}
+            <div className="mt-5 flex flex-wrap gap-3 border-t border-[#00ff9d]/10 pt-5">
               {[
-                { k: "3+", v: "yrs" },
-                { k: "20+", v: "projects" },
-                { k: "CompTIA", v: "Security+" },
+                { k: "3+", v: "Years" },
+                { k: "20+", v: "Projects" },
+                { k: "5+", v: "Awards" },
+                { k: "NEC", v: "Certified" },
               ].map((item) => (
                 <span
                   key={item.k}
-                  className="inline-flex items-baseline gap-1.5 rounded-sm border border-[#00ff9d]/20 bg-[#00ff9d]/[0.04] px-3 py-1 text-[11px] text-[#a0b8a8] transition-colors hover:border-[#00ff9d]/40 hover:bg-[#00ff9d]/[0.07] md:text-xs"
+                  className="inline-flex items-baseline gap-2 rounded border border-[#00ff9d]/20 bg-[#00ff9d]/[0.04] px-4 py-2 text-sm text-white/60 transition-colors hover:border-[#00ff9d]/40 hover:bg-[#00ff9d]/[0.08]"
                 >
-                  <span className="font-semibold text-[#00ff9d]">{item.k}</span>
-                  <span>{item.v}</span>
+                  <span className="text-base font-bold text-[#00ff9d]">{item.k}</span>
+                  {item.v}
                 </span>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           {/* ── Right: portrait with anime frame ── */}
@@ -419,14 +436,11 @@ export default function Hero() {
 
             {/* Corner brackets — manga panel style */}
             <div ref={portraitWrapRef} className="relative" style={{ transformStyle: "preserve-3d" }}>
-              {/* Top-left bracket */}
-              <div className="absolute -left-2 -top-2 z-20 h-5 w-5 border-l-2 border-t-2 border-[#00ff9d]/50" aria-hidden />
-              {/* Top-right bracket */}
-              <div className="absolute -right-2 -top-2 z-20 h-5 w-5 border-r-2 border-t-2 border-[#00ff9d]/50" aria-hidden />
-              {/* Bottom-left bracket */}
-              <div className="absolute -bottom-2 -left-2 z-20 h-5 w-5 border-b-2 border-l-2 border-[#00ff9d]/50" aria-hidden />
-              {/* Bottom-right bracket */}
-              <div className="absolute -bottom-2 -right-2 z-20 h-5 w-5 border-b-2 border-r-2 border-[#00ff9d]/50" aria-hidden />
+              {/* Corner brackets */}
+              <div className="absolute -left-3 -top-3 z-20 h-7 w-7 border-l border-t border-[#00ff9d]/35" aria-hidden />
+              <div className="absolute -right-3 -top-3 z-20 h-7 w-7 border-r border-t border-[#00ff9d]/35" aria-hidden />
+              <div className="absolute -bottom-3 -left-3 z-20 h-7 w-7 border-b border-l border-[#00ff9d]/35" aria-hidden />
+              <div className="absolute -bottom-3 -right-3 z-20 h-7 w-7 border-b border-r border-[#00ff9d]/35" aria-hidden />
 
               <HeroPortraitDeck
                 variant="right-rail"
@@ -441,13 +455,14 @@ export default function Hero() {
 
       <HeroTerminal />
 
+      {/* Scroll indicator */}
+      <div className="absolute bottom-6 left-1/2 z-30 -translate-x-1/2 flex flex-col items-center gap-1.5 text-[#00ff9d]/35 lg:hidden">
+        <div className="h-8 w-px bg-gradient-to-b from-transparent to-[#00ff9d]/40" />
+        <ArrowDown size={14} />
+      </div>
+
       {/* Social rail — desktop */}
-      <motion.div
-        initial={{ opacity: 0, x: 12 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.8, duration: 0.5 }}
-        className="fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center lg:flex"
-      >
+      <div className="fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center lg:flex">
         <div className="flex flex-col items-center rounded-sm border border-[#00ff9d]/15 bg-[#05080f]/70 px-2 py-3 backdrop-blur-sm">
           {socialLinks.map((social) => (
             <Link
@@ -465,15 +480,10 @@ export default function Hero() {
           ))}
         </div>
         <div className="mt-2 h-4 w-px bg-[#00ff9d]/20" />
-      </motion.div>
+      </div>
 
       {/* Social bar — mobile */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
-        className="absolute bottom-5 left-0 right-0 z-30 flex justify-center lg:hidden"
-      >
+      <div className="absolute bottom-5 left-0 right-0 z-30 flex justify-center lg:hidden">
         <div className="flex items-center gap-1 rounded-sm border border-[#00ff9d]/15 bg-[#05080f]/70 px-3 py-2 backdrop-blur-sm">
           {socialLinks.map((social) => (
             <Link
@@ -487,19 +497,8 @@ export default function Hero() {
             </Link>
           ))}
         </div>
-      </motion.div>
+      </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 text-[#00ff9d]/40 lg:hidden"
-        style={{ fontFamily: "var(--font-mono-terminal)" }}
-      >
-        <span className="text-[9px] uppercase tracking-widest">scroll</span>
-        <ArrowDown size={12} />
-      </motion.div>
     </section>
   );
 }

@@ -153,6 +153,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-researcher);
 }
 
+.font-cursive {
+  font-family: var(--font-cursive), cursive;
+}
+
 .font-yapari {
   font-family: 'Researcher', sans-serif;
 }

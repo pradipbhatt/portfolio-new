@@ -35,7 +35,7 @@ export default function Resume() {
                         className="relative group"
                     >
                         {/* CV Card */}
-                        <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm shadow-2xl">
+                        <div className="relative rounded-2xl overflow-hidden border border-border bg-card/60 backdrop-blur-sm shadow-2xl">
                             {/* CV Image */}
                             <div className="relative w-full aspect-[8.5/11] overflow-hidden">
                                 <Image
@@ -89,23 +89,23 @@ export default function Resume() {
                             transition={{ duration: 0.6, delay: 0.5 }}
                             className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4"
                         >
-                            <div className="p-6 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm">
+                            <div className="p-6 rounded-xl border border-border bg-card/60 backdrop-blur-sm">
                                 <div className="flex items-center gap-3 mb-2">
                                     <FileText className="w-5 h-5 text-primary" />
                                     <h3 className="font-semibold">Format</h3>
                                 </div>
                                 <p className="text-sm text-muted-foreground">
-                                    PDF Document • Professional Layout
+                                    PDF Document <span className="mx-1 opacity-40" aria-hidden>·</span> Professional Layout
                                 </p>
                             </div>
 
-                            <div className="p-6 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm">
+                            <div className="p-6 rounded-xl border border-border bg-card/60 backdrop-blur-sm">
                                 <div className="flex items-center gap-3 mb-2">
                                     <Download className="w-5 h-5 text-primary" />
                                     <h3 className="font-semibold">Quick Access</h3>
                                 </div>
                                 <p className="text-sm text-muted-foreground">
-                                    Click to download • Ready to share
+                                    Click to download <span className="mx-1 opacity-40" aria-hidden>·</span> Ready to share
                                 </p>
                             </div>
                         </motion.div>

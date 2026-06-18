@@ -10,6 +10,7 @@ import {
   MapPin,
   Globe,
   CalendarDays,
+  Star,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -198,7 +199,7 @@ export default function GitHubContributions() {
             Git<span className="text-primary">H</span>ub Contributi
             <span className="text-primary">o</span>ns
           </h2>
-          <p className="text-white/70 text-lg max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             A visual representation of my coding journey and open-source contributions
           </p>
         </motion.div>
@@ -220,18 +221,18 @@ export default function GitHubContributions() {
               transition={{ duration: 0.4, delay: index * 0.1 }}
               whileHover={{ y: -6, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="relative bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:border-primary/30 group overflow-hidden transition-colors"
+              className="relative bg-card/60 backdrop-blur-sm p-6 rounded-2xl border border-border hover:border-primary/30 group overflow-hidden transition-colors"
             >
               {/* Subtle glow */}
               <div className="absolute -inset-1 bg-primary/10 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
 
               <div className="relative z-10 flex items-center gap-4">
-                <div className="p-3 bg-black/20 rounded-xl border border-white/10 group-hover:border-primary/30 transition-colors">
+                <div className="p-3 bg-foreground/5 rounded-xl border border-border group-hover:border-primary/30 transition-colors">
                   {stat.icon}
                 </div>
                 <div>
-                  <p className="text-xs text-white/60 font-body">{stat.label}</p>
-                  <p className="text-2xl font-bold font-display text-white">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground font-body">{stat.label}</p>
+                  <p className="text-2xl font-bold font-display text-foreground">{stat.value}</p>
                 </div>
               </div>
             </motion.div>
@@ -244,7 +245,7 @@ export default function GitHubContributions() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-primary/30 overflow-hidden group transition-colors"
+          className="relative bg-card/60 backdrop-blur-sm p-8 rounded-2xl border border-border hover:border-primary/30 overflow-hidden group transition-colors"
         >
           {/* Animated gradient overlay */}
           <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -252,7 +253,7 @@ export default function GitHubContributions() {
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-6">
               <Calendar className="text-primary" size={24} />
-              <h3 className="text-2xl font-bold font-display text-white">
+              <h3 className="text-2xl font-bold font-display text-foreground">
                 Contribution Activity
               </h3>
             </div>
@@ -286,7 +287,7 @@ export default function GitHubContributions() {
                 onClick={handleOpenProfileModal}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary/15 hover:bg-primary/20 border border-primary/30 rounded-xl text-white font-semibold transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary/15 hover:bg-primary/20 border border-primary/30 rounded-xl text-foreground font-semibold transition-colors"
               >
                 <Github size={18} className="text-primary" />
                 <span>View Profile</span>
@@ -297,7 +298,7 @@ export default function GitHubContributions() {
                 onClick={handleOpenReposModal}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary/30 rounded-xl text-white font-semibold transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-foreground/5 hover:bg-foreground/10 border border-border hover:border-primary/30 rounded-xl text-foreground font-semibold transition-colors"
               >
                 <span className="text-primary">{"</>"}</span>
                 <span>Browse Repositories</span>
@@ -326,21 +327,21 @@ export default function GitHubContributions() {
                 <p className="text-xs uppercase tracking-[0.2em] text-primary/80">
                   GitHub
                 </p>
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-foreground">
                   Public repositories
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={handleCloseReposModal}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 hover:border-primary/40 bg-white/5 hover:bg-white/10 text-white transition-colors"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border hover:border-primary/40 bg-foreground/5 hover:bg-foreground/10 text-foreground transition-colors"
                 aria-label="Close repositories"
               >
                 <X size={18} />
               </button>
             </div>
 
-            <div className="px-6 py-4 border-b border-border text-xs text-white/60 flex flex-wrap gap-2">
+            <div className="px-6 py-4 border-b border-border text-xs text-muted-foreground flex flex-wrap gap-2">
               <span className="inline-flex items-center gap-1 rounded-full bg-card/40 px-3 py-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                 <span className="uppercase tracking-[0.16em]">
@@ -365,8 +366,8 @@ export default function GitHubContributions() {
                       key={idx}
                       className="animate-pulse rounded-xl border border-border bg-card/40 px-4 py-3"
                     >
-                      <div className="h-4 w-40 bg-white/20 rounded mb-2" />
-                      <div className="h-3 w-64 bg-white/10 rounded" />
+                      <div className="h-4 w-40 bg-foreground/10 rounded mb-2" />
+                      <div className="h-3 w-64 bg-foreground/5 rounded" />
                     </div>
                   ))}
                 </div>
@@ -379,7 +380,7 @@ export default function GitHubContributions() {
               )}
 
               {!isReposLoading && !reposError && repos && repos.length === 0 && (
-                <p className="text-sm text-white/70">
+                <p className="text-sm text-muted-foreground">
                   No public repositories found.
                 </p>
               )}
@@ -399,16 +400,16 @@ export default function GitHubContributions() {
                       >
                         <div className="flex items-center justify-between gap-3 mb-1">
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-white">
+                            <span className="text-sm font-semibold text-foreground">
                               {repo.name}
                             </span>
                             {repo.fork && (
-                              <span className="text-[10px] uppercase tracking-[0.16em] text-white/50 border border-white/10 rounded-full px-2 py-0.5">
+                              <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground border border-border rounded-full px-2 py-0.5">
                                 Fork
                               </span>
                             )}
                           </div>
-                          <span className="text-[11px] text-white/50">
+                          <span className="text-[11px] text-muted-foreground">
                             {new Date(repo.updated_at).toLocaleDateString(undefined, {
                               month: "short",
                               day: "numeric",
@@ -417,11 +418,11 @@ export default function GitHubContributions() {
                           </span>
                         </div>
                         {repo.description && (
-                          <p className="text-xs text-white/70 mb-2 line-clamp-2">
+                          <p className="text-xs text-muted-foreground mb-2 line-clamp-2">
                             {repo.description}
                           </p>
                         )}
-                        <div className="flex items-center gap-4 text-[11px] text-white/60">
+                        <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
                           {repo.language && (
                             <span className="inline-flex items-center gap-1">
                               <span className="h-2 w-2 rounded-full bg-primary" />
@@ -429,7 +430,7 @@ export default function GitHubContributions() {
                             </span>
                           )}
                           <span className="inline-flex items-center gap-1">
-                            <span className="text-primary">★</span>
+                            <Star size={12} className="text-primary" />
                             <span>{repo.stargazers_count}</span>
                           </span>
                         </div>
@@ -462,14 +463,14 @@ export default function GitHubContributions() {
                 <p className="text-xs uppercase tracking-[0.2em] text-primary/80">
                   GitHub Profile
                 </p>
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-foreground">
                   {profile?.name || profile?.login || username}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={handleCloseProfileModal}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 hover:border-primary/40 bg-white/5 hover:bg-white/10 text-white transition-colors"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border hover:border-primary/40 bg-foreground/5 hover:bg-foreground/10 text-foreground transition-colors"
                 aria-label="Close profile"
               >
                 <X size={18} />
@@ -496,14 +497,14 @@ export default function GitHubContributions() {
 
                 <div className="flex-1 space-y-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-sm font-semibold text-white">
+                    <span className="text-sm font-semibold text-foreground">
                       {profile?.name || "GitHub Developer"}
                     </span>
-                    <span className="text-xs text-white/60">
+                    <span className="text-xs text-muted-foreground">
                       @{profile?.login || username}
                     </span>
                   </div>
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-white/60">
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                     {profile?.location && (
                       <span className="inline-flex items-center gap-1.5">
                         <MapPin size={12} className="text-primary" />
@@ -533,34 +534,34 @@ export default function GitHubContributions() {
               </div>
 
               {profile?.bio && (
-                <p className="text-sm text-white/70 leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {profile.bio}
                 </p>
               )}
 
               {/* Stats row */}
-              <div className="grid grid-cols-3 gap-3 text-center text-xs text-white/70">
-                <div className="rounded-xl bg-white/5 px-3 py-2 border border-white/10">
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">
+              <div className="grid grid-cols-3 gap-3 text-center text-xs text-muted-foreground">
+                <div className="rounded-xl bg-foreground/5 px-3 py-2 border border-border">
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
                     Repos
                   </p>
-                  <p className="text-lg font-semibold text-white">
+                  <p className="text-lg font-semibold text-foreground">
                     {profile?.public_repos ?? stats?.publicRepos ?? "—"}
                   </p>
                 </div>
-                <div className="rounded-xl bg-white/5 px-3 py-2 border border-white/10">
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">
+                <div className="rounded-xl bg-foreground/5 px-3 py-2 border border-border">
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
                     Followers
                   </p>
-                  <p className="text-lg font-semibold text-white">
+                  <p className="text-lg font-semibold text-foreground">
                     {profile?.followers ?? stats?.followers ?? "—"}
                   </p>
                 </div>
-                <div className="rounded-xl bg-white/5 px-3 py-2 border border-white/10">
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">
+                <div className="rounded-xl bg-foreground/5 px-3 py-2 border border-border">
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
                     Following
                   </p>
-                  <p className="text-lg font-semibold text-white">
+                  <p className="text-lg font-semibold text-foreground">
                     {profile?.following ?? stats?.following ?? "—"}
                   </p>
                 </div>
@@ -573,7 +574,7 @@ export default function GitHubContributions() {
                     href={profile.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-primary/40 bg-primary/15 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary/20 transition-colors"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-primary/40 bg-primary/15 px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-primary/20 transition-colors"
                   >
                     <Github size={16} className="text-primary" />
                     <span>Open on GitHub</span>
@@ -584,7 +585,7 @@ export default function GitHubContributions() {
                     href={profile.blog.startsWith("http") ? profile.blog : `https://${profile.blog}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 hover:border-primary/40 transition-colors"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-border bg-foreground/5 px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-foreground/10 hover:border-primary/40 transition-colors"
                   >
                     <Globe size={16} className="text-primary" />
                     <span>Personal site</span>

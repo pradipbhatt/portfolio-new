@@ -1,6 +1,6 @@
 "use client";
 
-import { Folder, Maximize2, Minimize2, Terminal } from "lucide-react";
+import { Folder, Maximize2, Minimize2, Terminal, X as XIcon } from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -887,7 +887,7 @@ export default function HeroTerminal() {
             className="group relative flex h-3 w-3 cursor-default items-center justify-center rounded-full border-0 bg-[#ff5f57] p-0 text-[8px] font-bold text-black/80 hover:bg-[#ff5f57] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
           >
             <span className="pointer-events-none opacity-0 transition-opacity group-hover:opacity-100">
-              ✕
+              <XIcon size={8} />
             </span>
           </button>
           <button

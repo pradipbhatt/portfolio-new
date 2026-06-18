@@ -1,5 +1,4 @@
 import About from "@/components/About";
-// import ArtGallery from "@/components/ArtGallery";
 import Awards from "@/components/Awards";
 import Community from "@/components/Community";
 import Contact from "@/components/Contact";
@@ -20,7 +19,6 @@ export default function Home() {
         <Skills />
         <Projects />
         <Awards />
-        {/* <ArtGallery /> */}
         <Community />
         <GitHubContributions />
         <Contact />

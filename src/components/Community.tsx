@@ -1,6 +1,7 @@
 "use client";
 
 import { useGsapReveal } from "@/lib/gsapReveal";
+import { Highlight } from "@/components/ui/Highlight";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
@@ -32,9 +33,8 @@ export default function Community() {
             <span className="text-primary">n</span>volvement
           </h2>
           <p className="max-w-2xl mx-auto text-sm md:text-base text-muted-foreground">
-            A visual journey of how I&apos;ve contributed to tech communities
-            over the years — speaking, mentoring, organizing and building
-            together.
+            A visual journey of how I&apos;ve contributed to tech communities over the years —{" "}
+            <Highlight delay={0.12}>speaking, mentoring, organizing and building together.</Highlight>
           </p>
         </div>
 
@@ -45,7 +45,7 @@ export default function Community() {
           </div>
 
           <div className="space-y-12 md:space-y-16">
-            {sortedYears.map((year, yearIndex) => (
+            {sortedYears.map((year) => (
               <div
                 key={year}
                 className="relative"
@@ -94,7 +94,7 @@ export default function Community() {
                   {/* Events for this year */}
                   <div className="flex-1">
                     <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-7">
-                      {eventsByYear[year].map((event, index) => (
+                      {eventsByYear[year].map((event) => (
                         <article
                           key={event.title}
                           className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/40 shadow-[0_18px_45px_rgba(0,0,0,0.65)]"

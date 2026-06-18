@@ -2,25 +2,11 @@
 
 import { projects } from "@/data/projects";
 import { useGsapReveal } from "@/lib/gsapReveal";
+import { HoverLetters } from "@/components/ui/HoverLetters";
 import { ExternalLink, Github, Trophy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
-
-function HoverLetters({ text, activeColor = "hover:text-primary" }: { text: string; activeColor?: string }) {
-    return (
-        <>
-            {text.split("").map((letter, i) => (
-                <span
-                    key={i}
-                    className={`inline-block transition-[transform,color,filter] duration-200 cursor-default ${letter === " " ? "w-[0.25em]" : `${activeColor} hover:-translate-y-[2px] hover:scale-110`}`}
-                >
-                    {letter === " " ? " " : letter}
-                </span>
-            ))}
-        </>
-    );
-}
 
 export default function Projects() {
     const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -83,7 +69,7 @@ export default function Projects() {
                                 className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                                     activeCategory === category
                                         ? "bg-primary text-primary-foreground border-primary"
-                                        : "bg-transparent text-muted-foreground border-white/10 hover:border-primary/50 hover:text-primary"
+                                        : "bg-transparent text-muted-foreground border-border hover:border-primary/50 hover:text-primary"
                                 }`}
                             >
                                 {category}
@@ -93,7 +79,7 @@ export default function Projects() {
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {visibleProjects.map((project, index) => (
+                    {visibleProjects.map((project) => (
                         <div
                             key={project.title}
                             className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-md cursor-pointer"

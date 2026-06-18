@@ -56,7 +56,7 @@ export default function Navbar() {
                 <div className="hidden md:flex items-center gap-3 absolute right-6">
                     <button
                         onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-white/10 transition-colors text-muted-foreground hover:text-primary"
+                        className="p-2 rounded-full hover:bg-foreground/10 transition-colors text-muted-foreground hover:text-primary"
                         aria-label="Toggle theme"
                     >
                         {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
@@ -70,13 +70,13 @@ export default function Navbar() {
                 <div className="md:hidden flex items-center gap-2 absolute right-6">
                     <button
                         onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-white/10 transition-colors text-foreground"
+                        className="p-2 rounded-full hover:bg-foreground/10 transition-colors text-foreground"
                         aria-label="Toggle theme"
                     >
                         {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
                     </button>
                     <button
-                        className="p-2 text-foreground rounded-md hover:bg-white/10 transition-colors"
+                        className="p-2 text-foreground rounded-md hover:bg-foreground/10 transition-colors"
                         onClick={() => setIsOpen(!isOpen)}
                         aria-label={isOpen ? "Close menu" : "Open menu"}
                         aria-expanded={isOpen}
@@ -88,7 +88,7 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden absolute top-full left-0 right-0 z-[60] glass border-t border-white/10 p-6 flex flex-col gap-4 animate-in slide-in-from-top-5">
+                <div className="md:hidden absolute top-full left-0 right-0 z-[60] glass border-t border-border p-6 flex flex-col gap-4 animate-in slide-in-from-top-5">
                     {navItems.map((item) => (
                         <Link
                             key={item.name}

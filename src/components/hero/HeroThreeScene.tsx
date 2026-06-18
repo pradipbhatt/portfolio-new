@@ -1,15 +1,17 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Zap, Briefcase, Wrench, Award, GraduationCap, FolderOpen, Code2, AtSign } from "lucide-react";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 export type NodeHoverData = {
   label: string;
-  icon: string;
+  icon: ReactNode;
   cssColor: string;
   detail: string[];
   screenX: number;
@@ -18,7 +20,7 @@ export type NodeHoverData = {
 
 type NodeDef = {
   label: string;
-  icon: string;
+  icon: ReactNode;
   cssColor: string;
   threeColor: number;
   detail: string[];
@@ -28,42 +30,42 @@ type NodeDef = {
 
 const NODE_DEFS: NodeDef[] = [
   {
-    label: "Skills", icon: "⚡", cssColor: "#00ff9d", threeColor: 0x00ff9d, isHub: true,
+    label: "Skills", icon: <Zap size={13} />, cssColor: "#00ff9d", threeColor: 0x00ff9d, isHub: true,
     rawPos: [-5.0, 1.5, -2],
     detail: ["Penetration Testing", "Vulnerability Assessment", "OSINT & Recon", "Threat Intelligence", "Red Teaming"],
   },
   {
-    label: "Experience", icon: "💼", cssColor: "#c15928", threeColor: 0xc15928, isHub: true,
+    label: "Experience", icon: <Briefcase size={13} />, cssColor: "#c15928", threeColor: 0xc15928, isHub: true,
     rawPos: [5.5, 1.0, -1.5],
     detail: ["SecurityPal AI — Security Researcher", "3+ Years Industry Experience", "Full Stack Development", "SDLC Automation"],
   },
   {
-    label: "Tools", icon: "⚙", cssColor: "#00ccff", threeColor: 0x00ccff,
+    label: "Tools", icon: <Wrench size={13} />, cssColor: "#00ccff", threeColor: 0x00ccff,
     rawPos: [-4.0, -2.0, -1.5],
     detail: ["Burp Suite Pro", "Nmap / Masscan", "Metasploit Framework", "Wireshark / tcpdump", "SIEM — Splunk, ELK"],
   },
   {
-    label: "Certs", icon: "★", cssColor: "#f5a623", threeColor: 0xf5a623,
+    label: "Certs", icon: <Award size={13} />, cssColor: "#f5a623", threeColor: 0xf5a623,
     rawPos: [3.5, -1.5, -2],
     detail: ["CompTIA Security+", "Google Cybersecurity", "CEH — in progress", "OSCP — pursuing"],
   },
   {
-    label: "Education", icon: "◈", cssColor: "#8b5cf6", threeColor: 0x8b5cf6,
+    label: "Education", icon: <GraduationCap size={13} />, cssColor: "#8b5cf6", threeColor: 0x8b5cf6,
     rawPos: [0.5, 3.2, -3],
     detail: ["B.E. Computer Engineering", "Far Western University", "Mahendranagar, Bhimdattnagar", "Sudurpaschim — 2020-2024"],
   },
   {
-    label: "Projects", icon: "◎", cssColor: "#ff6b6b", threeColor: 0xff6b6b,
+    label: "Projects", icon: <FolderOpen size={13} />, cssColor: "#ff6b6b", threeColor: 0xff6b6b,
     rawPos: [-6.5, 0.0, -1],
     detail: ["20+ Projects Shipped", "Bug Bounty — HackerOne", "Open Source Contributions", "CTF Competitions"],
   },
   {
-    label: "Languages", icon: "</>", cssColor: "#64ffda", threeColor: 0x64ffda,
+    label: "Languages", icon: <Code2 size={13} />, cssColor: "#64ffda", threeColor: 0x64ffda,
     rawPos: [2.0, -3.2, -2],
     detail: ["JavaScript / TypeScript", "Python", "Bash / Shell", "Go", "SQL / NoSQL"],
   },
   {
-    label: "Connect", icon: "◇", cssColor: "#ffd700", threeColor: 0xffd700,
+    label: "Connect", icon: <AtSign size={13} />, cssColor: "#ffd700", threeColor: 0xffd700,
     rawPos: [7.0, 2.5, -2],
     detail: ["LinkedIn: pradipbhatt2126", "GitHub: pradipbhatt", "Email: pradip.bhatt@securitypalhq.com", "Discord: pradipbhatt"],
   },

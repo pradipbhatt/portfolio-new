@@ -1,10 +1,17 @@
 "use client";
 
 import emailjs from "@emailjs/browser";
+import { Highlight } from "@/components/ui/Highlight";
 import { useGsapReveal } from "@/lib/gsapReveal";
-import { Facebook, Github, Globe, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Check, Facebook, Github, Globe, Instagram, Linkedin, Mail, MapPin, Phone, X as XIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
+
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 export default function Contact() {
     const headingRef = useRef<HTMLDivElement>(null);
@@ -13,11 +20,6 @@ export default function Contact() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState("");
-
-    // Initialize EmailJS
-    useEffect(() => {
-        emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!);
-    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,10 +33,6 @@ export default function Contact() {
                 setLoading(false);
                 return;
             }
-
-            const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
-            const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
-            const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
 
             // Get form data
             const formData = new FormData(formRef.current);
@@ -54,10 +52,10 @@ export default function Contact() {
             };
 
             await emailjs.send(
-                SERVICE_ID,
-                TEMPLATE_ID,
+                EMAILJS_SERVICE_ID,
+                EMAILJS_TEMPLATE_ID,
                 templateParams,
-                PUBLIC_KEY
+                EMAILJS_PUBLIC_KEY
             );
 
             setSuccess(true);
@@ -91,14 +89,16 @@ export default function Contact() {
                         <h3 className="text-2xl font-bold mb-6 font-display">Send a Message</h3>
 
                         {success && (
-                            <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-500 text-sm">
-                                ✓ Message sent successfully! I&apos;ll get back to you soon.
+                            <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-500 text-sm flex items-center gap-2">
+                                <Check size={14} className="shrink-0" />
+                                Message sent successfully! I&apos;ll get back to you soon.
                             </div>
                         )}
 
                         {error && (
-                            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm">
-                                ✗ {error}
+                            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm flex items-center gap-2">
+                                <XIcon size={14} className="shrink-0" />
+                                {error}
                             </div>
                         )}
 
@@ -222,26 +222,30 @@ export default function Contact() {
                                 <Link
                                     href="https://www.linkedin.com/in/pradipbhatt2126/"
                                     target="_blank"
-                                    className="p-3 bg-white/5 hover:bg-primary/20 rounded-lg transition-colors"
+                                    className="p-3 bg-foreground/5 hover:bg-primary/20 rounded-lg transition-colors"
                                 >
                                     <Linkedin size={20} />
                                 </Link>
                                 <Link
                                     href="https://github.com/pradipbhatt"
                                     target="_blank"
-                                    className="p-3 bg-white/5 hover:bg-primary/20 rounded-lg transition-colors"
+                                    className="p-3 bg-foreground/5 hover:bg-primary/20 rounded-lg transition-colors"
                                 >
                                     <Github size={20} />
                                 </Link>
                                 <Link
-                                    href="#"
-                                    className="p-3 bg-white/5 hover:bg-primary/20 rounded-lg transition-colors"
+                                    href="https://www.instagram.com/pradipbhatt/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-3 bg-foreground/5 hover:bg-primary/20 rounded-lg transition-colors"
                                 >
                                     <Instagram size={20} />
                                 </Link>
                                 <Link
-                                    href="#"
-                                    className="p-3 bg-white/5 hover:bg-primary/20 rounded-lg transition-colors"
+                                    href="https://www.facebook.com/pradipbhatt/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-3 bg-foreground/5 hover:bg-primary/20 rounded-lg transition-colors"
                                 >
                                     <Facebook size={20} />
                                 </Link>
@@ -251,7 +255,9 @@ export default function Contact() {
                         <div className="bg-card p-6 rounded-xl border border-border space-y-3">
                             <h4 className="font-bold text-primary">Availability</h4>
                             <p className="text-sm text-muted-foreground">
-                                Security Research Analyst at SecurityPal AI. Open to security consulting, pen testing engagements, open-source collaboration, and full-stack freelance.
+                                Security Research Analyst at SecurityPal AI.{" "}
+                                <Highlight delay={0.1}>Open to security consulting, pen testing engagements,</Highlight>{" "}
+                                open-source collaboration, and full-stack freelance.
                             </p>
                         </div>
                     </div>

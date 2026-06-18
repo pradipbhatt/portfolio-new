@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Tell Tailwind v4 that dark: variants respond to the .dark class, not the OS media query */
+@variant dark (&:where(.dark, .dark *));
+
 @font-face {
   font-family: 'Researcher';
   src: url('/Researcher/Researcher Regular.ttf') format('truetype');
@@ -216,6 +219,38 @@ h1, h2, h3, h4, h5, h6 {
     animation: none;
     transform: translateX(-15%) skewX(-14deg);
     opacity: 0.22;
+  }
+}
+
+/* ── Highlighter marker effect ────────────────────────────── */
+@keyframes highlight-sweep {
+  from { background-size: 0% 88%; }
+  to   { background-size: 100% 88%; }
+}
+
+.highlight-text {
+  background-image: linear-gradient(
+    color-mix(in srgb, var(--primary) 26%, transparent),
+    color-mix(in srgb, var(--primary) 26%, transparent)
+  );
+  background-repeat: no-repeat;
+  background-position: 0% 92%;
+  background-size: 0% 88%;
+  padding: 0.03em 0.18em;
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.highlight-text[data-visible="true"] {
+  animation: highlight-sweep 0.72s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: var(--highlight-delay, 0.08s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .highlight-text[data-visible="true"] {
+    animation: none;
+    background-size: 100% 88%;
   }
 }
 

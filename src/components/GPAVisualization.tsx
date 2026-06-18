@@ -92,7 +92,7 @@ export default function GPAVisualization() {
                                 {/* Grid lines */}
                                 <div className="absolute inset-0 flex flex-col justify-between">
                                     {[4.0, 3.5, 3.0, 2.5].map((value) => (
-                                        <div key={value} className="border-t border-white/5" />
+                                        <div key={value} className="border-t border-border/30" />
                                     ))}
                                 </div>
 
@@ -120,7 +120,7 @@ export default function GPAVisualization() {
                                                 {/* Bar */}
                                                 <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-primary/80 to-primary/40 rounded-t-lg border-t-2 border-primary hover:from-primary hover:to-primary/60 transition-all duration-300">
                                                     {/* GPA Label on hover */}
-                                                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20">
+                                                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-primary-foreground text-xs px-2 py-1 rounded whitespace-nowrap z-20">
                                                         {data.gpa}
                                                     </div>
                                                 </div>
@@ -137,7 +137,7 @@ export default function GPAVisualization() {
                                                         {/* Glow effect */}
                                                         <div className="absolute inset-0 w-6 h-6 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 bg-primary rounded-full blur-md opacity-60" />
                                                         {/* Main dot */}
-                                                        <div className="relative w-4 h-4 bg-primary rounded-full border-[3px] border-white shadow-lg" />
+                                                        <div className="relative w-4 h-4 bg-primary rounded-full border-[3px] border-background shadow-lg" />
                                                     </motion.div>
                                                 </div>
 

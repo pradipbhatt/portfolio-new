@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useGsapReveal } from "@/lib/gsapReveal";
+import { Highlight } from "@/components/ui/Highlight";
 import { awards } from "@/data/awards";
 import Image from "next/image";
 import { Trophy, Briefcase, Users, Star } from "lucide-react";
@@ -45,7 +46,7 @@ export default function Awards() {
                         </span>
                     </h2>
                     <p className="max-w-xl mx-auto text-sm text-muted-foreground">
-                        Hackathon placements, career milestones, and open-source community recognition across Nepal and beyond.
+                        <Highlight delay={0.1}>Hackathon placements, career milestones,</Highlight> and open-source community recognition across Nepal and beyond.
                     </p>
                 </div>
 

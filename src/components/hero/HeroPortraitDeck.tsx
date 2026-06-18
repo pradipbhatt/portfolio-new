@@ -214,13 +214,7 @@ export function HeroPortraitDeck({
         </div>
       ) : null}
 
-      {!reduceMotion ? (
-        <p className="text-center text-[10px] text-white/40">
-          Smooth crossfade · auto {(AUTO_MS / 1000).toFixed(1)}s
-        </p>
-      ) : null}
-
-      <p className="text-center text-[10px] uppercase tracking-[0.12em] text-white/40">
+      <p className="text-center text-[10px] uppercase tracking-[0.16em] text-[#00ff9d]/40">
         SecurityPal · Engineering · Research
       </p>
     </motion.div>

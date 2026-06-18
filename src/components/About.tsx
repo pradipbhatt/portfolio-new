@@ -2,7 +2,9 @@
 
 import { useRef } from "react";
 import { useGsapReveal } from "@/lib/gsapReveal";
+import { HoverLetters } from "@/components/ui/HoverLetters";
 import { Code, GraduationCap, Award, Camera, Lightbulb, Mail, ExternalLink, BadgeCheck } from "lucide-react";
+import { Highlight } from "@/components/ui/Highlight";
 import Image from "next/image";
 
 const aboutContent = {
@@ -21,21 +23,6 @@ const aboutContent = {
         { icon: Lightbulb, label: "Community" }
     ]
 };
-
-function HoverLetters({ text, activeColor = "hover:text-primary" }: { text: string; activeColor?: string }) {
-    return (
-        <>
-            {text.split("").map((letter, i) => (
-                <span
-                    key={i}
-                    className={`inline-block transition-[transform,color,filter] duration-200 cursor-default ${letter === " " ? "w-[0.25em]" : `${activeColor} hover:-translate-y-[2px] hover:scale-110`}`}
-                >
-                    {letter === " " ? "\u00A0" : letter}
-                </span>
-            ))}
-        </>
-    );
-}
 
 export default function About() {
     const headingRef = useRef<HTMLDivElement>(null);
@@ -57,12 +44,11 @@ export default function About() {
                     <div className="md:col-span-4 lg:col-span-4">
                         <div className="relative aspect-[3/4] max-w-[280px] mx-auto rounded-2xl overflow-hidden border-2 border-primary/20 shadow-lg shadow-primary/10">
                             <Image
-                                src="/assets/me formal.png"
+                                src="https://avatars.githubusercontent.com/pradipbhatt?size=560"
                                 alt={aboutContent.name}
                                 fill
                                 sizes="(max-width: 768px) 240px, 280px"
                                 className="object-cover"
-                                priority
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                         </div>
@@ -93,7 +79,11 @@ export default function About() {
                         </div>
 
                         <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                            {aboutContent.bio}
+                            Security Research Analyst at SecurityPal AI — working on{" "}
+                            <Highlight delay={0.1}>Fortune-scale customer assurance, AI-driven GRC reviews, and security assessments.</Highlight>{" "}
+                            B.E. Computer Engineering graduate from Far Western University, Mahendranagar. Former President of ICEC FWU,{" "}
+                            <Highlight delay={0.2}>NASA Space Apps 2024 regional finalist,</Highlight>{" "}
+                            and open source community builder across Sudurpaschim Province.
                         </p>
 
                         <div className="grid grid-cols-3 gap-3 py-2">

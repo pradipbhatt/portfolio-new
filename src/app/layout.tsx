@@ -53,16 +53,29 @@ const shareTechMono = Share_Tech_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Pradip Bhatt",
-  description: "A showcase of my work and skills as a Full Stack Developer and Creative Artist.",
+  title: "Pradip Bhatt — Security Researcher & Full Stack Developer",
+  description:
+    "Security Research Analyst at SecurityPal AI. Offensive-minded researcher specialising in vulnerability discovery, GRC, and full-stack engineering. Based in Kathmandu, Nepal.",
+  metadataBase: new URL("https://pradipbhatt.com.np"),
+  openGraph: {
+    title: "Pradip Bhatt — Security Researcher & Full Stack Developer",
+    description:
+      "Security Research Analyst at SecurityPal AI. Offensive-minded researcher specialising in vulnerability discovery, GRC, and full-stack engineering.",
+    url: "https://pradipbhatt.com.np",
+    siteName: "Pradip Bhatt",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pradip Bhatt — Security Researcher & Full Stack Developer",
+    description:
+      "Security Research Analyst at SecurityPal AI. Offensive-minded researcher specialising in vulnerability discovery, GRC, and full-stack engineering.",
+  },
   icons: {
-    icon: [
-      { url: '/icon', type: 'image/png' },
-    ],
-    shortcut: '/icon',
-    apple: [
-      { url: '/apple-icon', sizes: '180x180', type: 'image/png' },
-    ],
+    icon: [{ url: "/icon", type: "image/png" }],
+    shortcut: "/icon",
+    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
   },
 };
 

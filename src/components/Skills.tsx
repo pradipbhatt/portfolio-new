@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef } from "react";
 import { useGsapReveal } from "@/lib/gsapReveal";
+import { HoverLetters } from "@/components/ui/HoverLetters";
 import {
     Bot,
     Brain,
@@ -98,7 +99,7 @@ const skillCategories = {
             title: "Next.js",
             subtitle: "SSR, SSG, App Router",
             icon: <SiNextdotjs size={20} />,
-            color: "text-white",
+            color: "text-foreground",
             level: 85,
             gradient: "from-gray-500/20 to-slate-500/20"
         },
@@ -231,21 +232,6 @@ const skillCategories = {
     ],
 };
 
-function HoverLetters({ text, activeColor = "hover:text-primary" }: { text: string; activeColor?: string }) {
-    return (
-        <>
-            {text.split("").map((letter, i) => (
-                <span
-                    key={i}
-                    className={`inline-block transition-[transform,color,filter] duration-200 cursor-default ${letter === " " ? "w-[0.25em]" : `${activeColor} hover:-translate-y-[2px] hover:scale-110`}`}
-                >
-                    {letter === " " ? "\u00A0" : letter}
-                </span>
-            ))}
-        </>
-    );
-}
-
 const categoryIcons = {
     "Security": ShieldAlert,
     "Frontend": Code2,
@@ -309,7 +295,7 @@ export default function Skills() {
                                     key={skill.title}
                                     className={`group relative p-4 rounded-xl border border-primary/10 bg-card/50 hover:border-primary/40 hover:bg-card/70 transition-all duration-300 overflow-hidden text-center`}
                                 >
-                                    <div className={`mx-auto p-2 bg-white/5 rounded-lg w-fit group-hover:bg-white/10 transition-all duration-300 mb-3 ${skill.color}`}>
+                                    <div className={`mx-auto p-2 bg-foreground/5 rounded-lg w-fit group-hover:bg-foreground/10 transition-all duration-300 mb-3 ${skill.color}`}>
                                         {skill.icon}
                                     </div>
                                     <h4 className={`text-sm font-bold mb-1 ${skill.color}`}>

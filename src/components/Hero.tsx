@@ -13,13 +13,7 @@ import {
   Facebook,
 } from "lucide-react";
 import { useEffect, useRef, useSyncExternalStore } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 function subscribeReducedMotion(onStoreChange: () => void) {
   if (typeof window === "undefined") return () => {};
@@ -41,45 +35,12 @@ const socialLinks = [
 ];
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
   const reduceMotion = useSyncExternalStore(
     subscribeReducedMotion,
     reducedMotionSnapshot,
     () => false
   );
-  const { scrollYProgress: heroScrollProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-  const heroMotion = useSpring(heroScrollProgress, {
-    stiffness: 150,
-    damping: 34,
-    mass: 0.42,
-  });
-  const wordmarkScale = useTransform(heroMotion, [0, 0.35, 0.72, 1], [1, 1.12, 0.96, 1]);
-  const wordmarkOpacity = useTransform(heroMotion, [0, 0.35, 0.75, 1], [1, 0.9, 0.7, 0.45]);
-
   const portraitWrapRef = useRef<HTMLDivElement>(null);
-  const textColRef = useRef<HTMLDivElement>(null);
-  const nameRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
-
-  /* GSAP entrance — clean staggered reveal */
-  useEffect(() => {
-    if (reduceMotion) return;
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      if (nameRef.current) {
-        tl.from(nameRef.current, { y: 40, opacity: 0, duration: 0.8 }, 0.3);
-      }
-      if (badgeRef.current) {
-        tl.from(badgeRef.current, { y: 16, opacity: 0, duration: 0.5 }, 0.7);
-      }
-
-    });
-    return () => ctx.revert();
-  }, [reduceMotion]);
 
   /* GSAP portrait 3D tilt on mouse move */
   useEffect(() => {
@@ -105,57 +66,13 @@ export default function Hero() {
     };
   }, [reduceMotion]);
 
-  /* GSAP scroll parallax on text column */
-  useEffect(() => {
-    if (reduceMotion) return;
-    const el = textColRef.current;
-    if (!el) return;
-    const ctx = gsap.context(() => {
-      gsap.to(el, {
-        y: -60,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.2,
-        },
-      });
-    });
-    return () => ctx.revert();
-  }, [reduceMotion]);
-
   return (
     <section
-      ref={sectionRef}
       id="home"
       aria-label="Introduction, biography, and interactive terminal"
-      className="relative flex w-full flex-col overflow-x-clip overflow-y-visible bg-[#eef1f5] dark:bg-[#05080f] pb-16 pt-28 md:pb-20 md:pt-32"
+      className="relative flex w-full flex-col overflow-x-clip overflow-y-visible bg-[#eef1f5] pb-16 pt-28 dark:bg-[#05080f] md:pb-20 md:pt-32"
     >
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_65%_55%_at_75%_35%,rgba(67,80,91,0.09),transparent_75%)] dark:bg-[radial-gradient(ellipse_65%_55%_at_75%_35%,rgba(42,58,71,0.16),transparent_75%)]" aria-hidden />
-
-      {/* Hollow wordmark aligned with the hero content edge. */}
-      <div className="pointer-events-none absolute inset-0 z-[2] flex items-center overflow-hidden">
-        <div className="container mx-auto w-full pl-12 pr-6 md:pl-20">
-          <motion.div
-            className="hero-pradev"
-            style={{
-              scale: reduceMotion ? 1 : wordmarkScale,
-              opacity: reduceMotion ? 1 : wordmarkOpacity,
-              transformOrigin: "left center",
-              fontFamily: "var(--font-orbitron), sans-serif",
-              fontSize: "clamp(3.5rem, 11vw, 12.5rem)",
-              fontWeight: 900,
-              letterSpacing: "-0.025em",
-              userSelect: "none",
-              whiteSpace: "nowrap",
-            }}
-            aria-hidden
-          >
-            PRA.DEV
-          </motion.div>
-        </div>
-      </div>
 
       {/* ── Depth fades — dark ── */}
       <div className="pointer-events-none absolute inset-0 z-[1] hidden dark:block bg-gradient-to-b from-[#0a0f0d]/80 via-transparent to-[#0a0f0d]/95" />
@@ -163,13 +80,14 @@ export default function Hero() {
       {/* ── Depth fades — light ── */}
       <div className="pointer-events-none absolute inset-0 z-[1] block dark:hidden bg-gradient-to-b from-[#eef1f5]/90 via-transparent to-[#eef1f5]/90" />
       <div className="pointer-events-none absolute inset-0 z-[1] block dark:hidden" style={{ background: "radial-gradient(ellipse 70% 100% at 30% 50%, transparent 30%, rgba(238,241,245,0.45) 100%)" }} />
+      <div className="hero-grid pointer-events-none absolute inset-0 z-[2]" aria-hidden />
 
       {/* ── Main content ── */}
-      <div className="container mx-auto px-6 relative z-10 flex w-full flex-col">
+      <div className="container relative z-10 mx-auto flex w-full max-w-6xl flex-col px-6">
         <div className="flex w-full min-w-0 max-w-full flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-12 xl:gap-20">
 
           {/* ── Left: text content ── */}
-          <div ref={textColRef} className="flex min-w-0 flex-1 flex-col">
+          <div className="flex min-w-0 flex-1 flex-col">
 
             {/* Hi, I'm — cursive greeting */}
             <div className="mb-2">
@@ -179,33 +97,30 @@ export default function Hero() {
             </div>
 
             {/* Name */}
-            <div ref={nameRef} className="font-hacker font-bold leading-[0.9] tracking-tight text-foreground dark:text-white">
-              <h1 className="text-[clamp(2.8rem,7.5vw,5.5rem)] lg:text-[clamp(3.2rem,5.5vw,5.5rem)]">
+            <h1 className="font-hacker text-[clamp(2.8rem,7.5vw,5.5rem)] font-bold leading-[0.9] tracking-tight text-foreground dark:text-white lg:text-[clamp(3.2rem,5.5vw,5.5rem)]">
+              <span className="block">
                 <HoverLetters text="Pradip" activeColor="hover:text-primary" />
-              </h1>
-              <h1
-                className="text-[clamp(2.8rem,7.5vw,5.5rem)] lg:text-[clamp(3.2rem,5.5vw,5.5rem)]"
+              </span>
+              <span
+                className="block"
                 style={{ color: "color-mix(in srgb, var(--primary) 55%, var(--foreground))" }}
               >
                 <HoverLetters text="Bhatt" activeColor="hover:text-foreground dark:hover:text-white" />
-              </h1>
-            </div>
+              </span>
+            </h1>
 
-            <div className="mt-16">
-              <div ref={badgeRef}>
+            <div className="mt-9">
+              <div>
                 <p className="text-sm font-semibold uppercase leading-snug tracking-[0.12em] text-foreground/85 dark:text-white/85 md:text-base">
                   Full Stack Developer & AI Researcher
                 </p>
-                <p className="mt-1 text-xs tracking-wider text-foreground/55 dark:text-white/50">
-                  Developer · Applied AI Research
-                </p>
               </div>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-5 flex flex-wrap items-center gap-3">
               <a
                 href="/assets/CV Pradip.pdf"
                 download="Pradip_Bhatt_CV.pdf"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-primary px-5 py-2.5 font-researcher text-sm tracking-wide text-primary-foreground transition-all duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-primary/40"
+                className="group relative inline-flex min-h-11 items-center gap-2 overflow-hidden rounded-full bg-primary px-5 py-2.5 font-researcher text-sm tracking-wide text-primary-foreground transition-all duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-primary/40"
               >
                 <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-white/20 transition-transform duration-500 group-hover:translate-x-[120%]" aria-hidden />
                 Download CV
@@ -213,14 +128,14 @@ export default function Hero() {
               </a>
               <a
                 href="#projects"
-                className="group inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/[0.05] px-5 py-2.5 font-researcher text-sm tracking-wide text-foreground dark:text-white/85 transition-all duration-300 hover:border-primary hover:bg-primary/10 hover:text-emerald-600 dark:hover:text-[#00ff9d]"
+                className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/40 bg-primary/[0.05] px-5 py-2.5 font-researcher text-sm tracking-wide text-foreground dark:text-white/85 transition-all duration-300 hover:border-primary hover:bg-primary/10 hover:text-emerald-600 dark:hover:text-[#00ff9d]"
               >
                 View Projects
                 <ArrowDown size={14} className="transition-transform group-hover:translate-y-0.5" />
               </a>
               </div>
 
-              <div className="mt-8 grid w-full max-w-[34rem] grid-cols-2 gap-px overflow-hidden rounded-xl border border-primary/20 bg-primary/20 p-px shadow-sm sm:grid-cols-4">
+              <div className="mt-6 grid w-full max-w-[34rem] grid-cols-2 gap-px overflow-hidden rounded-xl border border-primary/20 bg-primary/20 p-px shadow-sm sm:grid-cols-4">
               {[
                 { k: "3+", v: "Years Exp." },
                 { k: "20+", v: "Projects" },
@@ -232,7 +147,7 @@ export default function Hero() {
                   className="flex flex-col items-center bg-background/90 px-3 py-3 text-center"
                 >
                   <span className="text-lg font-bold leading-none text-primary">{item.k}</span>
-                  <span className="mt-1 text-[10px] uppercase tracking-[0.12em] text-foreground/55 dark:text-white/55">{item.v}</span>
+                  <span className="mt-1 text-[10px] uppercase tracking-[0.12em] text-foreground/70 dark:text-white/70">{item.v}</span>
                 </div>
               ))}
               </div>
@@ -272,7 +187,8 @@ export default function Hero() {
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative p-2.5 text-foreground/45 dark:text-white/45 transition-colors duration-200 hover:text-emerald-600 dark:hover:text-[#00ff9d]"
+              aria-label={social.label}
+              className="group relative p-3.5 text-foreground/55 dark:text-white/60 transition-colors duration-200 hover:text-emerald-600 dark:hover:text-[#00ff9d]"
             >
               <social.icon size={17} />
               <span className="pointer-events-none absolute right-full top-1/2 mr-2.5 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded border border-emerald-500/30 dark:border-[#00ff9d]/30 bg-background/95 dark:bg-[#05080f]/95 px-2 py-0.5 text-[10px] text-emerald-600 dark:text-[#00ff9d] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" style={{ fontFamily: "var(--font-mono-terminal)" }}>
@@ -293,7 +209,8 @@ export default function Hero() {
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 text-foreground/45 dark:text-white/45 transition-colors hover:text-emerald-600 dark:hover:text-[#00ff9d]"
+              aria-label={social.label}
+              className="p-3.5 text-foreground/55 dark:text-white/60 transition-colors hover:text-emerald-600 dark:hover:text-[#00ff9d]"
             >
               <social.icon size={17} />
             </Link>

@@ -45,7 +45,7 @@ export default function Navbar() {
                         <Link
                             key={item.name}
                             href={item.href}
-                            className="text-lg font-medium font-squid text-muted-foreground hover:text-primary transition-colors tracking-wide"
+                            className="inline-flex min-h-11 items-center text-lg font-medium font-squid text-muted-foreground hover:text-primary transition-colors tracking-wide"
                         >
                             {item.name}
                         </Link>
@@ -56,7 +56,7 @@ export default function Navbar() {
                 <div className="hidden md:flex items-center gap-3 absolute right-6">
                     <button
                         onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-foreground/10 transition-colors text-muted-foreground hover:text-primary"
+                        className="p-3 rounded-full hover:bg-foreground/10 transition-colors text-muted-foreground hover:text-primary"
                         aria-label="Toggle theme"
                     >
                         {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
@@ -70,13 +70,13 @@ export default function Navbar() {
                 <div className="md:hidden flex items-center gap-2 absolute right-6">
                     <button
                         onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-foreground/10 transition-colors text-foreground"
+                        className="p-3 rounded-full hover:bg-foreground/10 transition-colors text-foreground"
                         aria-label="Toggle theme"
                     >
                         {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
                     </button>
                     <button
-                        className="p-2 text-foreground rounded-md hover:bg-foreground/10 transition-colors"
+                        className="p-2.5 text-foreground rounded-md hover:bg-foreground/10 transition-colors"
                         onClick={() => setIsOpen(!isOpen)}
                         aria-label={isOpen ? "Close menu" : "Open menu"}
                         aria-expanded={isOpen}

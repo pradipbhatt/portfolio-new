@@ -57,9 +57,28 @@ export default function GitHubContributions() {
   const [reposError, setReposError] = useState<string | null>(null);
   const [showReposModal, setShowReposModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [shouldLoadProfile, setShouldLoadProfile] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   const username = "pradipbhatt";
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadProfile(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "600px" }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoadProfile) return;
     const controller = new AbortController();
 
     fetch(`https://api.github.com/users/${username}`, { signal: controller.signal })
@@ -94,7 +113,7 @@ export default function GitHubContributions() {
       .finally(() => setIsLoading(false));
 
     return () => controller.abort();
-  }, [username]);
+  }, [shouldLoadProfile, username]);
 
   const reposAbortRef = useRef<AbortController | null>(null);
 
@@ -184,7 +203,7 @@ export default function GitHubContributions() {
   ];
 
   return (
-    <section id="github" className="relative overflow-hidden bg-background py-16">
+    <section ref={sectionRef} id="github" className="relative overflow-hidden bg-background py-16">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 

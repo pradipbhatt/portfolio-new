@@ -3,7 +3,6 @@
 import { useGsapReveal } from "@/lib/gsapReveal";
 import { Highlight } from "@/components/ui/Highlight";
 import { HoverLetters } from "@/components/ui/HoverLetters";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
 import { communityEvents, type CommunityEvent } from "../data/community";
@@ -56,15 +55,13 @@ export default function Community() {
                 <div className="flex flex-col md:flex-row md:items-start gap-6 md:gap-10">
                   {/* Timeline node + year chip */}
                   <div className="flex md:flex-col items-center md:items-start gap-3 md:w-40">
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      className="relative"
-                    >
+                    <div className="relative transition-transform duration-200 hover:scale-110">
                       <svg
                         width="36"
                         height="36"
                         viewBox="0 0 36 36"
                         className="drop-shadow-[0_0_18px_rgba(0,0,0,0.5)]"
+                        aria-hidden="true"
                       >
                         <circle cx="18" cy="18" r="9" fill="currentColor" className="text-primary" />
                         <circle
@@ -77,17 +74,7 @@ export default function Community() {
                           strokeDasharray="4 6"
                         />
                       </svg>
-                      <motion.span
-                        className="absolute inset-0 rounded-full border border-primary/50"
-                        initial={{ scale: 1, opacity: 0.7 }}
-                        animate={{ scale: 1.3, opacity: 0 }}
-                        transition={{
-                          duration: 1.8,
-                          repeat: Infinity,
-                          ease: "easeOut",
-                        }}
-                      />
-                    </motion.div>
+                    </div>
 
                     <div className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary/90">
                       {year}

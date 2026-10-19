@@ -266,7 +266,7 @@ export default function Skills() {
                             <button
                                 key={category}
                                 onClick={() => setActiveTab(category as keyof typeof skillCategories)}
-                                className={`group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                                className={`group flex min-h-11 items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                                     isActive 
                                     ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
                                     : "bg-card/50 border border-primary/10 text-muted-foreground hover:border-primary/40 hover:text-primary"
@@ -295,12 +295,12 @@ export default function Skills() {
                                     key={skill.title}
                                     className={`group relative p-4 rounded-xl border border-primary/10 bg-card/50 hover:border-primary/40 hover:bg-card/70 transition-all duration-300 overflow-hidden text-center`}
                                 >
-                                    <div className={`mx-auto p-2 bg-foreground/5 rounded-lg w-fit group-hover:bg-foreground/10 transition-all duration-300 mb-3 ${skill.color}`}>
+                                    <div aria-hidden="true" className={`mx-auto p-2 bg-foreground/5 rounded-lg w-fit group-hover:bg-foreground/10 transition-all duration-300 mb-3 ${skill.color}`}>
                                         {skill.icon}
                                     </div>
-                                    <h4 className={`text-sm font-bold mb-1 ${skill.color}`}>
+                                    <h3 className={`text-sm font-bold mb-1 ${skill.color}`}>
                                         {skill.title}
-                                    </h4>
+                                    </h3>
                                     <p className="text-[10px] text-muted-foreground line-clamp-1">
                                         {skill.subtitle}
                                     </p>

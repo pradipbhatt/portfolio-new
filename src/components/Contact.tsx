@@ -226,6 +226,8 @@ export default function Contact() {
                                 <Link
                                     href="https://www.linkedin.com/in/pradipbhatt2126/"
                                     target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="LinkedIn"
                                     className="p-3 bg-foreground/5 hover:bg-primary/20 rounded-lg transition-colors"
                                 >
                                     <Linkedin size={20} />
@@ -233,6 +235,8 @@ export default function Contact() {
                                 <Link
                                     href="https://github.com/pradipbhatt"
                                     target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="GitHub"
                                     className="p-3 bg-foreground/5 hover:bg-primary/20 rounded-lg transition-colors"
                                 >
                                     <Github size={20} />
@@ -241,6 +245,7 @@ export default function Contact() {
                                     href="https://www.instagram.com/pradipbhatt/"
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="Instagram"
                                     className="p-3 bg-foreground/5 hover:bg-primary/20 rounded-lg transition-colors"
                                 >
                                     <Instagram size={20} />
@@ -249,6 +254,7 @@ export default function Contact() {
                                     href="https://www.facebook.com/pradipbhatt/"
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="Facebook"
                                     className="p-3 bg-foreground/5 hover:bg-primary/20 rounded-lg transition-colors"
                                 >
                                     <Facebook size={20} />

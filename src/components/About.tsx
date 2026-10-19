@@ -134,7 +134,7 @@ export default function About() {
                         <div className="flex gap-3 pt-2">
                             <a 
                                 href="#contact"
-                                className="group flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-300 text-sm font-medium"
+                                className="group flex min-h-11 items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-300 text-sm font-medium"
                             >
                                 <Mail className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                                 Get In Touch
@@ -142,7 +142,7 @@ export default function About() {
                             <a 
                                 href="/assets/CV Pradip.pdf"
                                 download
-                                className="group flex items-center gap-2 px-4 py-2 bg-card border border-primary/20 rounded-lg hover:bg-card/80 hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-sm font-medium"
+                                className="group flex min-h-11 items-center gap-2 px-4 py-2 bg-card border border-primary/20 rounded-lg hover:bg-card/80 hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-sm font-medium"
                             >
                                 <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                                 Download CV

@@ -98,10 +98,7 @@ export function HeroPortraitDeck({
   const sizes = variant === "under-cta" ? "260px" : "280px";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.45, duration: 0.55 }}
+    <div
       className={cn(
         "flex flex-col gap-2",
         variant === "under-cta" && "mt-4 max-w-[220px] sm:max-w-[260px]",
@@ -149,7 +146,7 @@ export function HeroPortraitDeck({
                   className="hero-portrait-image object-cover object-top select-none"
                   sizes={sizes}
                   priority={i === 0}
-                  loading={i === 0 ? undefined : "eager"}
+                  loading={i === 0 ? undefined : "lazy"}
                   draggable={false}
                 />
               </motion.div>
@@ -171,7 +168,7 @@ export function HeroPortraitDeck({
                 rel="noopener noreferrer"
                 data-cursor-pointer
                 aria-label={social.label}
-                className="rounded-full p-2 text-white/45 transition-colors hover:text-primary"
+                className="rounded-full p-3.5 text-white/65 transition-colors hover:text-primary"
               >
                 <social.icon size={16} />
               </Link>
@@ -193,21 +190,27 @@ export function HeroPortraitDeck({
               role="tab"
               aria-selected={i === active}
               data-cursor-pointer
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
-                i === active
-                  ? "w-5 bg-primary"
-                  : "w-1.5 bg-white/25 hover:bg-white/45"
-              )}
+              aria-label={`Show portrait ${i + 1}: ${slide.alt}`}
+              className="flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-primary"
               onClick={(e) => {
                 e.stopPropagation();
                 goTo(i);
               }}
-            />
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300",
+                  i === active
+                    ? "w-5 bg-primary"
+                    : "w-1.5 bg-white/35"
+                )}
+              />
+            </button>
           ))}
         </div>
       ) : null}
 
-    </motion.div>
+    </div>
   );
 }

@@ -6,12 +6,14 @@
 @font-face {
   font-family: 'Researcher';
   src: url('/Researcher/Researcher Regular.ttf') format('truetype');
-  font-weight: 400 300;
+  font-weight: 300 400;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Researcher';
   src: url('/Researcher/Researcher Thin.ttf') format('truetype');
   font-weight: 100;
+  font-display: swap;
 }
 
 @theme {
@@ -56,38 +58,38 @@
 :root {
   --background: #111111;
   --foreground: #ffffff;
-  --primary: #C15928;
+  --primary: #16a34a;
   --primary-foreground: #ffffff;
   --secondary: #1a1a1a;
   --secondary-foreground: #e5e5e5;
   --muted: #888888;
   --muted-foreground: #a3a3a3;
-  --accent: #C15928;
+  --accent: #16a34a;
   --accent-foreground: #ffffff;
   --card: #1a1a1a;
   --card-foreground: #ffffff;
   --border: #333333;
   --input: #333333;
-  --ring: #C15928;
+  --ring: #16a34a;
 }
 
 /* Light Theme */
 .light {
   --background: #f8f9fa;
   --foreground: #111111;
-  --primary: #C15928;
+  --primary: #15803d;
   --primary-foreground: #ffffff;
   --secondary: #ffffff;
   --secondary-foreground: #333333;
   --muted: #6b7280;
   --muted-foreground: #6b7280;
-  --accent: #C15928;
+  --accent: #15803d;
   --accent-foreground: #ffffff;
   --card: #ffffff;
   --card-foreground: #111111;
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #C15928;
+  --ring: #15803d;
 }
 
 /* Color theme variants (override primary-like colors based on data attribute) */
@@ -106,6 +108,12 @@
   --ring: #16a34a;
 }
 
+.light[data-color-theme="green"] {
+  --primary: #15803d;
+  --accent: #15803d;
+  --ring: #15803d;
+}
+
 :root[data-color-theme="red"],
 .light[data-color-theme="red"] {
   --primary: #dc2626;
@@ -118,6 +126,12 @@
   --primary: #ea580c;
   --accent: #ea580c;
   --ring: #ea580c;
+}
+
+.light[data-color-theme="orange"] {
+  --primary: #c2410c;
+  --accent: #c2410c;
+  --ring: #c2410c;
 }
 
 :root[data-color-theme="deep"],
@@ -134,8 +148,8 @@
 body {
   background-color: var(--background);
   background-image:
-    linear-gradient(rgba(193, 89, 40, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(193, 89, 40, 0.03) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--primary) 3%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--primary) 3%, transparent) 1px, transparent 1px);
   background-size: 50px 50px;
   min-height: 100vh;
   color: var(--foreground);
@@ -146,6 +160,19 @@ body {
   background-image: 
     linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--primary) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--primary) 7%, transparent) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.light .hero-grid {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -287,17 +314,6 @@ h1, h2, h3, h4, h5, h6 {
 .hero-terminal-scroll {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-}
-
-.hero-pradev {
-  color: transparent;
-  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--primary) 38%, transparent);
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--primary) 35%, transparent)) drop-shadow(0 0 22px color-mix(in srgb, var(--primary) 18%, transparent));
-}
-
-.dark .hero-pradev {
-  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--primary) 65%, transparent);
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--primary) 45%, transparent)) drop-shadow(0 0 24px color-mix(in srgb, var(--primary) 24%, transparent));
 }
 
 .hero-portrait-image {

@@ -3,7 +3,7 @@
 import { projects } from "@/data/projects";
 import { useGsapReveal } from "@/lib/gsapReveal";
 import { HoverLetters } from "@/components/ui/HoverLetters";
-import { ExternalLink, Github, Trophy } from "lucide-react";
+import { ExternalLink, Trophy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
@@ -66,7 +66,7 @@ export default function Projects() {
                                 key={category}
                                 type="button"
                                 onClick={() => handleCategoryChange(category)}
-                                className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                                className={`min-h-11 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                                     activeCategory === category
                                         ? "bg-primary text-primary-foreground border-primary"
                                         : "bg-transparent text-muted-foreground border-border hover:border-primary/50 hover:text-primary"
@@ -82,12 +82,7 @@ export default function Projects() {
                     {visibleProjects.map((project) => (
                         <div
                             key={project.title}
-                            className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-md cursor-pointer"
-                            onClick={() => {
-                                if (project.demoLink && project.demoLink !== "#") {
-                                    window.open(project.demoLink, "_blank");
-                                }
-                            }}
+                            className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-md"
                         >
                             <div className="relative h-56 overflow-hidden">
                                 <Image
@@ -111,7 +106,7 @@ export default function Projects() {
 
                             <div className="p-5 flex-1 flex flex-col">
                                 <div className="flex items-center justify-between mb-1.5">
-                                    <span className="inline-flex items-center text-[11px] uppercase tracking-[0.2em] text-muted-foreground/80">
+                                    <span className="inline-flex items-center text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                                         {project.category}
                                     </span>
                                     {project.outcome && (
@@ -129,27 +124,21 @@ export default function Projects() {
                                 </p>
                                 <div className="flex items-center justify-between gap-4 mt-auto pt-3 border-t border-border/60">
                                     <div className="flex gap-3">
-                                        <Link
-                                            href={project.repoLink ?? "#"}
-                                            target="_blank"
-                                            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            <Github size={14} />
-                                            <span>Code</span>
-                                        </Link>
-                                        <Link
-                                            href={project.demoLink ?? "#"}
-                                            target="_blank"
-                                            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            <ExternalLink size={14} />
-                                            <span>Live</span>
-                                        </Link>
+                                        {project.demoLink && project.demoLink !== "#" && (
+                                            <Link
+                                                href={project.demoLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                aria-label={`Open live demo of ${project.title}`}
+                                                className="inline-flex min-h-11 items-center gap-1.5 px-2 text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
+                                            >
+                                                <ExternalLink size={14} />
+                                                <span>Live demo</span>
+                                            </Link>
+                                        )}
                                     </div>
                                     {project.tags[0] && (
-                                        <span className="text-[10px] px-2.5 py-1 rounded-full border border-border/80 text-muted-foreground/80">
+                                        <span className="text-[10px] px-2.5 py-1 rounded-full border border-border/80 text-muted-foreground">
                                             {project.tags[0]}
                                         </span>
                                     )}
@@ -166,7 +155,7 @@ export default function Projects() {
                             {hasMoreProjects && (
                                 <button
                                     onClick={loadMore}
-                                    className="px-6 py-2.5 rounded-full bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors"
+                                    className="min-h-11 px-6 py-2.5 rounded-full bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors"
                                 >
                                     Show More ({filteredProjects.length - visibleProjects.length} remaining)
                                 </button>
@@ -174,7 +163,7 @@ export default function Projects() {
                             {visibleCount > 6 && (
                                 <button
                                     onClick={showLess}
-                                    className="px-6 py-2.5 rounded-full border border-border text-foreground font-medium text-sm hover:border-primary/50 hover:text-primary transition-colors"
+                                    className="min-h-11 px-6 py-2.5 rounded-full border border-border text-foreground font-medium text-sm hover:border-primary/50 hover:text-primary transition-colors"
                                 >
                                     Show Less
                                 </button>
@@ -186,4 +175,3 @@ export default function Projects() {
         </section>
     );
 }
-

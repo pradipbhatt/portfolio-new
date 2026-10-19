@@ -3,10 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Palette } from "lucide-react";
 
-type ColorThemeId = "default" | "blue" | "green" | "red" | "orange" | "deep";
+type ColorThemeId = "blue" | "green" | "red" | "orange" | "deep";
 
 const themes: { id: ColorThemeId; label: string; previewClass: string }[] = [
-  { id: "default", label: "Default", previewClass: "bg-primary" },
   { id: "blue", label: "Blue", previewClass: "bg-sky-500" },
   { id: "green", label: "Green", previewClass: "bg-emerald-500" },
   { id: "red", label: "Red", previewClass: "bg-rose-500" },
@@ -17,7 +16,7 @@ const themes: { id: ColorThemeId; label: string; previewClass: string }[] = [
 const STORAGE_KEY = "color-theme" as const;
 
 export default function ThemeColorSwitcher() {
-  const [activeTheme, setActiveTheme] = useState<ColorThemeId>("default");
+  const [activeTheme, setActiveTheme] = useState<ColorThemeId>("green");
   const [open, setOpen] = useState(false);
   const controlRef = useRef<HTMLDivElement>(null);
 
@@ -25,14 +24,12 @@ export default function ThemeColorSwitcher() {
     if (typeof window === "undefined") return;
     queueMicrotask(() => {
       const root = document.documentElement;
-      const stored =
-        (localStorage.getItem(STORAGE_KEY) as ColorThemeId | null) ?? "default";
+      const saved = localStorage.getItem(STORAGE_KEY);
+      const stored = themes.some((theme) => theme.id === saved)
+        ? (saved as ColorThemeId)
+        : "green";
       setActiveTheme(stored);
-      if (stored === "default") {
-        root.removeAttribute("data-color-theme");
-      } else {
-        root.setAttribute("data-color-theme", stored);
-      }
+      root.setAttribute("data-color-theme", stored);
     });
   }, []);
 
@@ -57,13 +54,8 @@ export default function ThemeColorSwitcher() {
     const root = document.documentElement;
     setActiveTheme(id);
     setOpen(false);
-    if (id === "default") {
-      root.removeAttribute("data-color-theme");
-      localStorage.removeItem(STORAGE_KEY);
-    } else {
-      root.setAttribute("data-color-theme", id);
-      localStorage.setItem(STORAGE_KEY, id);
-    }
+    root.setAttribute("data-color-theme", id);
+    localStorage.setItem(STORAGE_KEY, id);
   };
 
   return (
@@ -77,7 +69,7 @@ export default function ThemeColorSwitcher() {
                 key={theme.id}
                 type="button"
                 onClick={() => handleChangeTheme(theme.id)}
-                className="relative flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="relative flex h-11 w-11 items-center justify-center rounded-lg transition-colors hover:bg-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 aria-label={theme.label}
                 aria-pressed={activeTheme === theme.id}
                 title={theme.label}
@@ -95,7 +87,7 @@ export default function ThemeColorSwitcher() {
         aria-label="Choose accent color"
         aria-expanded={open}
         aria-controls="accent-palette"
-        className="inline-flex items-center gap-2.5 rounded-full border border-border bg-background/90 px-3.5 py-2.5 text-foreground shadow-lg backdrop-blur-xl transition-colors hover:border-primary/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-border bg-background/90 px-3.5 py-2.5 text-foreground shadow-lg backdrop-blur-xl transition-colors hover:border-primary/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       >
         <Palette size={16} className="text-primary" />
         <span className="font-medium">Theme</span>

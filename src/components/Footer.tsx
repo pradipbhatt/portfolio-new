@@ -38,7 +38,7 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-2">
           {socialLinks.map(({ icon: Icon, href, label }) => (
             <Link
               key={label}
@@ -46,7 +46,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground hover:text-primary transition-colors"
             >
               <Icon size={20} />
             </Link>

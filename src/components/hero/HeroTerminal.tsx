@@ -823,7 +823,7 @@ export default function HeroTerminal() {
         title="Open terminal"
         aria-label="Open portfolio terminal"
         onClick={reopenFromHidden}
-        className="fixed bottom-24 right-5 z-[46] flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.12] bg-[#0d1117]/95 text-[#50fa7b] shadow-xl backdrop-blur-sm transition-transform hover:scale-105 hover:border-[#50fa7b]/40"
+        className="fixed bottom-24 right-5 z-[46] flex h-12 w-12 items-center justify-center rounded-full border border-white/[0.12] bg-[#0d1117]/95 text-[#50fa7b] shadow-xl backdrop-blur-sm transition-transform hover:scale-105 hover:border-[#50fa7b]/40"
       >
         <Terminal className="h-5 w-5" strokeWidth={1.75} />
       </button>

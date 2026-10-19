@@ -113,7 +113,8 @@ export function HeroPortraitDeck({
             fill
             className="hero-portrait-image object-cover object-top"
             sizes={sizes}
-            priority
+            preload
+            fetchPriority="high"
           />
         ) : (
           <div
@@ -145,7 +146,8 @@ export function HeroPortraitDeck({
                   fill
                   className="hero-portrait-image object-cover object-top select-none"
                   sizes={sizes}
-                  priority={i === 0}
+                  preload={i === 0}
+                  fetchPriority={i === 0 ? "high" : undefined}
                   loading={i === 0 ? undefined : "lazy"}
                   draggable={false}
                 />

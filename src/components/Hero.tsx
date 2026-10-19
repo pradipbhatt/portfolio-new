@@ -13,7 +13,6 @@ import {
   Facebook,
 } from "lucide-react";
 import { useEffect, useRef, useSyncExternalStore } from "react";
-import gsap from "gsap";
 
 function subscribeReducedMotion(onStoreChange: () => void) {
   if (typeof window === "undefined") return () => {};
@@ -42,27 +41,43 @@ export default function Hero() {
   );
   const portraitWrapRef = useRef<HTMLDivElement>(null);
 
-  /* GSAP portrait 3D tilt on mouse move */
+  /* Keep the portrait tilt off the layout path while the pointer moves. */
   useEffect(() => {
     if (reduceMotion) return;
     const el = portraitWrapRef.current;
     if (!el) return;
+    let rect: DOMRect | null = null;
+    let frame = 0;
+    const onEnter = () => {
+      rect = el.getBoundingClientRect();
+    };
     const onMove = (e: MouseEvent) => {
-      const r = el.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      const rx = Math.max(-4, Math.min(4, ((e.clientY - cy) / (r.height / 2)) * -4));
-      const ry = Math.max(-4, Math.min(4, ((e.clientX - cx) / (r.width / 2)) * 4));
-      gsap.to(el, { rotateX: rx, rotateY: ry, duration: 0.55, ease: "power2.out", transformPerspective: 1400 });
+      if (!rect) rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const rx = Math.max(-4, Math.min(4, ((e.clientY - cy) / (rect.height / 2)) * -4));
+      const ry = Math.max(-4, Math.min(4, ((e.clientX - cx) / (rect.width / 2)) * 4));
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        el.style.transform = `perspective(1400px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
     };
     const onLeave = () => {
-      gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.9, ease: "power3.out" });
+      cancelAnimationFrame(frame);
+      rect = null;
+      el.style.transform = "perspective(1400px) rotateX(0deg) rotateY(0deg)";
     };
+    const onResize = () => { rect = null; };
+    el.addEventListener("mouseenter", onEnter);
     el.addEventListener("mousemove", onMove);
     el.addEventListener("mouseleave", onLeave);
+    window.addEventListener("resize", onResize);
     return () => {
+      cancelAnimationFrame(frame);
+      el.removeEventListener("mouseenter", onEnter);
       el.removeEventListener("mousemove", onMove);
       el.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("resize", onResize);
     };
   }, [reduceMotion]);
 
@@ -158,7 +173,7 @@ export default function Hero() {
           <div className="mx-auto mt-10 flex w-full max-w-[280px] shrink-0 flex-col overflow-visible lg:mx-0 lg:mt-0 lg:sticky lg:top-[5.5rem] lg:self-center">
 
 
-            <div ref={portraitWrapRef} className="relative" style={{ transformStyle: "preserve-3d" }}>
+            <div ref={portraitWrapRef} className="relative transition-transform duration-500 ease-out" style={{ transformStyle: "preserve-3d" }}>
               <HeroPortraitDeck
                 variant="right-rail"
                 reduceMotion={reduceMotion}
@@ -180,7 +195,7 @@ export default function Hero() {
 
       {/* Social rail — desktop */}
       <div className="fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center lg:flex">
-        <div className="flex flex-col items-center rounded-sm border border-emerald-500/20 dark:border-[#00ff9d]/15 bg-background/80 dark:bg-[#05080f]/70 px-2 py-3 backdrop-blur-sm shadow-sm dark:shadow-none">
+        <div className="flex flex-col items-center gap-1 rounded-sm border border-emerald-500/20 dark:border-[#00ff9d]/15 bg-background/80 dark:bg-[#05080f]/70 px-2 py-3 backdrop-blur-sm shadow-sm dark:shadow-none">
           {socialLinks.map((social) => (
             <Link
               key={social.label}
@@ -188,7 +203,7 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={social.label}
-              className="group relative p-3.5 text-foreground/55 dark:text-white/60 transition-colors duration-200 hover:text-emerald-600 dark:hover:text-[#00ff9d]"
+              className="group relative flex min-h-12 min-w-12 items-center justify-center text-foreground/55 dark:text-white/60 transition-colors duration-200 hover:text-emerald-600 dark:hover:text-[#00ff9d]"
             >
               <social.icon size={17} />
               <span className="pointer-events-none absolute right-full top-1/2 mr-2.5 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded border border-emerald-500/30 dark:border-[#00ff9d]/30 bg-background/95 dark:bg-[#05080f]/95 px-2 py-0.5 text-[10px] text-emerald-600 dark:text-[#00ff9d] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" style={{ fontFamily: "var(--font-mono-terminal)" }}>

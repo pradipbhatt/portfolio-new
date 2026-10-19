@@ -89,7 +89,7 @@ export default function Projects() {
                                     src={project.image}
                                     alt={project.title}
                                     fill
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1024px) calc((100vw - 96px) / 2), 390px"
                                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                                 />
                                 <div className="absolute top-3 right-3 flex flex-wrap gap-1.5">

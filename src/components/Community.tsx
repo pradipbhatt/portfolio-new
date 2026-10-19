@@ -76,7 +76,7 @@ export default function Community() {
                       </svg>
                     </div>
 
-                    <div className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary/90">
+                    <div className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-on-surface)]">
                       {year}
                     </div>
                   </div>
@@ -113,7 +113,7 @@ export default function Community() {
                           </div>
 
                           <div className="relative p-4 md:p-5 space-y-2">
-                            <p className="text-xs font-semibold text-primary/90 uppercase tracking-[0.15em]">
+                            <p className="text-xs font-semibold text-[var(--primary-on-surface)] uppercase tracking-[0.15em]">
                               {event.role}
                             </p>
                             <p className="text-xs text-muted-foreground/90 leading-relaxed line-clamp-3">

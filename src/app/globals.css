@@ -59,7 +59,7 @@
   --background: #111111;
   --foreground: #ffffff;
   --primary: #16a34a;
-  --primary-foreground: #ffffff;
+  --primary-foreground: #06150a;
   --secondary: #1a1a1a;
   --secondary-foreground: #e5e5e5;
   --muted: #888888;
@@ -101,6 +101,10 @@
   --ring: #2563eb;
 }
 
+:root[data-color-theme="blue"] {
+  --primary-foreground: #ffffff;
+}
+
 :root[data-color-theme="green"],
 .light[data-color-theme="green"] {
   --primary: #16a34a;
@@ -121,6 +125,10 @@
   --ring: #dc2626;
 }
 
+:root[data-color-theme="red"] {
+  --primary-foreground: #ffffff;
+}
+
 :root[data-color-theme="orange"],
 .light[data-color-theme="orange"] {
   --primary: #ea580c;
@@ -139,6 +147,14 @@
   --primary: #4c1d95;
   --accent: #4c1d95;
   --ring: #4c1d95;
+}
+
+:root[data-color-theme="deep"] {
+  --primary-foreground: #ffffff;
+}
+
+:root {
+  --primary-on-surface: color-mix(in srgb, var(--primary) 68%, var(--foreground));
 }
 
 * {

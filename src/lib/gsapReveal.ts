@@ -1,23 +1,15 @@
 "use client";
-import { useEffect, type RefObject } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
+import { useEffect, type RefObject } from "react";
 
 interface RevealOpts {
   y?: number;
   duration?: number;
   stagger?: number;
-  start?: string;
   delay?: number;
 }
 
-/**
- * Single-use scroll reveal — only animates transform + opacity (GPU compositing only).
- * Respects prefers-reduced-motion automatically.
- * Use on section headings and card grids only — not on individual paragraphs or buttons.
- */
+/** Reveal headings and card grids once they enter the viewport. */
 export function useGsapReveal(
   ref: RefObject<Element | null>,
   opts: RevealOpts = {}
@@ -26,7 +18,6 @@ export function useGsapReveal(
     y = 20,
     duration = 0.55,
     stagger = 0,
-    start = "top 88%",
     delay = 0,
   } = opts;
 
@@ -35,28 +26,37 @@ export function useGsapReveal(
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const targets = stagger > 0 ? Array.from(el.children) : el;
+    const animations: Animation[] = [];
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        targets,
-        { opacity: 0, y },
-        {
-          opacity: 1,
-          y: 0,
-          duration,
-          stagger,
-          delay,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: el,
-            start,
-            once: true,
-          },
-        }
-      );
-    });
+        const targets = stagger > 0 ? Array.from(el.children) : [el];
+        targets.forEach((target, index) => {
+          const animation = target.animate(
+            [
+              { opacity: 0, transform: `translateY(${y}px)` },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+            {
+              duration: duration * 1000,
+              delay: (delay + index * stagger) * 1000,
+              easing: "ease-out",
+              fill: "backwards",
+            }
+          );
+          animation.onfinish = () => animation.cancel();
+          animations.push(animation);
+        });
+      },
+      { rootMargin: "0px 0px -12% 0px" }
+    );
 
-    return () => ctx.revert();
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      animations.forEach((animation) => animation.cancel());
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 }

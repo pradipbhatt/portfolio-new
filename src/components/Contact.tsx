@@ -2,6 +2,7 @@
 
 import emailjs from "@emailjs/browser";
 import { Highlight } from "@/components/ui/Highlight";
+import { HoverLetters } from "@/components/ui/HoverLetters";
 import { useGsapReveal } from "@/lib/gsapReveal";
 import { Check, Facebook, Github, Globe, Instagram, Linkedin, Mail, MapPin, Phone, X as XIcon } from "lucide-react";
 import Link from "next/link";
@@ -75,11 +76,14 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="py-20 bg-background">
+        <section id="contact" className="bg-background py-16">
             <div className="container mx-auto px-6">
-                <div ref={headingRef} className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider">
-                        C<span className="text-primary">o</span>ntact M<span className="text-primary">e</span>
+                <div ref={headingRef} className="mb-10 text-center">
+                    <h2 className="text-3xl font-bold md:text-4xl">
+                        <HoverLetters text="Contact" activeColor="hover:text-primary/80" />{" "}
+                        <span className="text-primary">
+                            <HoverLetters text="Me" activeColor="hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(193,89,40,0.6)]" />
+                        </span>
                     </h2>
                 </div>
 
@@ -255,9 +259,9 @@ export default function Contact() {
                         <div className="bg-card p-6 rounded-xl border border-border space-y-3">
                             <h4 className="font-bold text-primary">Availability</h4>
                             <p className="text-sm text-muted-foreground">
-                                Security Research Analyst at SecurityPal AI.{" "}
-                                <Highlight delay={0.1}>Open to security consulting, pen testing engagements,</Highlight>{" "}
-                                open-source collaboration, and full-stack freelance.
+                                Full stack developer and AI researcher.{" "}
+                                <Highlight delay={0.1}>Open to AI research collaborations, software development,</Highlight>{" "}
+                                open-source projects, and full-stack freelance work.
                             </p>
                         </div>
                     </div>

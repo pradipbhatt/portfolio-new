@@ -49,7 +49,7 @@ function readVimInstalledFromSession(): boolean {
 
 const BOOT_LINES = [
   "Starting pradip-os...",
-  "Loading security modules... [OK]",
+  "Loading development & AI modules... [OK]",
   "Loading dev environment... [OK]",
   "Mounting /home/pradip... [OK]",
   "Welcome to Kali GNU/Linux — Pradip Edition",

@@ -250,12 +250,12 @@ export function defaultVfsSeed(): VfsState {
   const files: Record<string, string> = {
     [`${VFS_HOME}/about.txt`]: [
       "Name: Pradip Bhatt",
-      "Role: Security Research Analyst",
+      "Role: Full Stack Developer & AI Researcher",
       "Location: Nepal",
       "Education: Computer Engineering, Far Western University",
-      "Org: Security-focused research & engineering",
+      "Focus: AI research & software engineering",
       "",
-      "Focus: vulnerability research, secure SDLC, and practical defensive tooling.",
+      "Interests: AI-powered applications, intelligent automation, and full-stack development.",
     ].join("\n"),
     [`${VFS_HOME}/contact.json`]: [
       "{",

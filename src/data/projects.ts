@@ -13,7 +13,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "GRC Automation — SecurityPal AI",
+    title: "GRC Automation",
     description:
       "AI-driven security assurance platform for Fortune-scale enterprise customers. Automated GRC reviews, SOC2/ISO 27001 gap assessments, and questionnaire workflows — reducing analyst review time and improving accuracy across hundreds of security questionnaires.",
     image: "/assets/hyperce_acheivement.png",

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { Palette } from "lucide-react";
 
 type ColorThemeId = "default" | "blue" | "green" | "red" | "orange" | "deep";
 
@@ -18,6 +18,8 @@ const STORAGE_KEY = "color-theme" as const;
 
 export default function ThemeColorSwitcher() {
   const [activeTheme, setActiveTheme] = useState<ColorThemeId>("default");
+  const [open, setOpen] = useState(false);
+  const controlRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -34,10 +36,27 @@ export default function ThemeColorSwitcher() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (!controlRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
   const handleChangeTheme = (id: ColorThemeId) => {
     if (typeof window === "undefined") return;
     const root = document.documentElement;
     setActiveTheme(id);
+    setOpen(false);
     if (id === "default") {
       root.removeAttribute("data-color-theme");
       localStorage.removeItem(STORAGE_KEY);
@@ -48,29 +67,41 @@ export default function ThemeColorSwitcher() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed bottom-6 right-4 z-40 flex items-center gap-2 px-2.5 py-2 text-xs rounded-full bg-background/90 border border-border/70 backdrop-blur-sm shadow-lg"
-    >
-      {themes.map((theme) => (
-        <button
-          key={theme.id}
-          type="button"
-          onClick={() => handleChangeTheme(theme.id)}
-          className="relative h-7 w-7 flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-transform hover:scale-105"
-          aria-label={theme.label}
-        >
-          <span
-            className={`h-4 w-4 rounded-full ${theme.previewClass} border border-white/40`}
-          />
-          {activeTheme === theme.id && (
-            <span className="absolute inset-0 rounded-full border border-primary/70" />
-          )}
-        </button>
-      ))}
-    </motion.div>
+    <div ref={controlRef} className="fixed bottom-5 left-5 z-[60] text-sm">
+      {open && (
+        <div id="accent-palette" role="group" aria-label="Accent color" className="absolute bottom-full left-0 mb-2 w-max max-w-[calc(100vw-2.5rem)] rounded-2xl border border-border bg-background/95 p-3 shadow-2xl backdrop-blur-xl">
+          <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Accent color</p>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {themes.map((theme) => (
+              <button
+                key={theme.id}
+                type="button"
+                onClick={() => handleChangeTheme(theme.id)}
+                className="relative flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                aria-label={theme.label}
+                aria-pressed={activeTheme === theme.id}
+                title={theme.label}
+              >
+                <span className={`h-5 w-5 rounded-full border border-white/40 shadow-sm ${theme.previewClass}`} />
+                {activeTheme === theme.id && <span className="absolute inset-0 rounded-lg border border-primary/70" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-label="Choose accent color"
+        aria-expanded={open}
+        aria-controls="accent-palette"
+        className="inline-flex items-center gap-2.5 rounded-full border border-border bg-background/90 px-3.5 py-2.5 text-foreground shadow-lg backdrop-blur-xl transition-colors hover:border-primary/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      >
+        <Palette size={16} className="text-primary" />
+        <span className="font-medium">Theme</span>
+        <span className={`h-3 w-3 rounded-full border border-white/40 ${themes.find((theme) => theme.id === activeTheme)?.previewClass}`} aria-hidden />
+        <span className="text-xs text-muted-foreground">{themes.find((theme) => theme.id === activeTheme)?.label}</span>
+      </button>
+    </div>
   );
 }
-

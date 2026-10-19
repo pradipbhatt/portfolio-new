@@ -32,22 +32,22 @@ const NODE_DEFS: NodeDef[] = [
   {
     label: "Skills", icon: <Zap size={13} />, cssColor: "#00ff9d", threeColor: 0x00ff9d, isHub: true,
     rawPos: [-5.0, 1.5, -2],
-    detail: ["Penetration Testing", "Vulnerability Assessment", "OSINT & Recon", "Threat Intelligence", "Red Teaming"],
+    detail: ["Full Stack Development", "AI Research", "Workflow Automation", "React / Next.js", "Python"],
   },
   {
     label: "Experience", icon: <Briefcase size={13} />, cssColor: "#c15928", threeColor: 0xc15928, isHub: true,
     rawPos: [5.5, 1.0, -1.5],
-    detail: ["SecurityPal AI — Security Researcher", "3+ Years Industry Experience", "Full Stack Development", "SDLC Automation"],
+    detail: ["SecurityPal AI — Former Security Research Analyst", "Apr–Oct 2026", "Full Stack Development", "AI Research"],
   },
   {
     label: "Tools", icon: <Wrench size={13} />, cssColor: "#00ccff", threeColor: 0x00ccff,
     rawPos: [-4.0, -2.0, -1.5],
-    detail: ["Burp Suite Pro", "Nmap / Masscan", "Metasploit Framework", "Wireshark / tcpdump", "SIEM — Splunk, ELK"],
+    detail: ["Git / GitHub", "Docker", "Postman", "Python", "Next.js"],
   },
   {
     label: "Certs", icon: <Award size={13} />, cssColor: "#f5a623", threeColor: 0xf5a623,
     rawPos: [3.5, -1.5, -2],
-    detail: ["CompTIA Security+", "Google Cybersecurity", "CEH — in progress", "OSCP — pursuing"],
+    detail: ["AI-powered Applications", "Intelligent Automation", "Applied Research", "Full Stack Engineering"],
   },
   {
     label: "Education", icon: <GraduationCap size={13} />, cssColor: "#8b5cf6", threeColor: 0x8b5cf6,
@@ -57,7 +57,7 @@ const NODE_DEFS: NodeDef[] = [
   {
     label: "Projects", icon: <FolderOpen size={13} />, cssColor: "#ff6b6b", threeColor: 0xff6b6b,
     rawPos: [-6.5, 0.0, -1],
-    detail: ["20+ Projects Shipped", "Bug Bounty — HackerOne", "Open Source Contributions", "CTF Competitions"],
+    detail: ["20+ Projects Shipped", "AI-powered Products", "Open Source Contributions", "Hackathon Projects"],
   },
   {
     label: "Languages", icon: <Code2 size={13} />, cssColor: "#64ffda", threeColor: 0x64ffda,
@@ -67,7 +67,7 @@ const NODE_DEFS: NodeDef[] = [
   {
     label: "Connect", icon: <AtSign size={13} />, cssColor: "#ffd700", threeColor: 0xffd700,
     rawPos: [7.0, 2.5, -2],
-    detail: ["LinkedIn: pradipbhatt2126", "GitHub: pradipbhatt", "Email: pradip.bhatt@securitypalhq.com", "Discord: pradipbhatt"],
+    detail: ["LinkedIn: pradipbhatt2126", "GitHub: pradipbhatt", "Email: bhattsammar04@gmail.com", "Discord: pradipbhatt"],
   },
 ];
 

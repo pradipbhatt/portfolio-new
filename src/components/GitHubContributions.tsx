@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { HoverLetters } from "@/components/ui/HoverLetters";
 import {
   Calendar,
   GitFork,
@@ -183,7 +184,7 @@ export default function GitHubContributions() {
   ];
 
   return (
-    <section id="github" className="py-20 bg-background relative overflow-hidden">
+    <section id="github" className="relative overflow-hidden bg-background py-16">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 
@@ -193,13 +194,15 @@ export default function GitHubContributions() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-10 text-center"
         >
-          <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider mb-4">
-            Git<span className="text-primary">H</span>ub Contributi
-            <span className="text-primary">o</span>ns
+          <h2 className="mb-3 text-3xl font-bold md:text-4xl">
+            <HoverLetters text="GitHub" activeColor="hover:text-primary/80" />{" "}
+            <span className="text-primary">
+              <HoverLetters text="Contributions" activeColor="hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(193,89,40,0.6)]" />
+            </span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
             A visual representation of my coding journey and open-source contributions
           </p>
         </motion.div>

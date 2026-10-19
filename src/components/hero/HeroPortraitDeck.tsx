@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,21 +13,17 @@ export type HeroPortraitSocial = {
   label: string;
 };
 
-const AUTO_MS = 2600;
+const AUTO_MS = 5000;
 
 /** Crossfade duration — keep below AUTO_MS so each image reads clearly */
-const CROSSFADE_S = 1.12;
-const EASE_SMOOTH = [0.4, 0, 0.2, 1] as const;
+const CROSSFADE_S = 1.15;
+const EASE_SMOOTH = [0.45, 0, 0.55, 1] as const;
 
-/** Exactly four portrait variants in `public/assets/` */
+/** Background-free portraits supplied for the hero. */
 const PORTRAIT_SLIDES = [
-  { src: "/assets/second variant poze.png", alt: "Pradip Bhatt — portrait variant 1" },
-  { src: "/assets/third variant poze.png", alt: "Pradip Bhatt — portrait variant 2" },
-  { src: "/assets/perpelexity third variant.png", alt: "Pradip Bhatt — portrait variant 3" },
-  {
-    src: "/assets/perpelexity third variant second poze.png",
-    alt: "Pradip Bhatt — portrait variant 4",
-  },
+  { src: "/assets/hero-portrait-folded-cutout.png", alt: "Pradip Bhatt in a navy blazer, arms folded" },
+  { src: "/assets/hero-portrait-pockets-cutout.png", alt: "Pradip Bhatt in a navy blazer, hands in pockets" },
+  { src: "/assets/hero-portrait-lapel-cutout.png", alt: "Pradip Bhatt in a navy blazer, holding his lapel" },
 ] as const;
 
 type HeroPortraitDeckProps = {
@@ -112,13 +108,13 @@ export function HeroPortraitDeck({
         variant === "right-rail" && "w-full max-w-[280px] lg:mx-0"
       )}
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/[0.12] bg-[#0d1420]/60 shadow-[0_8px_40px_rgba(0,0,0,0.35)] ring-1 ring-white/[0.06]">
+      <div className="hero-portrait-stage relative aspect-[3/4] w-full overflow-hidden rounded-[1.75rem]">
         {reduceMotion ? (
           <Image
             src={PORTRAIT_SLIDES[0].src}
             alt={PORTRAIT_SLIDES[0].alt}
             fill
-            className="object-cover object-top"
+            className="hero-portrait-image object-cover object-top"
             sizes={sizes}
             priority
           />
@@ -137,31 +133,29 @@ export function HeroPortraitDeck({
               }
             }}
           >
-            <AnimatePresence initial={false} mode="sync">
+            {PORTRAIT_SLIDES.map((slide, i) => (
               <motion.div
-                key={PORTRAIT_SLIDES[active].src}
-                className="absolute inset-0 overflow-hidden rounded-2xl"
-                initial={{ opacity: 0, scale: 1.035 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.01 }}
+                key={slide.src}
+                className="absolute inset-0 overflow-hidden"
+                initial={false}
+                animate={{ opacity: i === active ? 1 : 0 }}
                 transition={fadeTransition}
+                aria-hidden={i !== active}
               >
                 <Image
-                  src={PORTRAIT_SLIDES[active].src}
-                  alt={PORTRAIT_SLIDES[active].alt}
+                  src={slide.src}
+                  alt={slide.alt}
                   fill
-                  className="object-cover object-top select-none"
+                  className="hero-portrait-image object-cover object-top select-none"
                   sizes={sizes}
-                  priority={active === 0}
+                  priority={i === 0}
+                  loading={i === 0 ? undefined : "eager"}
                   draggable={false}
                 />
               </motion.div>
-            </AnimatePresence>
+            ))}
           </div>
         )}
-
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#05080f]/70 via-transparent to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#00d97e]/[0.07] to-transparent" />
 
         <div className="pointer-events-none absolute inset-y-4 right-2 z-[70] flex items-center lg:hidden">
           <div
@@ -214,9 +208,6 @@ export function HeroPortraitDeck({
         </div>
       ) : null}
 
-      <p className="text-center text-[10px] uppercase tracking-[0.16em] text-[#00ff9d]/40">
-        SecurityPal · Engineering · Research
-      </p>
     </motion.div>
   );
 }

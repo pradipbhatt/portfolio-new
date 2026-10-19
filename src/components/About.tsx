@@ -9,15 +9,15 @@ import Image from "next/image";
 
 const aboutContent = {
     name: "Pradip Bhatt",
-    title: "Security Research Analyst & Full Stack Developer",
-    bio: "Security Research Analyst at SecurityPal AI — working on Fortune-scale customer assurance, AI-driven GRC reviews, and security assessments. B.E. Computer Engineering graduate from Far Western University, Mahendranagar. Former President of ICEC FWU, NASA Space Apps 2024 regional finalist, and open source community builder across Sudurpaschim Province.",
+    title: "Full Stack Developer & AI Researcher",
+    bio: "Full stack developer and AI researcher focused on AI-powered applications, intelligent automation, and practical software engineering. B.E. Computer Engineering graduate from Far Western University, Mahendranagar. Former President of ICEC FWU, NASA Space Apps 2024 regional finalist, and open source community builder across Sudurpaschim Province.",
     education: {
         degree: "B.E. Computer Engineering",
         school: "Far Western University, Mahendranagar"
     },
     certification: "NEC Certified Engineer",
     interests: [
-        { icon: Award, label: "Security Research" },
+        { icon: Award, label: "AI Research" },
         { icon: Code, label: "Open Source" },
         { icon: Camera, label: "Photography" },
         { icon: Lightbulb, label: "Community" }
@@ -79,12 +79,22 @@ export default function About() {
                         </div>
 
                         <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                            Security Research Analyst at SecurityPal AI — working on{" "}
-                            <Highlight delay={0.1}>Fortune-scale customer assurance, AI-driven GRC reviews, and security assessments.</Highlight>{" "}
+                            Full stack developer and AI researcher focused on{" "}
+                            <Highlight delay={0.1}>AI-powered applications, intelligent automation, and practical software engineering.</Highlight>{" "}
                             B.E. Computer Engineering graduate from Far Western University, Mahendranagar. Former President of ICEC FWU,{" "}
                             <Highlight delay={0.2}>NASA Space Apps 2024 regional finalist,</Highlight>{" "}
                             and open source community builder across Sudurpaschim Province.
                         </p>
+
+                        <div className="rounded-xl border border-primary/20 bg-card/50 p-4">
+                            <h4 className="font-semibold mb-3">Past Work Experience</h4>
+                            <h5 className="text-primary font-semibold">Security Research Analyst</h5>
+                            <p className="text-sm font-medium">SecurityPal AI · Full-time</p>
+                            <p className="mt-1 text-xs text-muted-foreground">April 15 – October 15, 2026 · Kathmandu · On-site</p>
+                            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                                Worked on Fortune-scale customer assurance, AI-driven GRC reviews, and security assessments.
+                            </p>
+                        </div>
 
                         <div className="grid grid-cols-3 gap-3 py-2">
                             <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">

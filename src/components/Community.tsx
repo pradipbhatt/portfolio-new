@@ -2,6 +2,7 @@
 
 import { useGsapReveal } from "@/lib/gsapReveal";
 import { Highlight } from "@/components/ui/Highlight";
+import { HoverLetters } from "@/components/ui/HoverLetters";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
@@ -25,14 +26,16 @@ export default function Community() {
   useGsapReveal(headingRef);
 
   return (
-    <section id="community" className="py-20 bg-background">
+    <section id="community" className="py-16 bg-background">
       <div className="container mx-auto px-6">
-        <div ref={headingRef} className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold font-squid tracking-wider">
-            C<span className="text-primary">o</span>mmunity I
-            <span className="text-primary">n</span>volvement
+        <div ref={headingRef} className="mb-10 text-center">
+          <h2 className="mb-3 text-3xl font-bold md:text-4xl">
+            <HoverLetters text="Community" activeColor="hover:text-primary/80" />{" "}
+            <span className="text-primary">
+              <HoverLetters text="Involvement" activeColor="hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(193,89,40,0.6)]" />
+            </span>
           </h2>
-          <p className="max-w-2xl mx-auto text-sm md:text-base text-muted-foreground">
+          <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
             A visual journey of how I&apos;ve contributed to tech communities over the years —{" "}
             <Highlight delay={0.12}>speaking, mentoring, organizing and building together.</Highlight>
           </p>

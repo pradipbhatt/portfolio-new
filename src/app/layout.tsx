@@ -2,6 +2,7 @@ import { ThemeProvider } from "@/lib/ThemeProvider";
 import ClientAppShell from "@/components/ClientAppShell";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import ThemeColorSwitcher from "@/components/ThemeColorSwitcher";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import {
@@ -53,14 +54,14 @@ const shareTechMono = Share_Tech_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pradip Bhatt — Security Researcher & Full Stack Developer",
+  title: "Pradip Bhatt — Full Stack Developer & AI Researcher",
   description:
-    "Security Research Analyst at SecurityPal AI. Offensive-minded researcher specialising in vulnerability discovery, GRC, and full-stack engineering. Based in Kathmandu, Nepal.",
+    "Full stack developer and AI researcher exploring intelligent systems, AI-powered applications, and workflow automation. Based in Kathmandu, Nepal.",
   metadataBase: new URL("https://pradipbhatt.com.np"),
   openGraph: {
-    title: "Pradip Bhatt — Security Researcher & Full Stack Developer",
+    title: "Pradip Bhatt — Full Stack Developer & AI Researcher",
     description:
-      "Security Research Analyst at SecurityPal AI. Offensive-minded researcher specialising in vulnerability discovery, GRC, and full-stack engineering.",
+      "Full stack developer and AI researcher exploring intelligent systems, AI-powered applications, and workflow automation.",
     url: "https://pradipbhatt.com.np",
     siteName: "Pradip Bhatt",
     locale: "en_US",
@@ -68,9 +69,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pradip Bhatt — Security Researcher & Full Stack Developer",
+    title: "Pradip Bhatt — Full Stack Developer & AI Researcher",
     description:
-      "Security Research Analyst at SecurityPal AI. Offensive-minded researcher specialising in vulnerability discovery, GRC, and full-stack engineering.",
+      "Full stack developer and AI researcher exploring intelligent systems, AI-powered applications, and workflow automation.",
   },
   icons: {
     icon: [{ url: "/icon", type: "image/png" }],
@@ -113,6 +114,7 @@ if(typeof MutationObserver!=="undefined"){
             <Navbar />
             <main className="min-h-screen w-full">{children}</main>
             <Footer />
+            <ThemeColorSwitcher />
           </ClientAppShell>
         </ThemeProvider>
         <Analytics />

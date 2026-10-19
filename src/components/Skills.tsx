@@ -241,7 +241,7 @@ const categoryIcons = {
 } as const;
 
 export default function Skills() {
-    const [activeTab, setActiveTab] = useState<keyof typeof skillCategories>("Security");
+    const [activeTab, setActiveTab] = useState<keyof typeof skillCategories>("AI/ML");
     const headingRef = useRef<HTMLDivElement>(null);
     useGsapReveal(headingRef);
 
@@ -259,7 +259,7 @@ export default function Skills() {
 
                 {/* Tabs */}
                 <div className="flex flex-wrap justify-center gap-2 mb-8">
-                    {Object.keys(skillCategories).map((category) => {
+                    {(["AI/ML", "Frontend", "Backend", "Tools", "Security"] as const).map((category) => {
                         const Icon = categoryIcons[category as keyof typeof categoryIcons];
                         const isActive = activeTab === category;
                         return (

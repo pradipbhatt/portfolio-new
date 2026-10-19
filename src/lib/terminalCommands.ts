@@ -280,9 +280,9 @@ function neofetchText(): string[] {
     "Host: pradip-portfolio",
     "Kernel: 6.6.15-amd64",
     "Shell: zsh 5.9",
-    "Role: Security Research Analyst",
-    "Cert: CompTIA Security+ SY0-701",
-    "Skills: VAPT, React, Next.js, OSINT, DevSecOps",
+    "Role: Full Stack Developer & AI Researcher",
+    "Focus: AI applications & workflow automation",
+    "Skills: React, Next.js, TypeScript, Python, AI",
   ];
   const out: string[] = [];
   const max = Math.max(logo.length, info.length);
@@ -733,7 +733,7 @@ export function runCommand(raw: string, ctx: TerminalCtx): RunResult {
       kind: "lines",
       lines: [
         "Linux kali 6.6.15-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.6.15-1kali1 (2024-01-10) x86_64 GNU/Linux",
-        "Build flavor: pradip@securitypal — portfolio hardened kernel (simulated)",
+        "Build flavor: pradip@portfolio — portfolio hardened kernel (simulated)",
       ],
     };
   }
@@ -742,7 +742,7 @@ export function runCommand(raw: string, ctx: TerminalCtx): RunResult {
     return {
       kind: "lines",
       lines: [
-        "pradip:x:1000:1000:Security Research Analyst:/home/pradip:/bin/zsh",
+        "pradip:x:1000:1000:Developer & AI Researcher:/home/pradip:/bin/zsh",
       ],
     };
   }

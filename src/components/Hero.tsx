@@ -88,7 +88,7 @@ export default function Hero() {
     <section
       id="home"
       aria-label="Introduction, biography, and interactive terminal"
-      className="relative flex w-full flex-col overflow-x-clip overflow-y-visible bg-background pb-16 pt-28 dark:bg-[#05080f] md:pb-20 md:pt-32"
+      className="relative flex w-full flex-col overflow-x-clip overflow-y-visible bg-background pb-16 pt-28 dark:bg-[#05080f] md:pb-20 md:pt-32 lg:min-h-svh"
     >
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_65%_55%_at_75%_35%,rgba(67,80,91,0.09),transparent_75%)] dark:bg-[radial-gradient(ellipse_65%_55%_at_75%_35%,rgba(42,58,71,0.16),transparent_75%)]" aria-hidden />
 
@@ -134,7 +134,7 @@ export default function Hero() {
       </div>
 
       {/* ── Main content ── */}
-      <div className="container relative z-10 mx-auto flex w-full max-w-6xl flex-col px-6">
+      <div className="container relative z-10 mx-auto flex w-full max-w-6xl flex-col px-6 lg:flex-1 lg:justify-center">
         <div className="flex w-full min-w-0 max-w-full flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-12 xl:gap-20">
 
           {/* ── Left: text content ── */}

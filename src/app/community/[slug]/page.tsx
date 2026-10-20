@@ -1,19 +1,20 @@
-import { communityEvents } from "@/data/community";
+import { communityEvents, communityStoryRedirects } from "@/data/community";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return communityEvents.map(({ slug }) => ({ slug }));
+  return [...communityEvents.map(({ slug }) => ({ slug })), ...Object.keys(communityStoryRedirects).map((slug) => ({ slug }))];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const event = communityEvents.find((item) => item.slug === slug);
+  const canonicalSlug = communityStoryRedirects[slug] ?? slug;
+  const event = communityEvents.find((item) => item.slug === canonicalSlug);
   if (!event) return { title: "Community story not found" };
 
   return {
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CommunityStoryPage({ params }: Props) {
   const { slug } = await params;
+  if (communityStoryRedirects[slug]) permanentRedirect(`/community/${communityStoryRedirects[slug]}`);
   const event = communityEvents.find((item) => item.slug === slug);
   if (!event) notFound();
 
@@ -119,6 +121,19 @@ export default async function CommunityStoryPage({ params }: Props) {
             )}
           </aside>
         </div>
+
+        {event.relatedPosts && event.relatedPosts.length > 0 && (
+          <div className="border-b border-border py-8">
+            <h2 className="text-lg font-semibold text-foreground">More posts from this event</h2>
+            <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+              {event.relatedPosts.map((post) => (
+                <a key={post.url} href={post.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-[var(--primary-on-surface)] hover:underline">
+                  {post.label} <ArrowUpRight aria-hidden="true" size={16} />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         {event.gallery && event.gallery.length > 0 && (
           <section className="border-b border-border py-12 md:py-16" aria-labelledby="story-gallery">

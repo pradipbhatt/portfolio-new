@@ -14,6 +14,8 @@ export type CommunityEvent = {
   sortOrder?: number;
   /** Public post documenting this event, when verified. */
   postUrl?: string;
+  /** Other posts about the same event, kept when duplicate cards are consolidated. */
+  relatedPosts?: { label: string; url: string }[];
 };
 
 export const communityEvents: CommunityEvent[] = [
@@ -73,34 +75,17 @@ export const communityEvents: CommunityEvent[] = [
     dateLabel: "Sep 2024",
     year: 2024,
     image: "/assets/speaker in software freedom day 2024 far west.jpg",
-    highlights: ["Featured as a Linux Talk speaker.", "Joined Software Freedom Day 2024 in Sudurpaschim Province."],
+    gallery: [
+      { src: "/assets/software freedom day 2024.jpg", alt: "Software Freedom Day gathering", caption: "The Software Freedom Day 2024 gathering." },
+      { src: "/assets/software freedom day cover image.jpg", alt: "Software Freedom Day community group photo", caption: "Community members at Software Freedom Day 2024." },
+    ],
+    highlights: ["Featured as a Linux Talk speaker.", "Joined Software Freedom Day 2024 in Sudurpaschim Province.", "Shared registration details with the local developer community."],
     sortOrder: 4,
     postUrl: "https://www.facebook.com/pradipbhatt21/posts/pfbid0vNS9Y1MssbHrZmDRosRDEYvdTReTS1HFCXUsxPLuNV9Xx4XuSg2VsYDh84BJFwp3l",
-  },
-  {
-    slug: "software-freedom-day-2024",
-    title: "Software Freedom Day 2024",
-    role: "Open Source Celebration",
-    description: "Joined the Far Western Nepal open-source community at Software Freedom Day 2024, with talks and conversations around free software.",
-    dateLabel: "Sep 2024",
-    year: 2024,
-    image: "/assets/software freedom day 2024.jpg",
-    gallery: [{ src: "/assets/software freedom day cover image.jpg", alt: "Software Freedom Day community group photo", caption: "Community members at Software Freedom Day 2024." }],
-    highlights: ["Took part in the local free-software gathering.", "Connected with students and open-source contributors in Far Western Nepal."],
-    sortOrder: 4,
-    postUrl: "https://www.facebook.com/jsurya860/posts/pfbid0BtsYnzQjsRdeSh5qpeT3puMUAhqU3CQ6xYpV5nrMmgxh9drsaYAZXGMfFsWhMLFRl",
-  },
-  {
-    slug: "software-freedom-day-promotion-2024",
-    title: "Software Freedom Day Promotion",
-    role: "Open Source Event Campaign",
-    description: "Shared registration details and event updates for Software Freedom Day 2024 with the local developer community.",
-    dateLabel: "Sep 2024",
-    year: 2024,
-    image: "/assets/software freedom day cover image.jpg",
-    highlights: ["Shared registration information for Software Freedom Day 2024.", "Helped the local developer community hear about the event."],
-    sortOrder: 3,
-    postUrl: "https://www.facebook.com/pradipbhatt21/posts/pfbid0vqX132ttGQFLG6KnPSn5FLa3swpwLXs7cQDrAaEEWE7j7DzC4ZS5Xk87SSvcMqMrl",
+    relatedPosts: [
+      { label: "Community event post", url: "https://www.facebook.com/jsurya860/posts/pfbid0BtsYnzQjsRdeSh5qpeT3puMUAhqU3CQ6xYpV5nrMmgxh9drsaYAZXGMfFsWhMLFRl" },
+      { label: "Registration announcement", url: "https://www.facebook.com/pradipbhatt21/posts/pfbid0vqX132ttGQFLG6KnPSn5FLa3swpwLXs7cQDrAaEEWE7j7DzC4ZS5Xk87SSvcMqMrl" },
+    ],
   },
   {
     slug: "github-field-day-guide-2024",
@@ -114,18 +99,9 @@ export const communityEvents: CommunityEvent[] = [
     highlights: ["Guided students through GitHub Field Day applications.", "Shared a participant's perspective from GitHub Field Day 2023."],
     sortOrder: 6,
     postUrl: "https://www.facebook.com/pradipbhatt21/posts/pfbid0JeVxxzXeqytu1nJ9XLCQgzYtTZ3gjg6Zd63AjeAxzRhbSBj7LkvfS7qDXuPJFhykl",
-  },
-  {
-    slug: "github-field-day-speaker-2024",
-    title: "GitHub Field Day Speaker Announcement",
-    role: "Application Guidance · SNSC",
-    description: "Invited to speak at SNSC's GitHub Field Day Nepal 2024 application guidance session, sharing my experience as a 2023 Fielder.",
-    dateLabel: "Sep 2024",
-    year: 2024,
-    image: "/assets/poster for imformation session in snsc for github field visit 2023.jpg",
-    highlights: ["Invited to speak at SNSC's application guidance session.", "Shared experience as a GitHub Field Day 2023 Fielder."],
-    sortOrder: 5,
-    postUrl: "https://www.facebook.com/pradipbhatt21/posts/pfbid02G5ePJJHaCmyJFTGiMTfTkVfcRbrGYR1gBMfdUPBrpoxo7xoR56bUKp4ANy8ioX13l",
+    relatedPosts: [
+      { label: "Speaker announcement", url: "https://www.facebook.com/pradipbhatt21/posts/pfbid02G5ePJJHaCmyJFTGiMTfTkVfcRbrGYR1gBMfdUPBrpoxo7xoR56bUKp4ANy8ioX13l" },
+    ],
   },
   {
     slug: "snsc-uiux-workshop-2024",
@@ -197,3 +173,10 @@ export const communityEvents: CommunityEvent[] = [
     postUrl: "https://www.facebook.com/snscitclub/posts/pfbid02GSHa5qa5WGhhuvHoDtSnN4keLPhn69NBHm1JtQ7AHXX4bjuMs7KPPnfXVh8V1rHnl",
   },
 ];
+
+/** Keep existing story URLs useful after related cards are combined. */
+export const communityStoryRedirects: Record<string, string> = {
+  "software-freedom-day-2024": "software-freedom-day-linux-talk-2024",
+  "software-freedom-day-promotion-2024": "software-freedom-day-linux-talk-2024",
+  "github-field-day-speaker-2024": "github-field-day-guide-2024",
+};

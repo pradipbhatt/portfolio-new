@@ -1,11 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import { useGsapReveal } from "@/lib/gsapReveal";
+import { useReveal } from "@/lib/useReveal";
 import { HoverLetters } from "@/components/ui/HoverLetters";
 import { Code, GraduationCap, Award, Camera, Lightbulb, Mail, ExternalLink, BadgeCheck } from "lucide-react";
 import { Highlight } from "@/components/ui/Highlight";
 import Image from "next/image";
+import Parallax from "@/components/Parallax";
 
 const aboutContent = {
     name: "Pradip Bhatt",
@@ -26,7 +27,7 @@ const aboutContent = {
 
 export default function About() {
     const headingRef = useRef<HTMLDivElement>(null);
-    useGsapReveal(headingRef);
+    useReveal(headingRef);
 
     return (
         <section id="about" className="py-6 relative">
@@ -42,6 +43,7 @@ export default function About() {
 
                 <div className="grid md:grid-cols-12 gap-6 items-start">
                     <div className="md:col-span-4 lg:col-span-4">
+                        <Parallax distance={26}>
                         <div className="relative aspect-[3/4] max-w-[280px] mx-auto rounded-2xl overflow-hidden border-2 border-primary/20 shadow-lg shadow-primary/10">
                             <Image
                                 src="https://avatars.githubusercontent.com/pradipbhatt?size=560"
@@ -52,6 +54,7 @@ export default function About() {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                         </div>
+                        </Parallax>
                         
                         <div className="max-w-[280px] mx-auto mt-3 space-y-2">
                             <div className="flex items-center justify-center gap-2 bg-card/80 backdrop-blur-sm rounded-lg p-2 border border-primary/10 hover:border-primary/40 hover:bg-card/90 transition-all duration-300">

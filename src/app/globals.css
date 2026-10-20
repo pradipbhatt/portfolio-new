@@ -73,23 +73,63 @@
   --ring: #16a34a;
 }
 
-/* Light Theme */
+/* Light Theme — tuned for eye comfort.
+   The old palette put #ffffff cards on a #f8f9fa page with #e5e7eb borders and
+   #111 text: nearly no surface separation, near-black text and a wall of white,
+   which is what made it glare. Now the page sits a step darker than the cards,
+   text is a softer slate, and borders are actually visible. */
 .light {
-  --background: #f8f9fa;
-  --foreground: #111111;
-  --primary: #15803d;
+  /* Warm paper: a low-glare off-white instead of cool #f8f9fa + pure white.
+     Colours are pushed darker than a typical light theme because the body font
+     (Rajdhani) is condensed and thin — light grey on warm paper was hard to read. */
+  --background: #efece6;
+  --foreground: #1f1b16;
+  --primary: #146c36;
   --primary-foreground: #ffffff;
-  --secondary: #ffffff;
-  --secondary-foreground: #333333;
-  --muted: #6b7280;
-  --muted-foreground: #6b7280;
-  --accent: #15803d;
+  --secondary: #e6e0d6;
+  --secondary-foreground: #2f2a23;
+  --muted: #5c554b;
+  --muted-foreground: #453f37;
+  --accent: #146c36;
   --accent-foreground: #ffffff;
-  --card: #ffffff;
-  --card-foreground: #111111;
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #15803d;
+  --card: #faf8f4;
+  --card-foreground: #1f1b16;
+  --border: #d3ccbf;
+  --input: #d3ccbf;
+  --ring: #146c36;
+}
+
+/* Light mode typography: give the condensed body font some weight and air.
+   Small Rajdhani on a warm background was the main readability complaint. */
+.light body {
+  font-weight: 500;
+}
+
+.light p,
+.light li {
+  line-height: 1.7;
+}
+
+.light p {
+  letter-spacing: 0.004em;
+}
+
+/* Light mode elevation.
+   Without it every surface is the same brightness and the page reads as one flat
+   bright field. Declared inside @layer base so any component-level shadow
+   utility (hover:shadow-lg etc.) still wins. */
+@layer base {
+  .light [class*="bg-card"],
+  .light [class*="bg-secondary"] {
+    box-shadow:
+      0 1px 2px rgb(15 23 42 / 0.05),
+      0 8px 20px -14px rgb(15 23 42 / 0.12);
+  }
+
+  /* Photos are the brightest thing on the page in light mode — take the edge off. */
+  .light img {
+    filter: brightness(0.97);
+  }
 }
 
 /* Color theme variants (override primary-like colors based on data attribute) */
@@ -174,8 +214,8 @@ body {
 
 .light body {
   background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(0, 0, 0, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.022) 1px, transparent 1px);
 }
 
 .hero-grid {
@@ -187,8 +227,8 @@ body {
 
 .light .hero-grid {
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -234,8 +274,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .light .glass {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(250, 248, 244, 0.72);
+  border-color: rgba(42, 38, 32, 0.09);
 }
 
 /* Hero professional profile card — slow liquid sheen (respects reduced motion below) */
@@ -351,6 +391,33 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 22px 48px rgba(0, 0, 0, 0.36), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
+/* The right portrait follows the globe's curved silhouette instead of reading
+   as a flat rectangular card. Side shading gives the image a convex surface. */
+.hero-portrait-orbit {
+  border-radius: 42% 42% 38% 38% / 13% 13% 10% 10%;
+  box-shadow: 0 22px 45px rgba(12, 19, 32, 0.18), inset 10px 0 24px rgba(255, 255, 255, 0.16), inset -18px 0 28px rgba(12, 19, 32, 0.18);
+}
+
+.hero-portrait-orbit::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.16), transparent 23%, rgba(255, 255, 255, 0.08) 48%, transparent 70%, rgba(0, 0, 0, 0.24));
+}
+
+.dark .hero-portrait-orbit {
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.4), 0 0 30px color-mix(in srgb, var(--primary) 12%, transparent), inset 10px 0 24px rgba(255, 255, 255, 0.07), inset -18px 0 30px rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 1024px) {
+  .hero-portrait-orbit {
+    transform: perspective(1000px) rotateY(-8deg);
+  }
+}
+
 .hero-terminal-scroll::-webkit-scrollbar {
   width: 4px;
 }
@@ -358,4 +425,181 @@ h1, h2, h3, h4, h5, h6 {
 .hero-terminal-scroll::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
+}
+
+/* ── Mobile menu entrance ─────────────────────────────────────
+   Replaces `animate-in slide-in-from-top-5`, which came from
+   tailwindcss-animate — a plugin this project does not install, so the menu
+   previously opened with no animation at all. */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-menu-in {
+  animation: menu-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-menu-in {
+    animation: none;
+  }
+}
+
+
+/* Scroll progress is decorative motion — never show it to reduced-motion users. */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress {
+    display: none !important;
+  }
+}
+
+/* ── Nav link underline sweep ─────────────────────────────── */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.45rem;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ── Card lift + media zoom ───────────────────────────────── */
+.card-lift {
+  transition:
+    transform 480ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 480ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.card-lift img {
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-lift:hover {
+  transform: translateY(-6px);
+}
+
+.card-lift:hover img {
+  transform: scale(1.055);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-lift,
+  .card-lift img,
+  .nav-link::after {
+    transition: none;
+  }
+  .card-lift:hover,
+  .card-lift:hover img {
+    transform: none;
+  }
+}
+
+
+
+/* ── Cursor spotlight ─────────────────────────────────────────
+   A soft light that trails the pointer, plus a per-card highlight on any
+   element marked data-spotlight. Both are pure paint (no layout), driven by
+   CSS variables written from a single rAF loop. */
+
+
+[data-spotlight] {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-spotlight]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  background: radial-gradient(
+    300px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--primary) 16%, transparent),
+    transparent 64%
+  );
+}
+
+[data-spotlight]:hover::after {
+  opacity: 1;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  [data-spotlight]::after {
+    display: none;
+  }
+}
+
+/* ── Cursor-tracking globe ──────────────────────────────────── */
+.globe-tilt {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  will-change: transform;
+}
+
+.globe-face {
+  transform: translate(var(--eye-x, 0px), var(--eye-y, 0px));
+  will-change: transform;
+}
+
+@keyframes globe-eye-blink {
+  0%, 3%, 9%, 79%, 87%, 100% { transform: scaleY(1); }
+  5%, 82% { transform: scaleY(0.08); }
+  7%, 85% { transform: scaleY(1.08); }
+}
+
+.globe-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: globe-eye-blink 5.8s ease-in-out infinite;
+}
+
+.globe-eye-right {
+  animation-delay: 55ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globe-tilt,
+  .globe-face {
+    transform: none;
+    transition: none;
+  }
+
+  .globe-eye {
+    animation: none;
+  }
+}
+
+/* Inner shading that defines the sphere without turning it into a grey ball in light mode. */
+.globe-shade {
+  box-shadow: inset 0 0 120px 40px rgba(0, 0, 0, 0.55);
+}
+
+.light .globe-shade {
+  box-shadow: inset 0 0 90px 26px rgba(42, 38, 32, 0.12);
 }

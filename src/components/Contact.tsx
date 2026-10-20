@@ -3,7 +3,7 @@
 import emailjs from "@emailjs/browser";
 import { Highlight } from "@/components/ui/Highlight";
 import { HoverLetters } from "@/components/ui/HoverLetters";
-import { useGsapReveal } from "@/lib/gsapReveal";
+import { useReveal } from "@/lib/useReveal";
 import { Check, Facebook, Github, Globe, Instagram, Linkedin, Mail, MapPin, Phone, X as XIcon } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -16,7 +16,7 @@ emailjs.init(EMAILJS_PUBLIC_KEY);
 
 export default function Contact() {
     const headingRef = useRef<HTMLDivElement>(null);
-    useGsapReveal(headingRef);
+    useReveal(headingRef);
     const formRef = useRef<HTMLFormElement>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);

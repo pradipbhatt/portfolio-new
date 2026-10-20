@@ -1,5 +1,9 @@
 import { ThemeProvider } from "@/lib/ThemeProvider";
 import ClientAppShell from "@/components/ClientAppShell";
+import MotionProvider from "@/components/MotionProvider";
+import SmoothScroll from "@/components/SmoothScroll";
+import ScrollProgress from "@/components/ScrollProgress";
+import CursorEngine from "@/components/CursorEngine";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ThemeColorSwitcher from "@/components/ThemeColorSwitcher";
@@ -86,7 +90,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`${jetbrainsMono.variable} ${michroma.variable} ${rajdhani.variable} ${orbitron.variable} ${shareTechMono.variable} ${dancingScript.variable} antialiased bg-background text-foreground font-body selection:bg-primary/30 selection:text-primary-foreground`}
         suppressHydrationWarning
@@ -110,12 +114,17 @@ if(typeof MutationObserver!=="undefined"){
 })();`}
         </Script>
         <ThemeProvider>
-          <ClientAppShell>
+          <MotionProvider>
+            <SmoothScroll />
+            <ScrollProgress />
+            <CursorEngine />
+            <ClientAppShell>
             <Navbar />
             <main className="min-h-screen w-full">{children}</main>
             <Footer />
             <ThemeColorSwitcher />
-          </ClientAppShell>
+            </ClientAppShell>
+          </MotionProvider>
         </ThemeProvider>
         <Analytics />
       </body>

@@ -1,9 +1,10 @@
 "use client";
 
-import { useGsapReveal } from "@/lib/gsapReveal";
+import { useReveal } from "@/lib/useReveal";
 import { HoverLetters } from "@/components/ui/HoverLetters";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useRef } from "react";
 import { communityEvents, type CommunityEvent } from "../data/community";
 
@@ -31,7 +32,9 @@ const eventsByYear = Object.fromEntries(
 
 export default function Community() {
   const headingRef = useRef<HTMLDivElement>(null);
-  useGsapReveal(headingRef);
+  const gridRef = useRef<HTMLDivElement>(null);
+  useReveal(headingRef);
+  useReveal(gridRef, { stagger: 0.05, y: 22 });
 
   return (
     <section id="community" className="scroll-mt-20 bg-background py-16">
@@ -73,13 +76,13 @@ export default function Community() {
                   </span>
                 </div>
 
-                <div className="grid gap-4 lg:grid-cols-2">
+                <div ref={gridRef} className="grid gap-4 lg:grid-cols-2">
                   {events.map((event, index) => {
                     const wide = events.length === 1 || (events.length % 2 === 1 && index === events.length - 1);
                     return (
                       <article
                         key={event.title}
-                        className={`group relative flex min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-card/80 transition-colors hover:border-primary/40 focus-within:border-primary sm:flex-row ${wide ? "lg:col-span-2" : ""}`}
+                        className={`group relative flex min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-card/80 transition-colors hover:border-primary/40 focus-within:border-primary sm:flex-row card-lift ${wide ? "lg:col-span-2" : ""}`} data-spotlight
                       >
                         <div className="relative aspect-[16/9] shrink-0 overflow-hidden sm:aspect-auto sm:w-[38%]">
                           <Image
@@ -95,21 +98,15 @@ export default function Community() {
                           <h4 className="text-lg font-semibold leading-snug text-foreground">{event.title}</h4>
                           <p className="mt-1 text-xs font-medium uppercase tracking-wider text-[var(--primary-on-surface)]">{event.role}</p>
                           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{event.description}</p>
-                          {event.postUrl && (
-                            <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-[var(--primary-on-surface)]">
-                              View original post <ArrowUpRight aria-hidden="true" size={15} />
-                            </span>
-                          )}
+                          <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-[var(--primary-on-surface)]">
+                            Read story <ArrowRight aria-hidden="true" size={15} />
+                          </span>
                         </div>
-                        {event.postUrl && (
-                          <a
-                            href={event.postUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`View Facebook post about ${event.title} (opens in a new tab)`}
-                            className="absolute inset-0 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-primary"
-                          />
-                        )}
+                        <Link
+                          href={`/community/${event.slug}`}
+                          aria-label={`Read the story of ${event.title}`}
+                          className="absolute inset-0 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-primary"
+                        />
                       </article>
                     );
                   })}

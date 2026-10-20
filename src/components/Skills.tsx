@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef } from "react";
-import { useGsapReveal } from "@/lib/gsapReveal";
+import { useReveal } from "@/lib/useReveal";
 import { HoverLetters } from "@/components/ui/HoverLetters";
 import {
     Bot,
@@ -243,7 +243,7 @@ const categoryIcons = {
 export default function Skills() {
     const [activeTab, setActiveTab] = useState<keyof typeof skillCategories>("AI/ML");
     const headingRef = useRef<HTMLDivElement>(null);
-    useGsapReveal(headingRef);
+    useReveal(headingRef);
 
     return (
         <section id="skills" className="py-6 relative overflow-hidden">

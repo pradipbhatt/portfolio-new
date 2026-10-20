@@ -63,6 +63,21 @@ export default function CustomCursor() {
   /** Inner dot “aim” scale (visible on links/buttons). */
   const innerZoomRef = useRef(1);
 
+  /* ── Velocity / game-feel state ────────────────────────────────────── */
+  /** Last raw pointer sample, used to derive speed (px per ms). */
+  const lastMoveX = useRef(0);
+  const lastMoveY = useRef(0);
+  const lastMoveT = useRef(0);
+  /** Smoothed pointer velocity (px per ms). Decays to 0 when idle. */
+  const velX = useRef(0);
+  const velY = useRef(0);
+  /** Smoothed 0→1 "hurry" factor driving follow speed + elongation. */
+  const speedNRef = useRef(0);
+  /** Smoothed direction of travel (deg, screen space). */
+  const angleRef = useRef(0);
+  /** Smoothed elongation amount (0 = circle, ~0.34 = fully stretched). */
+  const stretchRef = useRef(0);
+
   useEffect(() => {
     const coarse =
       typeof window !== "undefined" &&

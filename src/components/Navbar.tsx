@@ -8,14 +8,14 @@ import { useEffect, useState } from "react";
 import { useTheme } from "@/lib/ThemeProvider";
 
 const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "About Me", href: "#about" },
-    { name: "Experience", href: "#experience" },
-    { name: "Projects", href: "#projects" },
+    { name: "Home", href: "/#home" },
+    { name: "About Me", href: "/#about" },
+    { name: "Experience", href: "/#experience" },
+    { name: "Projects", href: "/#projects" },
     { name: "Resume", href: "/resume" },
-    { name: "Awards", href: "#awards" },
+    { name: "Awards", href: "/#awards" },
     // { name: "Arts", href: "#arts" },
-    { name: "Community", href: "#community" },
+    { name: "Community", href: "/#community" },
 ];
 
 export default function Navbar() {
@@ -46,7 +46,7 @@ export default function Navbar() {
                         <Link
                             key={item.name}
                             href={item.href}
-                            className="inline-flex min-h-11 items-center text-lg font-medium font-squid text-muted-foreground hover:text-primary transition-colors tracking-wide"
+                            className="inline-flex min-h-11 items-center text-lg font-medium font-squid text-muted-foreground hover:text-primary transition-colors tracking-wide nav-link"
                         >
                             {item.name}
                         </Link>
@@ -63,7 +63,7 @@ export default function Navbar() {
                         {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
                     </button>
                     <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground uppercase tracking-widest" asChild>
-                        <Link href="#contact">Contact Me</Link>
+                        <Link href="/#contact">Contact Me</Link>
                     </Button>
                 </div>
 
@@ -89,7 +89,7 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden absolute top-full left-0 right-0 z-[60] glass border-t border-border p-6 flex flex-col gap-4 animate-in slide-in-from-top-5">
+                <div className="md:hidden absolute top-full left-0 right-0 z-[60] glass border-t border-border p-6 flex flex-col gap-4 animate-menu-in">
                     {navItems.map((item) => (
                         <Link
                             key={item.name}
@@ -101,7 +101,7 @@ export default function Navbar() {
                         </Link>
                     ))}
                     <Button className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground" variant="outline" asChild>
-                        <Link href="#contact" onClick={() => setIsOpen(false)}>
+                        <Link href="/#contact" onClick={() => setIsOpen(false)}>
                             Contact Me
                         </Link>
                     </Button>

@@ -105,7 +105,10 @@ export function HeroPortraitDeck({
         variant === "right-rail" && "w-full max-w-[280px] lg:mx-0"
       )}
     >
-      <div className="hero-portrait-stage relative aspect-[3/4] w-full overflow-hidden rounded-[1.75rem]">
+      <div className={cn(
+        "hero-portrait-stage relative aspect-[3/4] w-full overflow-hidden rounded-[1.75rem]",
+        variant === "right-rail" && "hero-portrait-orbit"
+      )}>
         {reduceMotion ? (
           <Image
             src={PORTRAIT_SLIDES[0].src}

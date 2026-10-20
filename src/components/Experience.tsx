@@ -1,7 +1,7 @@
 "use client";
 
 import { HoverLetters } from "@/components/ui/HoverLetters";
-import { useGsapReveal } from "@/lib/gsapReveal";
+import { useReveal } from "@/lib/useReveal";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
@@ -83,7 +83,7 @@ const experience = [
 
 export default function Experience() {
   const headingRef = useRef<HTMLDivElement>(null);
-  useGsapReveal(headingRef);
+  useReveal(headingRef);
 
   return (
     <section id="experience" className="scroll-mt-20 bg-background py-16">

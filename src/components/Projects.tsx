@@ -1,7 +1,7 @@
 "use client";
 
 import { projects } from "@/data/projects";
-import { useGsapReveal } from "@/lib/gsapReveal";
+import { useReveal } from "@/lib/useReveal";
 import { HoverLetters } from "@/components/ui/HoverLetters";
 import { ExternalLink, Trophy } from "lucide-react";
 import Image from "next/image";
@@ -47,7 +47,10 @@ export default function Projects() {
     };
 
     const headingRef = useRef<HTMLDivElement>(null);
-    useGsapReveal(headingRef);
+    const gridRef = useRef<HTMLDivElement>(null);
+    useReveal(headingRef);
+    // Cards follow the heading in a quick stagger instead of popping in at once.
+    useReveal(gridRef, { stagger: 0.06, y: 24 });
 
     return (
         <section id="projects" className="py-20 bg-background">
@@ -78,11 +81,11 @@ export default function Projects() {
                     </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div ref={gridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {visibleProjects.map((project) => (
                         <div
                             key={project.title}
-                            className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-md"
+                            className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-md card-lift" data-spotlight
                         >
                             <div className="relative h-56 overflow-hidden">
                                 <Image

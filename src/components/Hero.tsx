@@ -33,6 +33,9 @@ const socialLinks = [
   { icon: Facebook, href: "https://www.facebook.com/pradipbhatt21/", label: "Facebook" },
 ];
 
+// Temporarily hide the portrait gallery while keeping it ready to restore.
+const SHOW_HERO_PORTRAITS = false;
+
 export default function Hero() {
   const reduceMotion = useSyncExternalStore(
     subscribeReducedMotion,
@@ -85,7 +88,7 @@ export default function Hero() {
     <section
       id="home"
       aria-label="Introduction, biography, and interactive terminal"
-      className="relative flex w-full flex-col overflow-x-clip overflow-y-visible bg-[#eef1f5] pb-16 pt-28 dark:bg-[#05080f] md:pb-20 md:pt-32"
+      className="relative flex w-full flex-col overflow-x-clip overflow-y-visible bg-background pb-16 pt-28 dark:bg-[#05080f] md:pb-20 md:pt-32"
     >
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_65%_55%_at_75%_35%,rgba(67,80,91,0.09),transparent_75%)] dark:bg-[radial-gradient(ellipse_65%_55%_at_75%_35%,rgba(42,58,71,0.16),transparent_75%)]" aria-hidden />
 
@@ -93,9 +96,42 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0 z-[1] hidden dark:block bg-gradient-to-b from-[#0a0f0d]/80 via-transparent to-[#0a0f0d]/95" />
       <div className="pointer-events-none absolute inset-0 z-[1] hidden dark:block" style={{ background: "radial-gradient(ellipse 70% 100% at 30% 50%, transparent 30%, rgba(10,15,13,0.55) 100%)" }} />
       {/* ── Depth fades — light ── */}
-      <div className="pointer-events-none absolute inset-0 z-[1] block dark:hidden bg-gradient-to-b from-[#eef1f5]/90 via-transparent to-[#eef1f5]/90" />
-      <div className="pointer-events-none absolute inset-0 z-[1] block dark:hidden" style={{ background: "radial-gradient(ellipse 70% 100% at 30% 50%, transparent 30%, rgba(238,241,245,0.45) 100%)" }} />
+      <div className="pointer-events-none absolute inset-0 z-[1] block dark:hidden bg-gradient-to-b from-background/90 via-transparent to-background/90" />
+      <div className="pointer-events-none absolute inset-0 z-[1] block dark:hidden" style={{ background: "radial-gradient(ellipse 70% 100% at 30% 50%, transparent 30%, color-mix(in srgb, var(--background) 45%, transparent) 100%)" }} />
       <div className="hero-grid pointer-events-none absolute inset-0 z-[2]" aria-hidden />
+
+      {/* ── Cursor-tracking globe (hero only) ── */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-[52%] z-[2] hidden h-[min(56vw,600px)] w-[min(56vw,600px)] -translate-x-1/2 -translate-y-1/2 md:block lg:left-[62%]"
+      >
+        <div className="globe-tilt h-full w-full">
+          <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
+            <g fill="none" stroke="currentColor" strokeWidth="0.18" className="text-primary/[0.10] dark:text-primary/[0.16]">
+              <circle cx="50" cy="50" r="46" />
+              <ellipse cx="50" cy="50" rx="46" ry="16" />
+              <ellipse cx="50" cy="50" rx="46" ry="31" />
+              <ellipse cx="50" cy="50" rx="46" ry="41" />
+              <ellipse cx="50" cy="50" rx="16" ry="46" />
+              <ellipse cx="50" cy="50" rx="31" ry="46" />
+              <ellipse cx="50" cy="50" rx="41" ry="46" />
+              <line x1="50" y1="4" x2="50" y2="96" />
+              <line x1="4" y1="50" x2="96" y2="50" />
+            </g>
+          </svg>
+          <svg viewBox="0 0 100 100" className="globe-face absolute inset-0 h-full w-full opacity-[0.55]" aria-hidden>
+            <g fill="currentColor" className="text-primary/[0.24] dark:text-primary/[0.32]">
+              <g className="globe-eye">
+                <rect x="36" y="34" width="8" height="13" rx="4" transform="rotate(-20 40 40.5)" />
+              </g>
+              <g className="globe-eye globe-eye-right">
+                <rect x="56" y="34" width="8" height="13" rx="4" transform="rotate(20 60 40.5)" />
+              </g>
+              <path d="M26 58 q9 15 24 15 t24 -15" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+            </g>
+          </svg>
+        </div>
+      </div>
 
       {/* ── Main content ── */}
       <div className="container relative z-10 mx-auto flex w-full max-w-6xl flex-col px-6">
@@ -169,19 +205,18 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ── Right: background-free portrait gallery ── */}
-          <div className="mx-auto mt-10 flex w-full max-w-[280px] shrink-0 flex-col overflow-visible lg:mx-0 lg:mt-0 lg:sticky lg:top-[5.5rem] lg:self-center">
-
-
-            <div ref={portraitWrapRef} className="relative transition-transform duration-500 ease-out" style={{ transformStyle: "preserve-3d" }}>
-              <HeroPortraitDeck
-                variant="right-rail"
-                reduceMotion={reduceMotion}
-                socialLinks={socialLinks}
-              />
+          {/* Right-side portrait gallery is paused for now. */}
+          {SHOW_HERO_PORTRAITS && (
+            <div className="mx-auto mt-10 flex w-full max-w-[280px] shrink-0 flex-col overflow-visible lg:mx-0 lg:mt-0 lg:sticky lg:top-[5.5rem] lg:self-center">
+              <div ref={portraitWrapRef} className="relative transition-transform duration-500 ease-out" style={{ transformStyle: "preserve-3d" }}>
+                <HeroPortraitDeck
+                  variant="right-rail"
+                  reduceMotion={reduceMotion}
+                  socialLinks={socialLinks}
+                />
+              </div>
             </div>
-
-          </div>
+          )}
         </div>
       </div>
 

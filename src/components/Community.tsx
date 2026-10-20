@@ -3,6 +3,7 @@
 import { useGsapReveal } from "@/lib/gsapReveal";
 import { HoverLetters } from "@/components/ui/HoverLetters";
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { communityEvents, type CommunityEvent } from "../data/community";
 
@@ -23,8 +24,8 @@ const eventsByYear = Object.fromEntries(
     year,
     communityEvents
       .filter((event) => event.year === year)
-      // Dated events are chronological; undated events keep their source order.
-      .sort((a, b) => knownMonth(b) - knownMonth(a)),
+      // Dated events are chronological; undated ties keep their source order.
+      .sort((a, b) => knownMonth(b) - knownMonth(a) || (b.sortOrder ?? 0) - (a.sortOrder ?? 0)),
   ])
 ) as Record<number, CommunityEvent[]>;
 
@@ -78,7 +79,7 @@ export default function Community() {
                     return (
                       <article
                         key={event.title}
-                        className={`group flex min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-card/80 transition-colors hover:border-primary/40 sm:flex-row ${wide ? "lg:col-span-2" : ""}`}
+                        className={`group relative flex min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-card/80 transition-colors hover:border-primary/40 focus-within:border-primary sm:flex-row ${wide ? "lg:col-span-2" : ""}`}
                       >
                         <div className="relative aspect-[16/9] shrink-0 overflow-hidden sm:aspect-auto sm:w-[38%]">
                           <Image
@@ -94,7 +95,21 @@ export default function Community() {
                           <h4 className="text-lg font-semibold leading-snug text-foreground">{event.title}</h4>
                           <p className="mt-1 text-xs font-medium uppercase tracking-wider text-[var(--primary-on-surface)]">{event.role}</p>
                           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{event.description}</p>
+                          {event.postUrl && (
+                            <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-[var(--primary-on-surface)]">
+                              View original post <ArrowUpRight aria-hidden="true" size={15} />
+                            </span>
+                          )}
                         </div>
+                        {event.postUrl && (
+                          <a
+                            href={event.postUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`View Facebook post about ${event.title} (opens in a new tab)`}
+                            className="absolute inset-0 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-primary"
+                          />
+                        )}
                       </article>
                     );
                   })}

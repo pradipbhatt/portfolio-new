@@ -30,7 +30,7 @@ const socialLinks = [
   { icon: Linkedin, href: "https://www.linkedin.com/in/pradipbhatt2126/", label: "LinkedIn" },
   { icon: Github, href: "https://github.com/pradipbhatt", label: "GitHub" },
   { icon: Instagram, href: "https://www.instagram.com/pradipbhatt/", label: "Instagram" },
-  { icon: Facebook, href: "https://www.facebook.com/pradipbhatt/", label: "Facebook" },
+  { icon: Facebook, href: "https://www.facebook.com/pradipbhatt21/", label: "Facebook" },
 ];
 
 export default function Hero() {

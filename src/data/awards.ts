@@ -14,7 +14,7 @@ export const awards: Award[] = [
     title: "Top 10 — 100XNepal Hackathon",
     subtitle: "SOEIntel Platform · Selected from 50 Teams",
     image: "/assets/100x hakathon award for top 10.png",
-    year: 2024,
+    year: 2025,
     type: "Hackathon",
     description: "Built Sikaiverse, a fully customizable edu-tech platform — selected in the top 10 of 50 competing teams at Nepal's premier startup hackathon.",
   },

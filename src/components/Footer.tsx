@@ -23,7 +23,7 @@ const socialLinks = [
   },
   {
     icon: Facebook,
-    href: "https://www.facebook.com/pradipbhatt/",
+    href: "https://www.facebook.com/pradipbhatt21/",
     label: "Facebook",
   },
 ];

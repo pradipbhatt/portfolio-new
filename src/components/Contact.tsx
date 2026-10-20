@@ -251,7 +251,7 @@ export default function Contact() {
                                     <Instagram size={20} />
                                 </Link>
                                 <Link
-                                    href="https://www.facebook.com/pradipbhatt/"
+                                    href="https://www.facebook.com/pradipbhatt21/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Facebook"

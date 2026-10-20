@@ -28,7 +28,7 @@ export const awards: Award[] = [
   },
   {
     title: "Software Engineer",
-    subtitle: "Hyperce · Sep 2025 – Present",
+    subtitle: "Hyperce · Sep 2025 – Jul 2026",
     image: "/assets/hyperce_acheivement.png",
     year: 2025,
     type: "Career",
@@ -36,7 +36,7 @@ export const awards: Award[] = [
   },
   {
     title: "Associate Software Engineer",
-    subtitle: "CloudTech Nepal · Jun 2025",
+    subtitle: "CloudTech Nepal · Jun – Aug 2025",
     image: "/assets/associate software developer at cloud tech services.jpeg",
     year: 2025,
     type: "Career",

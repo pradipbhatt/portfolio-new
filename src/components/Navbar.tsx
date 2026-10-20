@@ -10,6 +10,7 @@ import { useTheme } from "@/lib/ThemeProvider";
 const navItems = [
     { name: "Home", href: "#home" },
     { name: "About Me", href: "#about" },
+    { name: "Experience", href: "#experience" },
     { name: "Projects", href: "#projects" },
     { name: "Resume", href: "/resume" },
     { name: "Awards", href: "#awards" },

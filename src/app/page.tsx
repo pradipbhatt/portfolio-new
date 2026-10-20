@@ -2,6 +2,7 @@ import About from "@/components/About";
 import Awards from "@/components/Awards";
 import Community from "@/components/Community";
 import Contact from "@/components/Contact";
+import Experience from "@/components/Experience";
 import GitHubContributions from "@/components/GitHubContributions";
 import GPAVisualization from "@/components/GPAVisualization";
 import Hero from "@/components/Hero";
@@ -14,6 +15,7 @@ export default function Home() {
       <Hero />
       <div className="w-full max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
         <About />
+        <Experience />
         <GPAVisualization />
         <Skills />
         <Projects />

@@ -86,16 +86,6 @@ export default function About() {
                             and open source community builder across Sudurpaschim Province.
                         </p>
 
-                        <div className="rounded-xl border border-primary/20 bg-card/50 p-4">
-                            <h4 className="font-semibold mb-3">Past Work Experience</h4>
-                            <h5 className="text-primary font-semibold">Security Research Analyst</h5>
-                            <p className="text-sm font-medium">SecurityPal AI · Full-time</p>
-                            <p className="mt-1 text-xs text-muted-foreground">April 15 – October 15, 2026 · Kathmandu · On-site</p>
-                            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                                Worked on Fortune-scale customer assurance, AI-driven GRC reviews, and security assessments.
-                            </p>
-                        </div>
-
                         <div className="grid grid-cols-3 gap-3 py-2">
                             <div className="group text-center p-3 bg-card/50 rounded-xl border border-primary/10 hover:border-primary/40 hover:bg-card/70 hover:shadow-md hover:shadow-primary/5 transition-all duration-300">
                                 <div className="text-2xl font-bold text-primary group-hover:scale-110 transition-transform duration-300 inline-block">3+</div>

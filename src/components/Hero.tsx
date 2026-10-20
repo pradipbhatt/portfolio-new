@@ -103,7 +103,7 @@ export default function Hero() {
       {/* ── Cursor-tracking globe (hero only) ── */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-[52%] z-[2] hidden h-[min(56vw,600px)] w-[min(56vw,600px)] -translate-x-1/2 -translate-y-1/2 md:block lg:left-[62%]"
+        className="pointer-events-none absolute left-1/2 top-[52%] z-[2] hidden h-[min(56vw,600px)] w-[min(56vw,600px)] -translate-x-1/2 -translate-y-1/2 md:block lg:left-[68%] xl:left-[70%]"
       >
         <div className="globe-tilt h-full w-full">
           <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
